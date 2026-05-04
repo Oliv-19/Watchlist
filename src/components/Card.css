@@ -1,5 +1,9 @@
 .card{
-    width: 200px;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.poster{
     height: 300px;
-    border: 1px solid black;
 }
