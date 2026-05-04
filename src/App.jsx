@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import Home from './components/Home'
+import Nav from './components/Nav'
 const key= import.meta.env.VITE_API_KEY
 
 const usePopular = ()=>{
-  const [media, useMedia] = useState(null)
+  const [media, setMedia] = useState(null)
   const url = "https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&with_origin_country=JP%7CCN%7CKR&without_genres=16"
   const options = {
     method: 'GET',
@@ -21,7 +22,7 @@ const usePopular = ()=>{
       popular= await popular.json()
       localStorage.setItem('popular', JSON.stringify(popular))
     }
-    useMedia(popular)
+    setMedia(popular)
   }, [])
   
   return media
@@ -31,6 +32,7 @@ function App() {
   const popular = usePopular()
   return (
     <>
+      <Nav></Nav>
       <Home data={popular}></Home>
     </>
   )
