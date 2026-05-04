@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
-import Home from './components/Home'
-import Nav from './components/Nav'
+import Home from './components/Home/Home'
+import Media from './components/Media/Media'
+import { Route, Routes } from 'react-router-dom'
+import Nav from './components/Nav/Nav'
 const key= import.meta.env.VITE_API_KEY
 
 const usePopular = ()=>{
-  const [media, setMedia] = useState(null)
+  const [media, setMedia] = useState(null) 
   const url = "https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&with_origin_country=JP%7CCN%7CKR&without_genres=16"
   const options = {
     method: 'GET',
@@ -30,12 +32,15 @@ const usePopular = ()=>{
 
 function App() {
   const popular = usePopular()
-  return (
-    <>
-      <Nav></Nav>
-      <Home data={popular}></Home>
-    </>
-  )
+   return (
+    <div className="container">
+      <Nav />
+      <Routes>
+        <Route path="/" element={<Home data={popular} />} />
+        <Route path="/:id" element={<Media />} />
+      </Routes>
+    </div>
+  );
 }
 
 export default App
