@@ -5,7 +5,6 @@ const POSTER_SIZE = "w342"; // Options: w92, w154, w185, w342, w500, w780, origi
 function Card({data}) {
   const fullImageUrl = `${IMAGE_BASE_URL}${POSTER_SIZE}${data.poster_path}`
 
-
   return (
     <Link to={`/${data.id}`} state={data}>
       <div className="card">
