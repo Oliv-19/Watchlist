@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
-import Home from './components/Home/Home'
-import Media from './components/Media/Media'
+import Home from './components/Home'
+import Media from './components/Media'
 import { Route, Routes } from 'react-router-dom'
-import Nav from './components/Nav/Nav'
-import SearchResults from './components/SearchResults/SearchResults'
+import Nav from './components/Nav'
+import SearchResults from './components/SearchResults'
+import './App.css'
 const key= import.meta.env.VITE_API_KEY
 
 const usePopular = ()=>{
@@ -34,7 +35,7 @@ const usePopular = ()=>{
 function App() {
   const popular = usePopular()
    return (
-    <div className="container">
+    <div className="w-full h-full text-base m-0 p-0">
       <Nav />
       <Routes>
         <Route path="/" element={<Home data={popular} />} />

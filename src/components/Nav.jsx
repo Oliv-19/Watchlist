@@ -1,9 +1,8 @@
 import Search from "./Search"
-import './Nav.css'
 import { Link } from "react-router-dom"
 function Nav() {
   return (
-    <nav>
+    <nav className="flex justify-between w-full p-3 items-center">
         <Link to={`/`}><h1>Watch List</h1></Link>
         <Search></Search>
     </nav>

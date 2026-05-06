@@ -1,9 +1,8 @@
-import Card from "../Card/Card"
-import './Home.css'
+import Card from "./Card"
 function Home({data}) {
 
   return (
-    <div className="home">
+    <div className="w-full flex flex-row flex-wrap justify-evenly gap-5">
       {data && Object.entries(data.results).map(([key, value]) => <Card key={value.id} data={value}/>)}
     </div>
   )
