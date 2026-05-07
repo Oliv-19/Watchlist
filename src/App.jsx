@@ -5,35 +5,23 @@ import { Route, Routes } from 'react-router-dom'
 import Nav from './components/Nav'
 import SearchResults from './components/SearchResults'
 import './App.css'
+import { useSearch } from './components/hooks'
 const key= import.meta.env.VITE_API_KEY
 
-const usePopular = ()=>{
-  const [media, setMedia] = useState(null) 
-  const url = "https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc"
-  const options = {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-      Authorization: `Bearer ${key}`
-    }
-  };
-  useEffect(() => async()=>{
-    let popular = null
-    if(localStorage.getItem('popular')){
-      popular= JSON.parse(localStorage.getItem('popular'))
-    }else{
-      popular = await fetch(url, options)
-      popular= await popular.json()
-      localStorage.setItem('popular', JSON.stringify(popular))
-    }
-    setMedia(popular)
-  }, [])
-  
-  return media
-}
-
 function App() {
-  const popular = usePopular()
+  const [popular, setPopular] = useState(() => {
+    const saved = localStorage.getItem('popular')
+    return saved ? JSON.parse(saved) : null
+  })
+
+  const fetchedData = useSearch(popular? null: 'popular')
+  useEffect(() => {
+    if(fetchedData){
+      setPopular(fetchedData)
+      localStorage.setItem('popular', JSON.stringify(fetchedData))
+    }
+  }, [fetchedData])
+  
    return (
     <div className="w-full h-full text-base m-0 p-0">
       <Nav />
