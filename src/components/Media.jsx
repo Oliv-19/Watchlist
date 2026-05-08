@@ -1,31 +1,60 @@
 import { useLocation } from "react-router-dom"
-
+import { useSearch } from "./hooks"
+import { Icon } from "./Icons"
+import { format } from "date-fns"
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
 const POSTER_SIZE = "w342"
 const BG_SIZE = "original"
 
+const LeftInfo = ({data}) => {
+    return(
+        <div className="w-80 text-center flex flex-col gap-4 text-[18px] my-15">
+            <h1 className="text-4xl ">{data.name}</h1>
+            {data.original_name != data.name && (<h5>{data.original_name}</h5>)  }
+            <p className="text-[1rem] font-medium my-auto">{data.overview}</p>
+        </div>
+    )
+}
+const Details = ({title, info}) => {
+    return(
+        <div className="ml-20 flex gap-1.5 items-center ">
+            <Icon title={title}/>
+            {info}
+        </div>
+    )
+}
+const RightInfo = ({data}) => {
+    return(
+        <div className="w-80 self-center text-center flex flex-col gap-4 text-[1rem] items-start">
+            <Details title='calendar' info={`${format(new Date(data.first_air_date), 'MMM d, y')} - ${format(new Date(data.last_air_date), 'MMM d, y')}`}/>
+            <Details title='episodes' info={`${data.number_of_episodes} Episodes`}/>
+            <Details title='episodes' info={`${data.number_of_seasons} Seasons`}/>
+            {data.genres.map((g) => <Details key={g.id} title='genre' info={g.name}/>)}
+            
+        </div>
+    )
+}
+
 function Media() {
     const location = useLocation()
-    const data = location.state
+    const id = location.state
+    const data = useSearch('media', null, id)
+    if(data == null){
+        return <div>Loading...</div>
+    }
+    console.log(data);
     
     const fullImageUrl = `${IMAGE_BASE_URL}${POSTER_SIZE}${data.poster_path}`
     const fullBGImageUrl = `${IMAGE_BASE_URL}${BG_SIZE}${data.backdrop_path}`
-    
     return (
         <>
             {data && (
                 <div className="bg-black w-full h-dvh">
                     <img className="w-full absolute z-0 top-6px opacity-20" src={fullBGImageUrl} alt="" />
-                    <div className="w-full h-dvh flex items-center justify-evenly relative z-1 text-white">
-                        <div className="w-35">
-                            <h4 className="text-xl">{data.name}</h4>
-                            {data.original_name != data.name && (<h5>{data.original_name}</h5>)  }
-                            <p>{data.overview}</p>
-                        </div>
-                        <img className="Poster" src={fullImageUrl} alt="" />
-                        <div className="w-35">
-                            <h4 className="">{data.first_air_date}</h4>
-                        </div>
+                    <div className="w-full h-dvh flex justify-evenly relative z-1 text-white">
+                        <LeftInfo data={data}/>
+                        <img className="self-center" src={fullImageUrl} alt="" />
+                        <RightInfo data={data} />
 
                     </div>
                 </div>
