@@ -1,0 +1,21 @@
+{
+  "name": "watchlist",
+  "main": "src/server/index.js",
+  "compatibility_date":"2026-05-09",
+  "assets":{
+    "directory": "./dist",
+    "binding": "ASSETS"
+  },
+  "env": {
+    "staging": {
+      "vars": {
+        "ENVIRONMENT": "staging"
+      }
+    },
+    "production": {
+      "vars": {
+        "ENVIRONMENT": "production"
+      }
+    }
+  }
+}

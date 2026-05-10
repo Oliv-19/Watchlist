@@ -18,11 +18,8 @@ export const useSearch = (type, query=null, id= null)=>{
             dispatch({type, payload: {query, id}})
             async function fetchData () {
                 try{
-                    console.log(url);
-                    
                     const response = await fetch((url), options)
                     const data = await response?.json()
-                    
                     setMedia(data)
                 }catch{
                     console.error('no data found');

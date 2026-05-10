@@ -6,6 +6,7 @@ import Nav from './components/Nav'
 import SearchResults from './components/SearchResults'
 import './App.css'
 import { useSearch } from './components/hooks'
+import { ServerStatus } from './ServerStatus'
 const key= import.meta.env.VITE_API_KEY
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="/" element={<Home data={popular} />} />
         <Route path="/:id" element={<Media />} />
         <Route path="/search/:query" element={<SearchResults />}/>
+        <Route path="/serverStatus" element={<ServerStatus />}/>
       </Routes>
     </div>
   );
