@@ -2,8 +2,8 @@ import { createMiddleware } from "hono/factory";
 import { jwtVerify, createRemoteJWKSet } from "jose";
 
 export const accessAuth = createMiddleware(async(context, next)=>{
-    if(context.env.ENVIRONMENT === "development"){
-        await next()
+  if(context.env.ENVIRONMENT === "development"){
+        return await next()
     }
     if (!context.env.POLICY_AUD) {
       return context.json('Missing required audience', 403)
@@ -24,7 +24,7 @@ export const accessAuth = createMiddleware(async(context, next)=>{
       );
 
       // Verify the JWT
-    await jwtVerify(token, JWKS, {
+      await jwtVerify(token, JWKS, {
         issuer: context.env.CF_ACCESS_DOMAIN,
         audience: context.env.POLICY_AUD,
       });

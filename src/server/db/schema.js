@@ -3,17 +3,29 @@ import { sqliteTable, text, integer, check } from "drizzle-orm/sqlite-core";
 
 
 export const user = sqliteTable('user', {
-    id: integer('id').primaryKey(),
-    username: text('username').notNull(),
-    email: text('email').notNull().unique(),
-    emailVerified: integer('email_verified', { mode:'timestamp' }),
-    createdAt: integer('created_at', { mode: "timestamp" })
-        .notNull()
-        .default(new Date()),
-    updatedAt: integer('updated_at', { mode: "timestamp" })
-        .notNull()
-        .default(new Date()) 
+        id: integer('id').primaryKey(),
+        username: text('username').notNull(),
+        email: text('email').notNull().unique(),
+        emailVerified: integer('email_verified', { mode:'timestamp' }),
+        createdAt: integer('created_at', { mode: "timestamp" })
+            .notNull()
+            .default(new Date()),
+        updatedAt: integer('updated_at', { mode: "timestamp" })
+            .notNull()
+            .default(new Date()) 
+    }, (table) => check('email', sql`${table.email} LIKE %@%.%`)
+)
 
-
-}, (table) => check('email', sql`${table.email} LIKE %@%.%`)
+export const popular = sqliteTable('popular', {
+        id: integer('id').primaryKey(),
+        seriesId: integer('series_id').notNull(),
+        name: text('name').notNull(),
+        posterPath: text('poster_path'),
+        createdAt: integer('created_at', { mode: "timestamp" })
+            .notNull()
+            .default(new Date()),
+        updatedAt: integer('updated_at', { mode: "timestamp" })
+            .notNull()
+            .default(new Date()) 
+    }
 )

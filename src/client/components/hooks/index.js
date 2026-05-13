@@ -28,7 +28,7 @@ export const useSearch = (type, query=null, id= null)=>{
             }
             fetchData()
         }
-    }, [query, url, id])
+    }, [type, id, url, query])
   
   return media
 }
