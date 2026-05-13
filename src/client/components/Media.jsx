@@ -40,7 +40,7 @@ const RightInfo = ({data}) => {
 function Media() {
     const location = useLocation()
     const id = location.state
-    const data = useSearch('media', null, id)
+    const data = useSearch('media', null, null, id)
     if(data == null){
         return <div>Loading...</div>
     }
