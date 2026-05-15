@@ -10,7 +10,7 @@ export const urlReducer = (state, action) => {
             return "https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc"
 
         case 'media':
-            return `https://api.themoviedb.org/3/tv/${id}?language=en-US`;
+            return `https://api.themoviedb.org/3/tv/${id}?append_to_response=credits&language=en-US`;
 
         default:
             return state

@@ -28,6 +28,7 @@ function App() {
         <Route path="/" element={<Home data={popular} />} />
         <Route path="/:id" element={<Media />} />
         <Route path="/search/:query" element={<SearchResults />}/>
+        <Route path="/author/:id" element={''}/>
       </Routes>
     </div>
   );
