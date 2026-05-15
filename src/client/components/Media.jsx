@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { useSearch } from "./hooks"
 import { Icon } from "./Icons"
 import { format } from "date-fns"
@@ -28,10 +28,27 @@ const Details = ({title, info}) => {
 const RightInfo = ({data}) => {
     return(
         <div className="w-80 self-center text-center flex flex-col gap-4 text-[1rem] items-start my-25">
-            <Details title='calendar' info={`${format(new Date(data.first_air_date), 'MMM d, y')} - ${format(new Date(data.last_air_date), 'MMM d, y')}`}/>
-            <Details title='episodes' info={`${data.number_of_episodes} Episodes`}/>
+            <div className="w-full h-10">
+                <button className="h-full cursor-pointer">
+                    add
+                </button>
+            </div>
+            <Details title='rating' info={`${data.vote_average}`}/>
             <Details title='episodes' info={`${data.number_of_seasons} Seasons`}/>
+            <Details title='episodes' info={`${data.number_of_episodes} Episodes`}/>
             {data.genres.map((g) => <Details key={g.id} title='genre' info={g.name}/>)}
+            <Details title='calendar' info={`${format(new Date(data.first_air_date), 'MMM d, y')} - ${format(new Date(data.last_air_date), 'MMM d, y')}`}/>
+            <div className="pl-20 flex justify-evenly w-full flex-wrap">
+                <h1 className="w-full font-bold">{data.created_by.length > 1? 'Creators': 'Creator'}</h1>
+                {data.created_by.map((creator)=> <Link title="Creator" className="underline underline-offset-5" key={creator.id} to={`/author/${creator.id}`}>{creator.name}</Link>)}
+            </div>
+        </div>
+    )
+}
+
+const Cast = ({data}) => {
+    return (
+        <div className="">
             
         </div>
     )
@@ -61,8 +78,8 @@ function Media() {
 
                         </div>
                     </div>
-                    <div className="h-100 w-full  bg-black">
-
+                    <div className="h-100 w-full ">
+                        <Cast data={data}></Cast>
                     </div>
                 </div>
             )
