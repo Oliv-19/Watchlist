@@ -8,24 +8,11 @@ import './App.css'
 import { useSearch } from './components/hooks'
 
 function App() {
-  const [popular, setPopular] = useState(() => {
-    const saved = localStorage.getItem('popular')
-    return saved ? JSON.parse(saved) : null
-  })
-
-  const fetchedData = useSearch(popular? null: 'popular')
-  useEffect(() => {
-    if(fetchedData){
-      setPopular(fetchedData)
-      localStorage.setItem('popular', JSON.stringify(fetchedData))
-    }
-  }, [fetchedData])
-  
    return (
     <div className="w-full h-full text-base m-0 p-0">
       <Nav />
       <Routes>
-        <Route path="/" element={<Home data={popular} />} />
+        <Route path="/" element={<Home/>} />
         <Route path="/:id" element={<Media />} />
         <Route path="/search/:query" element={<SearchResults />}/>
         <Route path="/author/:id" element={''}/>

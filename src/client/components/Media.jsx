@@ -98,8 +98,8 @@ const InfoBlock = ({data}) => {
         block != e.target.name && setBlock(e.target.name)
     }
     return (
-        <div className="h-100 w-full">
-            <nav className="text-center flex justify-center gap-5">
+        <div className="bg-gray-800 h-100 w-full py-5">
+            <nav className="text-center flex justify-evenly gap-5">
                 {Object.entries(blocks).map(([key,val])=> 
                 <button key={key} name={key} onClick={changeBlock}  className={`${block == key && 'underline'} text-white cursor-pointer hover:text-gray-400 font-bold text-center text-3xl`}>{key}</button>
                 )}
@@ -109,7 +109,7 @@ const InfoBlock = ({data}) => {
                 [&::-webkit-scrollbar]:h-2
                 [&::-webkit-scrollbar-track]:rounded-full
                 [&::-webkit-scrollbar-thumb]:rounded-full
-                dark:[&::-webkit-scrollbar-track]:bg-neutral-800
+                dark:[&::-webkit-scrollbar-track]:bg-neutral-700
                 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-400">
                     
                     {blocks[block]}
@@ -122,21 +122,20 @@ const InfoBlock = ({data}) => {
 function Media() {
     const location = useLocation()
     const id = location.state
-    console.log(id);
     
     const data = useSearch('media', null, null, id)
     if(data == null){
         return <div>Loading...</div>
     }
-    
+    console.log(data)
     const fullImageUrl = `${IMAGE_BASE_URL}${POSTER_SIZE}${data.poster_path}`
     const fullBGImageUrl = `${IMAGE_BASE_URL}${BG_SIZE}${data.backdrop_path}`
     
     return (
         <>
             {data && (
-                <div className="bg-gray-950 w-full h-full">
-                    <div className="h-fit relative ">
+                <div className="w-full h-full">
+                    <div className="bg-gray-950 h-fit relative ">
                         <img className={`w-full h-full object-cover absolute z-0 opacity-20`} src={fullBGImageUrl} alt="" />
                         <div className="pt-8 pb-2 w-full h-fit flex justify-evenly relative z-1 text-white">
                             <LeftInfo data={data}/>

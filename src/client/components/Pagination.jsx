@@ -11,14 +11,23 @@ const PagButton = ({direction, changePage}) => {
     )
 }
 
-export const Pagination = ({changePage, length, actualPage}) => {
+export const Pagination = ({length, actualPage, setPageNum}) => {
     const inputChangePage = (e)=> {
         e.preventDefault()
         const form = new FormData(e.target)
         changePage(form.get('page'))
     }
+    const changePage = (dir) => {
+        if(dir == 'prev'){
+            setPageNum((prev)=> prev-1)
+        }else if( dir == 'next'){
+            setPageNum((prev)=> prev+1)
+        }else {
+            setPageNum(dir)
+        }
+    }
     return (
-        <form id="page" className="flex justify-around" role="group" onSubmit={inputChangePage}>
+        <form id="page" className="flex justify-center" role="group" onSubmit={inputChangePage}>
             <PagButton direction={'prev'} changePage={changePage}/>
             <input name="page" type="text" placeholder={`${actualPage} of ${length}`} className="inline-flex text-sm items-center justify-center box-border outline outline-black px-3 h-9 w-[4.3rem]"/>
             <button type="submit" form="page" className="invisible"></button>

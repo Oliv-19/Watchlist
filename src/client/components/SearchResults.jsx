@@ -19,15 +19,6 @@ function SearchResults() {
     if(series == null){
         return <div>Loading...</div>
     }
-    const changePage = (dir) => {
-        if(dir == 'prev'){
-            setPageNum((prev)=> prev-1)
-        }else if( dir == 'next'){
-            setPageNum((prev)=> prev+1)
-        }else {
-            setPageNum(dir)
-        }
-    }
     
     return (
         <div className="flex flex-col items-center">
@@ -36,7 +27,7 @@ function SearchResults() {
             {Object.entries(series.results).map(([key, value]) => <Card data={value} key={key}></Card>)}
             </div>
             <div className="p-6">
-                <Pagination changePage={changePage} actualPage={pageNum} length={results.total_pages}/>
+                <Pagination actualPage={pageNum} setPageNum={setPageNum} length={results.total_pages}/>
             </div>
         </div>
     )
