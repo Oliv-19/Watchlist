@@ -12,7 +12,7 @@ function Card({data}) {
     <Link to={`/${data.id}`} state={data.id}>
       <div className="h-87.5 w-50 flex justify-between items-center flex-col hover:scale-[1.1] transition-transform duration-300">
           <img src={fullImageUrl} alt="" className='w-50'/>
-          <p>{data.name}</p>
+          <p>{data.name? data.name : data.title}</p>
       </div>
     </Link>
   )

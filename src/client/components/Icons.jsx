@@ -1,4 +1,4 @@
-export function Icon({title}){
+export function Icon({title, style}){
     const icons = {
         calendar: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <title>Release date</title>
@@ -20,20 +20,12 @@ export function Icon({title}){
                 </svg>,
         add: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <title>Add to watchlist</title>
-                <path d="M17,3A2,2 0 0,1 19,5V21L12,18L5,21V5C5,3.89 5.9,3 7,3H17M11,7V9H9V11H11V13H13V11H15V9H13V7H11Z" />
-            </svg>,
-        saved: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <title>Saved in watchlist</title>
-                <path d="M17,3A2,2 0 0,1 19,5V21L12,18L5,21V5C5,3.89 5.9,3 7,3H17M11,14L17.25,7.76L15.84,6.34L11,11.18L8.41,8.59L7,10L11,14Z" />
-            </svg>,
-        remove: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <title>Remove from watchlist</title>
-                <path d="M17,3H7A2,2 0 0,0 5,5V21L12,18L19,21V5A2,2 0 0,0 17,3M15,11H9V9H15V11Z" />
+                <path d="M17,18L12,15.82L7,18V5H17M17,3H7A2,2 0 0,0 5,5V21L12,18L19,21V5C19,3.89 18.1,3 17,3Z" />
             </svg>
     }
     
     return (
-        <div className={`w-7 fill-[#f7f5f0]`}>
+        <div className={style? style :`w-6 fill-[#f7f5f0]`}>
             {icons[title]}
         </div>
     )

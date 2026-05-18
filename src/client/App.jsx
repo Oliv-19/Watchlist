@@ -6,6 +6,7 @@ import Nav from './components/Nav'
 import SearchResults from './components/SearchResults'
 import './App.css'
 import { useSearch } from './components/hooks'
+import Person from './components/Person'
 
 function App() {
    return (
@@ -15,7 +16,8 @@ function App() {
         <Route path="/" element={<Home/>} />
         <Route path="/:id" element={<Media />} />
         <Route path="/search/:query" element={<SearchResults />}/>
-        <Route path="/author/:id" element={''}/>
+        <Route path="/actor/:id" element={<Person />}/>
+        <Route path="/author/:id" element={<Person />}/>
       </Routes>
     </div>
   );

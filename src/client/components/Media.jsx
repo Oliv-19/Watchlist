@@ -33,23 +33,27 @@ const RightInfo = ({data}) => {
     const max =times ? Math.max(...times) : null
 
     return(
-        <div className="w-80 self-center text-center flex flex-col gap-4 text-[1rem] items-start my-25">
-            <div className="w-full h-10">
+        <div className="w-80 flex flex-col justify-center">
+            <div className="w-full h-20 flex items-center justify-center">
                 <button className="h-full cursor-pointer">
-                    add
+                    <Icon title={'add'} style={'w-8 fill-white hover:stroke-white'}></Icon>
                 </button>
             </div>
-            <Details title='rating' info={`${data.vote_average}`}/>
-            <Details title='episodes' info={`${data.number_of_seasons} Seasons`}/>
-            <Details title='episodes' info={`${data.number_of_episodes} Episodes`}/>
+            <div className="w-full text-center flex flex-col gap-4 text-[1rem] items-start">
+                <Details title='rating' info={`${data.vote_average.toFixed(1)}`}/>
+                <Details title='episodes' info={`${data.number_of_seasons} Seasons`}/>
+                <Details title='episodes' info={`${data.number_of_episodes} Episodes`}/>
 
-            {data.episode_run_time.length >0 && <Details title='episodes' info={`${data.episode_run_time.length >1 ?  `${min}-${max} min` : `${data.episode_run_time[0]} min`}`}/>}
-            
-            {data.genres.map((g) => <Details key={g.id} title='genre' info={g.name}/>)}
-            <Details title='calendar' info={`${format(new Date(data.first_air_date), 'MMM d, y')} - ${format(new Date(data.last_air_date), 'MMM d, y')}`}/>
-            <div className="pl-20 flex justify-evenly w-full flex-wrap">
-                <h1 className="w-full font-bold">{data.created_by && (data.created_by.length > 1? 'Creators': 'Creator')}</h1>
-                {data.created_by.map((creator)=> <Link title="Creator" className="underline underline-offset-5" key={creator.id} to={`/author/${creator.id}`}>{creator.name}</Link>)}
+                {data.episode_run_time.length >0 && <Details title='episodes' info={`${data.episode_run_time.length >1 ?  `${min}-${max} min` : `${data.episode_run_time[0]} min`}`}/>}
+                
+                {data.genres.map((g) => <Details key={g.id} title='genre' info={g.name}/>)}
+                <Details title='calendar' info={`${format(new Date(data.first_air_date), 'MMM d, y')} - ${format(new Date(data.last_air_date), 'MMM d, y')}`}/>
+                {data.created_by?.length >=1  &&
+                    <div className="flex justify-evenly w-full flex-wrap">
+                        <h1 className="w-full font-bold">{data.created_by && (data.created_by.length > 1? 'Creators': 'Creator')}</h1>
+                        {data.created_by.map((creator)=> <Link title="Creator" className="underline underline-offset-5" key={creator.id} to={`/author/${creator.id}`} state={creator.id}>{creator.name}</Link>)}
+                    </div>
+                }
             </div>
         </div>
     )
@@ -59,7 +63,7 @@ const Cast = ({data}) => {
     return (
         <>
         {data.map((cast)=> 
-            <Link to={`/actor/${cast.id}`} title={cast.name} key={cast.id} className="hover:scale-[1.1] transition-transform duration-300 shrink-0 w-45 h-70 bg-neutral-50 p-1 rounded-xl text-center">
+            <Link to={`/actor/${cast.id}`} state={cast.id} title={cast.name} key={cast.id} className="hover:scale-[1.1] transition-transform duration-300 shrink-0 w-45 h-70 bg-neutral-50 p-1 rounded-xl text-center">
                 <img className="m-auto h-[75%] rounded-xl" src={`${IMAGE_BASE_URL}${POSTER_SIZE}${cast.profile_path}`} alt="" />
                 <p className="font-bold">{cast.name} </p>
                 <p className="text-[0.9rem] text-gray-700">{cast.character} </p>
@@ -98,7 +102,7 @@ const InfoBlock = ({data}) => {
         block != e.target.name && setBlock(e.target.name)
     }
     return (
-        <div className="bg-gray-800 h-100 w-full py-5">
+        <div className="bg-[#0f0c2f] h-100 w-full py-5">
             <nav className="text-center flex justify-evenly gap-5">
                 {Object.entries(blocks).map(([key,val])=> 
                 <button key={key} name={key} onClick={changeBlock}  className={`${block == key && 'underline'} text-white cursor-pointer hover:text-gray-400 font-bold text-center text-3xl`}>{key}</button>

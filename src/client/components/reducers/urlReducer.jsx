@@ -11,7 +11,8 @@ export const urlReducer = (state, action) => {
 
         case 'media':
             return `https://api.themoviedb.org/3/tv/${id}?append_to_response=credits,recommendations&language=en-US`;
-
+        case 'person':
+            return `https://api.themoviedb.org/3/person/${id}?language=en-US&append_to_response=combined_credits`
         default:
             return state
     }
