@@ -1,4 +1,6 @@
 @import 'tailwindcss';
-/* *{
-    outline: 1px solid red;
-} */
+
+*{
+    /* outline: 1px solid red; */
+    --color-text-bg:#54487447;
+}

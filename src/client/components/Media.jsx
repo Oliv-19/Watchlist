@@ -10,10 +10,10 @@ const BG_SIZE = "original"
 
 const LeftInfo = ({data}) => {
     return(
-        <div className="w-90 text-center flex flex-col gap-4 text-[18px] mt-5">
+        <div className="w-90 text-center flex flex-col gap-4 text-[18px] mt-5 justify-center">
             <h1 className="text-4xl ">{data.name}</h1>
             {data.original_name != data.name && (<h5>{data.original_name}</h5>)  }
-            <p className={`w-full text-[1rem] font-medium m-auto`}>
+            <p className={`w-full text-[1rem] font-medium `}>
                 {data.overview}
             </p>
         </div>
@@ -102,7 +102,7 @@ const InfoBlock = ({data}) => {
         block != e.target.name && setBlock(e.target.name)
     }
     return (
-        <div className="bg-[#0f0c2f] h-100 w-full py-5">
+        <div className="bg-[#0f0c2f] h-100 w-full py-10">
             <nav className="text-center flex justify-evenly gap-5">
                 {Object.entries(blocks).map(([key,val])=> 
                 <button key={key} name={key} onClick={changeBlock}  className={`${block == key && 'underline'} text-white cursor-pointer hover:text-gray-400 font-bold text-center text-3xl`}>{key}</button>
@@ -139,7 +139,7 @@ function Media() {
         <>
             {data && (
                 <div className="w-full h-full">
-                    <div className="bg-gray-950 h-fit relative ">
+                    <div className="bg-gray-950 h-fit relative">
                         <img className={`w-full h-full object-cover absolute z-0 opacity-20`} src={fullBGImageUrl} alt="" />
                         <div className="pt-8 pb-2 w-full h-fit flex justify-evenly relative z-1 text-white">
                             <LeftInfo data={data}/>
@@ -147,6 +147,8 @@ function Media() {
                             <RightInfo data={data} />
 
                         </div>
+                        <div class="absolute -bottom-5 left-0 right-0 h-16 bg-linear-to-b from-transparent to-bg-[#0f0c2f]/30 backdrop-blur-md pointer-events-none"></div>
+
                     </div>
                     <InfoBlock data={data}></InfoBlock>
                 </div>
