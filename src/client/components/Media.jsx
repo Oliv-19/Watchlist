@@ -4,7 +4,7 @@ import { Icon } from "./Icons"
 import { format } from "date-fns"
 import { useState } from "react"
 import Card from "./Card"
-import { addMedia } from "../services/popular"
+import { addMedia, getMedia } from "../services/popular"
 import { useEffect } from "react"
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
 const POSTER_SIZE = "w342"
@@ -13,8 +13,8 @@ const BG_SIZE = "original"
 const LeftInfo = ({data}) => {
     return(
         <div className="w-90 text-center flex flex-col gap-4 text-[18px] mt-5 justify-center">
-            <h1 className="text-4xl ">{data.name}</h1>
-            {data.original_name != data.name && (<h5>{data.original_name}</h5>)  }
+            <h1 className="text-4xl ">{data.title}</h1>
+            {data.originalTitle != data.title && (<h5>{data.originalTitle}</h5>)  }
             <p className={`w-full text-[1rem] font-medium `}>
                 {data.overview}
             </p>
@@ -30,7 +30,7 @@ const Details = ({title, info}) => {
     )
 }
 const RightInfo = ({data}) => {
-    const times = data?.episode_run_time;
+    const times = data?.episodeRunTime;
     const min = times ?  Math.min(...times) : null
     const max =times ? Math.max(...times) : null
 
@@ -42,18 +42,18 @@ const RightInfo = ({data}) => {
                 </button>
             </div>
             <div className="w-full text-center flex flex-col gap-4 text-[1rem] items-start">
-                <Details title='rating' info={`${data.vote_average.toFixed(1)}`}/>
-                <Details title='episodes' info={`${data.number_of_seasons} Seasons`}/>
-                <Details title='episodes' info={`${data.number_of_episodes} Episodes`}/>
+                <Details title='rating' info={`${data.rating.toFixed(1)}`}/>
+                <Details title='episodes' info={`${data.seasons} Seasons`}/>
+                <Details title='episodes' info={`${data.episodes} Episodes`}/>
 
-                {data.episode_run_time.length >0 && <Details title='episodes' info={`${data.episode_run_time.length >1 ?  `${min}-${max} min` : `${data.episode_run_time[0]} min`}`}/>}
+                {data.episodeRunTime.length >0 && <Details title='episodes' info={`${data.episodeRunTime.length >1 ?  `${min}-${max} min` : `${data.episodeRunTime[0]} min`}`}/>}
                 
                 {data.genres.map((g) => <Details key={g.id} title='genre' info={g.name}/>)}
-                <Details title='calendar' info={`${format(new Date(data.first_air_date), 'MMM d, y')} - ${format(new Date(data.last_air_date), 'MMM d, y')}`}/>
-                {data.created_by?.length >=1  &&
+                <Details title='calendar' info={data.releaseDate}/>
+                {data.creators?.length >=1  &&
                     <div className="flex justify-evenly w-full flex-wrap">
-                        <h1 className="w-full font-bold">{data.created_by && (data.created_by.length > 1? 'Creators': 'Creator')}</h1>
-                        {data.created_by.map((creator)=> <Link title="Creator" className="underline underline-offset-5" key={creator.id} to={`/author/${creator.id}`} state={creator.id}>{creator.name}</Link>)}
+                        <h1 className="w-full font-bold">{data.creators && (data.creators.length > 1? 'Creators': 'Creator')}</h1>
+                        {data.creators.map((creator)=> <Link title="Creator" className="underline underline-offset-5" key={creator.id} to={`/author/${creator.id}`} state={creator.id}>{creator.name}</Link>)}
                     </div>
                 }
             </div>
@@ -96,8 +96,8 @@ const InfoBlock = ({data}) => {
         return <div>Loading...</div>
     }
     const blocks = {
-        Cast: <Cast data={data.credits.cast} />,
-        Similar: <Similar data={data.recommendations.results}></Similar>
+        Cast: <Cast data={data.characters} />,
+        Similar: <Similar data={data.similar}></Similar>
     }
     
     const changeBlock = (e)=> {
@@ -128,15 +128,29 @@ const InfoBlock = ({data}) => {
 function Media() {
     const location = useLocation()
     const id = location.state
-    const [data, setData] = useState()
-    useEffect(()=> {
-        setData(addMedia(id))
-    }, [])
+    const [data, setData] = useState(null)
+    useEffect(()=>{ 
+        async function fetchMedia(){
+            try{
+                let response= await getMedia(id)
+                
+                if(!response){
+                    console.log('add', response);
+                    response = await addMedia(id)
+                }
+                setData(response)
+            }catch{
+
+            }
+        }
+        fetchMedia()
+    },[id])
+    
     if(data == null){
         return <div>Loading...</div>
     }
-    const fullImageUrl = `${IMAGE_BASE_URL}${POSTER_SIZE}${data.poster_path}`
-    const fullBGImageUrl = `${IMAGE_BASE_URL}${BG_SIZE}${data.backdrop_path}`
+    const fullImageUrl = `${IMAGE_BASE_URL}${POSTER_SIZE}${data.posterPath}`
+    const fullBGImageUrl = `${IMAGE_BASE_URL}${BG_SIZE}${data.backdropPath}`
     
     return (
         <>

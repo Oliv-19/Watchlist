@@ -18,10 +18,11 @@ export const user = sqliteTable('user', {
 
 export const media = sqliteTable('media', {
         id: integer('id').primaryKey(),
+        mediaId: integer('media_id').notNull(),
         title: integer('title').notNull(),
         originalTitle: integer('original_title').notNull(),
-        posterPath: text('poster_path'),
         overview: text('overview').notNull(),
+        posterPath: text('poster_path'),
         rating: integer('rating'),
         seasons: integer('seasons'),
         episodes: integer('episodes'),
@@ -29,7 +30,7 @@ export const media = sqliteTable('media', {
         releaseDate: text('release_date'),
         genres: text('genres', {mode: 'json'}),
         creators: text('creators', {mode: 'json'}),
-        backdrop_path: text('backdrop_path'),
+        backdropPath: text('backdrop_path'),
         characters: text('characters', {mode: 'json'}),
         similar: text('similar', {mode: 'json'}),
         createdAt: integer('created_at', { mode: "timestamp" })
