@@ -16,11 +16,34 @@ export const user = sqliteTable('user', {
     }, (table) => check('email', sql`${table.email} LIKE %@%.%`)
 )
 
-export const popular = sqliteTable('popular', {
+export const media = sqliteTable('media', {
         id: integer('id').primaryKey(),
-        seriesId: integer('series_id').notNull(),
-        name: text('name').notNull(),
+        title: integer('title').notNull(),
+        originalTitle: integer('original_title').notNull(),
         posterPath: text('poster_path'),
+        overview: text('overview').notNull(),
+        rating: integer('rating'),
+        seasons: integer('seasons'),
+        episodes: integer('episodes'),
+        episodeRunTime: integer('episode_run_time'),
+        releaseDate: text('release_date'),
+        genres: text('genres', {mode: 'json'}),
+        creators: text('creators', {mode: 'json'}),
+        backdrop_path: text('backdrop_path'),
+        characters: text('characters', {mode: 'json'}),
+        similar: text('similar', {mode: 'json'}),
+        createdAt: integer('created_at', { mode: "timestamp" })
+            .notNull()
+            .default(new Date()),
+        updatedAt: integer('updated_at', { mode: "timestamp" })
+            .notNull()
+            .default(new Date()) 
+    }
+)
+
+export const onAir = sqliteTable('onAir', {
+        id: integer('id').primaryKey(),
+        mediaId: integer('media_id').references(() => media.id, { onDelete: 'cascade' }),
         createdAt: integer('created_at', { mode: "timestamp" })
             .notNull()
             .default(new Date()),

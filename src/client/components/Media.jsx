@@ -4,6 +4,8 @@ import { Icon } from "./Icons"
 import { format } from "date-fns"
 import { useState } from "react"
 import Card from "./Card"
+import { addMedia } from "../services/popular"
+import { useEffect } from "react"
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
 const POSTER_SIZE = "w342"
 const BG_SIZE = "original"
@@ -126,12 +128,13 @@ const InfoBlock = ({data}) => {
 function Media() {
     const location = useLocation()
     const id = location.state
-    
-    const data = useSearch('media', null, null, id)
+    const [data, setData] = useState()
+    useEffect(()=> {
+        setData(addMedia(id))
+    }, [])
     if(data == null){
         return <div>Loading...</div>
     }
-    console.log(data)
     const fullImageUrl = `${IMAGE_BASE_URL}${POSTER_SIZE}${data.poster_path}`
     const fullBGImageUrl = `${IMAGE_BASE_URL}${BG_SIZE}${data.backdrop_path}`
     

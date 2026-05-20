@@ -75,7 +75,6 @@ function Person() {
     if(data == null){
         return <div>Loading...</div>
     }
-    console.log(data)
     
     return (
         <>
