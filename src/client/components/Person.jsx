@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { useSearch } from "./hooks"
 import { format } from "date-fns"
 import Card from "./Card"
@@ -68,9 +68,7 @@ function Filmography({data}){
 }
 
 function Person() {
-    const location = useLocation()
-    const id = location.state
-    
+    const {id} = useParams()
     const data = useSearch('person', null, null, id)
     if(data == null){
         return <div>Loading...</div>

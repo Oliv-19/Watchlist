@@ -1,12 +1,11 @@
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Card from "./Card";
 import { useSearch } from "./hooks";
 import { useState, useEffect } from "react";
 import { Pagination } from "./Pagination";
 
 function SearchResults() {
-    const location = useLocation()
-    const query = location.state
+    const {query} = useParams()
     const [pageNum, setPageNum] = useState(1)
     const [series, setSeries] = useState(null)
     const results = useSearch('searchAll', query, pageNum)

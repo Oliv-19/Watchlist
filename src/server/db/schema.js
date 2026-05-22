@@ -28,23 +28,12 @@ export const media = sqliteTable('media', {
         episodes: integer('episodes'),
         episodeRunTime: integer('episode_run_time'),
         releaseDate: text('release_date'),
+        finishedDate: text('finished_date'),
         genres: text('genres', {mode: 'json'}),
         creators: text('creators', {mode: 'json'}),
         backdropPath: text('backdrop_path'),
         characters: text('characters', {mode: 'json'}),
         similar: text('similar', {mode: 'json'}),
-        createdAt: integer('created_at', { mode: "timestamp" })
-            .notNull()
-            .default(new Date()),
-        updatedAt: integer('updated_at', { mode: "timestamp" })
-            .notNull()
-            .default(new Date()) 
-    }
-)
-
-export const onAir = sqliteTable('onAir', {
-        id: integer('id').primaryKey(),
-        mediaId: integer('media_id').references(() => media.id, { onDelete: 'cascade' }),
         createdAt: integer('created_at', { mode: "timestamp" })
             .notNull()
             .default(new Date()),

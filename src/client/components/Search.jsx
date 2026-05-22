@@ -8,7 +8,7 @@ function Search() {
   const search = (e) => {
     e.preventDefault()
     setQuery('')
-    navigate(`/search/${query}`, {state: query})
+    navigate(`/search/${query}`)
   }
   return (
     <form id="searchForm" className="w-75" onSubmit={search}>   

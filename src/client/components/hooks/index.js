@@ -1,5 +1,6 @@
 import { useEffect, useReducer, useState } from "react";
 import { urlReducer } from "../reducers/urlReducer";
+import axios from "axios";
 const key= import.meta.env.VITE_API_KEY
 
 export const useSearch = (type, query=null, page=1, id= null)=>{
@@ -18,9 +19,8 @@ export const useSearch = (type, query=null, page=1, id= null)=>{
             dispatch({type, payload: {query, page, id}})
             async function fetchData () {
                 try{
-                    const response = await fetch((url), options)
-                    const data = await response?.json()
-                    setMedia(data)
+                    const response = await axios.get((url), options)
+                    setMedia(response.data)
                 }catch{
                     console.error('no data found');
                     

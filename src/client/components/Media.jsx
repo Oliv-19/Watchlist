@@ -1,10 +1,10 @@
-import { Link, useLocation } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { useSearch } from "./hooks"
 import { Icon } from "./Icons"
 import { format } from "date-fns"
 import { useState } from "react"
 import Card from "./Card"
-import { addMedia, getMedia } from "../services/popular"
+import { addMedia, getMedia } from "../services/media"
 import { useEffect } from "react"
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
 const POSTER_SIZE = "w342"
@@ -33,7 +33,8 @@ const RightInfo = ({data}) => {
     const times = data?.episodeRunTime;
     const min = times ?  Math.min(...times) : null
     const max =times ? Math.max(...times) : null
-
+    const release = data.releaseDate? format(new Date(data.releaseDate), 'MMM d, y'): '?'
+    const finished = data.finishedDate? format(new Date(data.finishedDate), 'MMM d, y'): '?'
     return(
         <div className="w-80 flex flex-col justify-center">
             <div className="w-full h-20 flex items-center justify-center">
@@ -49,7 +50,7 @@ const RightInfo = ({data}) => {
                 {data.episodeRunTime.length >0 && <Details title='episodes' info={`${data.episodeRunTime.length >1 ?  `${min}-${max} min` : `${data.episodeRunTime[0]} min`}`}/>}
                 
                 {data.genres.map((g) => <Details key={g.id} title='genre' info={g.name}/>)}
-                <Details title='calendar' info={data.releaseDate}/>
+                <Details title='calendar' info={`${release} - ${finished}`}/>
                 {data.creators?.length >=1  &&
                     <div className="flex justify-evenly w-full flex-wrap">
                         <h1 className="w-full font-bold">{data.creators && (data.creators.length > 1? 'Creators': 'Creator')}</h1>
@@ -65,7 +66,7 @@ const Cast = ({data}) => {
     return (
         <>
         {data.map((cast)=> 
-            <Link to={`/actor/${cast.id}`} state={cast.id} title={cast.name} key={cast.id} className="hover:scale-[1.1] transition-transform duration-300 shrink-0 w-45 h-70 bg-neutral-50 p-1 rounded-xl text-center">
+            <Link to={`/actor/${cast.id}`} title={cast.name} key={cast.id} className="hover:scale-[1.1] transition-transform duration-300 shrink-0 w-45 h-70 bg-neutral-50 p-1 rounded-xl text-center">
                 <img className="m-auto h-[75%] rounded-xl" src={`${IMAGE_BASE_URL}${POSTER_SIZE}${cast.profile_path}`} alt="" />
                 <p className="font-bold">{cast.name} </p>
                 <p className="text-[0.9rem] text-gray-700">{cast.character} </p>
@@ -104,7 +105,7 @@ const InfoBlock = ({data}) => {
         block != e.target.name && setBlock(e.target.name)
     }
     return (
-        <div className="bg-[#0f0c2f] h-100 w-full py-10">
+        <div className="bg-[#0f0c2f] h-120 w-full py-10">
             <nav className="text-center flex justify-evenly gap-5">
                 {Object.entries(blocks).map(([key,val])=> 
                 <button key={key} name={key} onClick={changeBlock}  className={`${block == key && 'underline'} text-white cursor-pointer hover:text-gray-400 font-bold text-center text-3xl`}>{key}</button>
@@ -126,16 +127,13 @@ const InfoBlock = ({data}) => {
 }
 
 function Media() {
-    const location = useLocation()
-    const id = location.state
+    const {id} = useParams()
     const [data, setData] = useState(null)
     useEffect(()=>{ 
         async function fetchMedia(){
             try{
                 let response= await getMedia(id)
-                
                 if(!response){
-                    console.log('add', response);
                     response = await addMedia(id)
                 }
                 setData(response)
@@ -144,7 +142,7 @@ function Media() {
             }
         }
         fetchMedia()
-    },[id])
+    },[])
     
     if(data == null){
         return <div>Loading...</div>
@@ -164,7 +162,7 @@ function Media() {
                             <RightInfo data={data} />
 
                         </div>
-                        <div class="absolute -bottom-5 left-0 right-0 h-16 bg-linear-to-b from-transparent to-bg-[#0f0c2f]/30 backdrop-blur-md pointer-events-none"></div>
+                        <div className="absolute -bottom-5 left-0 right-0 h-16 bg-linear-to-b from-transparent to-bg-[#0f0c2f]/30 backdrop-blur-md pointer-events-none"></div>
 
                     </div>
                     <InfoBlock data={data}></InfoBlock>

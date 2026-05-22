@@ -14,7 +14,6 @@ mediaApi.get('/api/media', async(c)=> {
     
     try{
         const result = await db.select().from(media)
-  
         return c.json(result);
     } catch (error){
         return c.json({success:false, message: error.message}, 400)
@@ -23,7 +22,7 @@ mediaApi.get('/api/media', async(c)=> {
 
 mediaApi.post('/api/media', async(c) => {
     const body = await c.req.json()
-    const db = drizzle(c.env.DB)
+    const db = drizzle(c.env.DB)   
     const mediaObj = {
         mediaId: body.id,
         backdropPath : body.backdrop_path,
@@ -36,11 +35,13 @@ mediaApi.post('/api/media', async(c) => {
         seasons: body.number_of_seasons,
         episodes: body.number_of_episodes,
         episodeRunTime: body.episode_run_time,
-        releaseDate: `${format(new Date(body.first_air_date), 'MMM d, y')} - ${format(new Date(body.last_air_date), 'MMM d, y')}`,
+        releaseDate: body.first_air_date,
+        finishedDate: body.last_air_date,
         genres: body.genres,
         characters: body.credits.cast,
         similar: body.recommendations.results,
     }
+
     
     try{
         const [result] = await db
@@ -71,7 +72,6 @@ mediaApi.get('/api/media/:id', async(c)=> {
 
 mediaApi.delete('/api/media/:id', async(c) => {
     const id = await c.req.param('id')
-    
     const db = drizzle(c.env.DB)
     try{
         const deletedMedia = await db
@@ -79,6 +79,18 @@ mediaApi.delete('/api/media/:id', async(c) => {
         .where(eq(media.id, id))
         .returning();
         return c.json({success:true, deleted: `id: ${id}`}, 200)
+    } catch (error){
+        return c.json({success:false, message: error.message}, 400)
+    }
+})
+
+mediaApi.delete('/api/media', async(c) => {
+    const db = drizzle(c.env.DB)
+    try{
+        const deletedMedia = await db
+        .delete(media)
+        .returning();
+        return c.json({success:true}, 200)
     } catch (error){
         return c.json({success:false, message: error.message}, 400)
     }
