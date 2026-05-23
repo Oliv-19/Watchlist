@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import { sqliteTable, text, integer, check } from "drizzle-orm/sqlite-core";
 
 
@@ -16,11 +16,24 @@ export const user = sqliteTable('user', {
     }, (table) => check('email', sql`${table.email} LIKE %@%.%`)
 )
 
+export const genres = sqliteTable('genres', {
+        id: integer('id').primaryKey(),
+        genreId : integer('genre_id').notNull(),
+        name: text('name').notNull(),
+        createdAt: integer('created_at', { mode: "timestamp" })
+            .notNull()
+            .default(new Date()),
+        updatedAt: integer('updated_at', { mode: "timestamp" })
+            .notNull()
+            .default(new Date()) 
+    }
+)
+
 export const media = sqliteTable('media', {
         id: integer('id').primaryKey(),
         mediaId: integer('media_id').notNull(),
-        title: integer('title').notNull(),
-        originalTitle: integer('original_title').notNull(),
+        title: text('title').notNull(),
+        originalTitle: text('original_title').notNull(),
         overview: text('overview').notNull(),
         posterPath: text('poster_path'),
         rating: integer('rating'),

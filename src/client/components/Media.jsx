@@ -137,8 +137,8 @@ function Media() {
                     response = await addMedia(id)
                 }
                 setData(response)
-            }catch{
-
+            }catch (error){
+                console.error('error', error.message);  
             }
         }
         fetchMedia()

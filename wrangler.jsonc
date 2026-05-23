@@ -7,13 +7,14 @@
 		"binding": "ASSETS"
 	},
   "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "watchlist_local_db",
-      "database_id": "123",
-	  "migrations_dir": "./src/server/db/migrations"
-    }
-  ],
+		{
+		"binding": "DB",
+		"database_name": "watchlist_local_db",
+		"database_id": "123",
+		"migrations_dir": "./src/server/db/migrations"
+		}
+	],
+	
 	"env": {
 		"staging": {
 			"vars": {
@@ -21,19 +22,23 @@
 				"POLICY_AUD": "02701e6dbbce824d860ffa26b75145ff62a49fcc166db81a203f32fa4e3568c9",
 				"CF_ACCESS_DOMAIN": "https://betza-bruguera.cloudflareaccess.com"
 			},
-      "d1_databases": [
-        {
-          "binding": "DB",
-          "database_name": "watchlist_staging_db",
-          "database_id": "c3e4fe98-c4a4-4ed2-9d0e-bc48f57cc7a9",
-		  "migrations_dir": "./src/server/db/migrations"
-        }
-      ]
+			"d1_databases": [
+				{
+				"binding": "DB",
+				"database_name": "watchlist_staging_db",
+				"database_id": "c3e4fe98-c4a4-4ed2-9d0e-bc48f57cc7a9",
+				"migrations_dir": "./src/server/db/migrations"
+				}
+			],
+			"observability": {
+				"enabled": true,
+				"head_sampling_rate": 1 // optional
+			}
 		},
 		"production": {
 			"vars": {
 				"ENVIRONMENT": "production"
 			}
 		}
-	},
+  	}
 }

@@ -9,7 +9,7 @@ function Home() {
   })
   const fetchedData =  useSearch(onAir? null : 'onAir')
   useEffect(() => {
-    if(fetchedData){
+    if(typeof fetchedData == 'object'){
       setOnAir(fetchedData)
       localStorage.setItem('onAir', JSON.stringify(fetchedData))
     }
