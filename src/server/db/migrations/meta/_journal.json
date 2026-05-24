@@ -267,6 +267,41 @@
       "when": 1779621180537,
       "tag": "0037_numerous_gideon",
       "breakpoints": true
+    },
+    {
+      "idx": 38,
+      "version": "6",
+      "when": 1779622701868,
+      "tag": "0038_brown_leper_queen",
+      "breakpoints": true
+    },
+    {
+      "idx": 39,
+      "version": "6",
+      "when": 1779622845002,
+      "tag": "0039_mean_shocker",
+      "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "6",
+      "when": 1779622892036,
+      "tag": "0040_thick_changeling",
+      "breakpoints": true
+    },
+    {
+      "idx": 41,
+      "version": "6",
+      "when": 1779623328160,
+      "tag": "0041_sad_katie_power",
+      "breakpoints": true
+    },
+    {
+      "idx": 42,
+      "version": "6",
+      "when": 1779623358512,
+      "tag": "0042_greedy_argent",
+      "breakpoints": true
     }
   ]
 }

@@ -37,18 +37,18 @@ mediaApi.post('/api/media', async(c) => {
         releaseDate: body.first_air_date,
         finishedDate: body.last_air_date,
         characters: body.credits.cast,
-        similar: body.recommendations.results,
     }
+    const genres = body.genres.map((genre) => ({
+        mediaId: mediaObj.id,
+        genreId: genre.id
+    }))
     try{
-        const genres = body.genres.map((genre) => ({
-            mediaId: mediaObj.id,
-            genreId: genre.id
-        }))
         const result = await db.batch([
             db.insert(schema.media).values(mediaObj).returning({id: schema.media.id}),
             db.insert(schema.mediaGenres).values(genres).returning()
         ])
         return c.json(result, 201)
+        
     } catch (error){
         console.error(error);
         return c.json({success:false}, 400)
@@ -68,9 +68,9 @@ mediaApi.get('/api/media/:id', async(c)=> {
             genres: result.mediaGenres.map((g) => g.genre.name),
             mediaGenres: undefined
         }
-        return c.json(response);
+        return c.json(response)  
     } catch (error){
-        console.error(error.cause);
+        console.error(error.cause)
         return c.json({success:false}, 400)
     }
 })

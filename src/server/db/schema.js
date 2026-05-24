@@ -43,7 +43,6 @@ export const media = sqliteTable('media', {
         creators: text('creators', {mode: 'json'}),
         backdropPath: text('backdrop_path'),
         characters: text('characters', {mode: 'json'}),
-        similar: text('similar', {mode: 'json'}),
         createdAt: integer('created_at', { mode: "timestamp" })
             .notNull()
             .default(new Date()),
@@ -54,8 +53,8 @@ export const media = sqliteTable('media', {
 )
 
 export const mediaGenres = sqliteTable('media_genres', {
-    mediaId: integer('media_id').notNull().references(() => media.id),
-    genreId: integer('genre_id').notNull().references(() => genres.id),
+    mediaId: integer('media_id').notNull().references(() => media.id, {onDelete: 'cascade'}),
+    genreId: integer('genre_id').notNull().references(() => genres.id, {onDelete: 'cascade'}),
 }, (t) => ({
     pk:primaryKey({columns: [t.mediaId, t.genreId]})
 }))
