@@ -1,5 +1,5 @@
 import { relations, sql } from "drizzle-orm";
-import { sqliteTable, text, integer, check } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, check, primaryKey } from "drizzle-orm/sqlite-core";
 
 
 export const user = sqliteTable('user', {
@@ -17,8 +17,7 @@ export const user = sqliteTable('user', {
 )
 
 export const genres = sqliteTable('genres', {
-        id: integer('id').primaryKey(),
-        genreId : integer('genre_id').notNull(),
+        id : integer('id').primaryKey(),
         name: text('name').notNull(),
         createdAt: integer('created_at', { mode: "timestamp" })
             .notNull()
@@ -31,7 +30,6 @@ export const genres = sqliteTable('genres', {
 
 export const media = sqliteTable('media', {
         id: integer('id').primaryKey(),
-        mediaId: integer('media_id').notNull(),
         title: text('title').notNull(),
         originalTitle: text('original_title').notNull(),
         overview: text('overview').notNull(),
@@ -42,7 +40,6 @@ export const media = sqliteTable('media', {
         episodeRunTime: integer('episode_run_time'),
         releaseDate: text('release_date'),
         finishedDate: text('finished_date'),
-        genres: text('genres', {mode: 'json'}),
         creators: text('creators', {mode: 'json'}),
         backdropPath: text('backdrop_path'),
         characters: text('characters', {mode: 'json'}),
@@ -55,3 +52,23 @@ export const media = sqliteTable('media', {
             .default(new Date()) 
     }
 )
+
+export const mediaGenres = sqliteTable('media_genres', {
+    mediaId: integer('media_id').notNull().references(() => media.id),
+    genreId: integer('genre_id').notNull().references(() => genres.id),
+}, (t) => ({
+    pk:primaryKey({columns: [t.mediaId, t.genreId]})
+}))
+
+export const mediaRelations = relations(media, ({ many }) => ({
+  mediaGenres: many(mediaGenres),
+}))
+
+export const genresRelations = relations(genres, ({ many }) => ({
+  mediaGenres: many(mediaGenres),
+}))
+
+export const mediaGenresRelations = relations(mediaGenres, ({ one }) => ({
+  media: one(media, { fields: [mediaGenres.mediaId], references: [media.id] }),
+  genre: one(genres, { fields: [mediaGenres.genreId], references: [genres.id] }),
+}))

@@ -232,6 +232,41 @@
       "when": 1779551971575,
       "tag": "0032_aromatic_night_nurse",
       "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "6",
+      "when": 1779572338333,
+      "tag": "0033_public_changeling",
+      "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "6",
+      "when": 1779572449222,
+      "tag": "0034_graceful_the_fury",
+      "breakpoints": true
+    },
+    {
+      "idx": 35,
+      "version": "6",
+      "when": 1779574233124,
+      "tag": "0035_curvy_retro_girl",
+      "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "6",
+      "when": 1779574314926,
+      "tag": "0036_aberrant_scarecrow",
+      "breakpoints": true
+    },
+    {
+      "idx": 37,
+      "version": "6",
+      "when": 1779621180537,
+      "tag": "0037_numerous_gideon",
+      "breakpoints": true
     }
   ]
 }

@@ -49,7 +49,7 @@ const RightInfo = ({data}) => {
 
                 {data.episodeRunTime.length >0 && <Details title='episodes' info={`${data.episodeRunTime.length >1 ?  `${min}-${max} min` : `${data.episodeRunTime[0]} min`}`}/>}
                 
-                {data.genres.map((g) => <Details key={g.id} title='genre' info={g.name}/>)}
+                {data.genres.map((g) => <Details key={g} title='genre' info={g}/>)}
                 <Details title='calendar' info={`${release} - ${finished}`}/>
                 {data.creators?.length >=1  &&
                     <div className="flex justify-evenly w-full flex-wrap">
@@ -134,7 +134,8 @@ function Media() {
             try{
                 let response= await getMedia(id)
                 if(!response){
-                    response = await addMedia(id)
+                    await addMedia(id)
+                    response= await getMedia(id)
                 }
                 setData(response)
             }catch (error){
