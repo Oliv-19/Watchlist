@@ -63,16 +63,4 @@ genresApi.delete('/api/genre', async(c) => {
     }
 })
 
-genresApi.delete('/api/mediaGenre', async(c) => {
-    const db = drizzle(c.env.DB)
-    try{
-        const deletedMedia = await db
-        .delete(mediaGenres)
-        .returning();
-        return c.json({success:true}, 200)
-    } catch (error){
-        return c.json({success:false}, 400)
-    }
-})
-
 export default genresApi

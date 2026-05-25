@@ -20,49 +20,15 @@ mediaApi.get('/api/media', async(c)=> {
 })
 
 mediaApi.post('/api/media', async(c) => {
-    const body = await c.req.json()  
+    const {mediaObj, genreMedia} = await c.req.json()  
     const db = drizzle(c.env.DB, {schema})
-    const mediaObj = {
-        id: body.id,
-        backdropPath : body.backdrop_path,
-        creators: body.created_by,
-        title: body.name,
-        originalTitle: body.original_name,
-        posterPath:  body.poster_path,
-        overview:  body.overview,
-        rating:  body.vote_average,
-        seasons: body.number_of_seasons,
-        episodes: body.number_of_episodes,
-        episodeRunTime: body.episode_run_time,
-        releaseDate: body.first_air_date,
-        finishedDate: body.last_air_date,
-        characters: body.credits.cast.map(char=> ({
-            id: char.id,
-            character: char.character
-        })),
-    }
-    const cast = body.credits.cast.map(char => ({
-        id: char.id,
-        name: char.name,
-        profilePath: char.profile_path,
-        knownFor: char.known_for_department,
-    }))
-    const castMedia = body.credits.cast.map(char => ({
-        mediaId: mediaObj.id,
-        peopleId: char.id,
-    }))
-    const genres = body.genres.map((genre) => ({
-        mediaId: mediaObj.id,
-        genreId: genre.id
-    }))
     try{
         const result = await db.batch([
-            db.insert(schema.media).values(mediaObj).returning({id: schema.media.id}).onConflictDoNothing(),
-            db.insert(schema.mediaGenres).values(genres).returning(),
-            db.insert(schema.people).values(cast).returning().onConflictDoNothing(),
-            db.insert(schema.peopleMedia).values(castMedia).returning()
+            db.insert(schema.media).values(mediaObj).returning().onConflictDoNothing(),
+            db.insert(schema.mediaGenres).values(genreMedia).returning()
         ])
-        return c.json(result, 201)
+        
+        return c.json({success: true}, 201)
         
     } catch (error){
         console.error(error);

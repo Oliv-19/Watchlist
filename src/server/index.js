@@ -5,10 +5,12 @@ import { eq } from 'drizzle-orm'
 import { format } from 'date-fns'
 import mediaApi from './api/media'
 import genresApi from './api/genres'
+import peopleApi from './api/people'
 const app = new Hono()
 
 app.use(accessAuth) 
 app.route('/', mediaApi)
 app.route('/', genresApi)
+app.route('/', peopleApi)
 
 export default app
