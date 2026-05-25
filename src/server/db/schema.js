@@ -77,6 +77,7 @@ export const people = sqliteTable('people', {
         id: integer('id').primaryKey(),
         name: text('name').notNull(),
         originalName: text('original_name'),
+        order: integer('order').notNull(),
         biography: text('biography'),
         profilePath: text('profile_path'),
         alsoKnownAs: text('also_known_as'),

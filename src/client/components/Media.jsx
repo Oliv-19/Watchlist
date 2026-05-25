@@ -65,7 +65,7 @@ const RightInfo = ({data}) => {
 const Cast = ({data}) => { 
     return (
         <>
-        {data.map((cast)=> 
+        {data.sort((a,b)=> a.order - b.order).map((cast)=> 
             <Link to={`/actor/${cast.id}`} title={cast.name} key={cast.id} className="hover:scale-[1.1] transition-transform duration-300 shrink-0 w-45 h-70 bg-neutral-50 p-1 rounded-xl text-center">
                 <img className="m-auto h-[75%] rounded-xl" src={`${IMAGE_BASE_URL}${POSTER_SIZE}${cast.profilePath}`} alt="" />
                 <p className="font-bold">{cast.name} </p>

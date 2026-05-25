@@ -43,7 +43,7 @@ mediaApi.get('/api/media/:id', async(c)=> {
         const result = await db.query.media.findFirst({
             where: eq(schema.media.id, id),
             with: { mediaGenres: { with: { genre: { columns: { name:true}}}},
-                peopleMedia: {with: {people: { columns: { name:true, profilePath: true}}}}
+                peopleMedia: {with: {people: { columns: { name:true, profilePath: true, order: true}}}}
             }
         })
         
@@ -54,6 +54,7 @@ mediaApi.get('/api/media/:id', async(c)=> {
                 id: p.peopleId,
                 name: p.people.name,
                 profilePath: p.people.profilePath,
+                order: p.people.order,
                 character: result.characters? result.characters.find(char => char.id == p.peopleId)?.character : null
 
             })),

@@ -344,6 +344,20 @@
       "when": 1779720440599,
       "tag": "0048_dear_wild_pack",
       "breakpoints": true
+    },
+    {
+      "idx": 49,
+      "version": "6",
+      "when": 1779722612687,
+      "tag": "0049_robust_johnny_blaze",
+      "breakpoints": true
+    },
+    {
+      "idx": 50,
+      "version": "6",
+      "when": 1779722813283,
+      "tag": "0050_low_malice",
+      "breakpoints": true
     }
   ]
 }

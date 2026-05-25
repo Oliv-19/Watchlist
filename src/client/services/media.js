@@ -36,6 +36,7 @@ export const addMedia = async(id) => {
                 id: char.id,
                 name: char.name,
                 originalName: char.original_name,
+                order: char.order,
                 profilePath: char.profile_path,
                 knownFor: char.known_for_department,
             })
