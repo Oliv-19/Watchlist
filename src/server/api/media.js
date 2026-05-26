@@ -4,6 +4,7 @@ import { drizzle } from 'drizzle-orm/d1'
 import * as schema from '../db/schema'
 import { eq, sql } from 'drizzle-orm'
 import axios from 'axios'
+import { dbFormatedResponse, fetchMedia } from './mediaHelpers'
 const mediaApi = new Hono()
 
 mediaApi.use(accessAuth) 
@@ -19,53 +20,40 @@ mediaApi.get('/api/media', async(c)=> {
     }
 })
 
-mediaApi.post('/api/media', async(c) => {
-    const {mediaObj, genreMedia} = await c.req.json()  
-    const db = drizzle(c.env.DB, {schema})
-    try{
-        const result = await db.batch([
-            db.insert(schema.media).values(mediaObj).returning().onConflictDoNothing(),
-            db.insert(schema.mediaGenres).values(genreMedia).returning()
-        ])
-        
-        return c.json({success: true}, 201)
-        
-    } catch (error){
-        console.error(error);
-        return c.json({success:false}, 400)
-    }
-})
-
 mediaApi.get('/api/media/:id', async(c)=> {
     const id = await c.req.param('id')
     const db = drizzle(c.env.DB, {schema})
+    const options = {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${c.env.VITE_API_KEY}`
+        }
+    }
     try{
         const result = await db.query.media.findFirst({
             where: eq(schema.media.id, id),
             with: { mediaGenres: { with: { genre: { columns: { name:true}}}},
-                peopleMedia: {with: {people: { columns: { name:true, profilePath: true, order: true}}}}
+            peopleMedia: {with: {people: { columns: { name:true, profilePath: true, order: true}}}}
             }
         })
-        
-        const response = {
-            ...result,
-            genres: result.mediaGenres.map((g) => g.genre.name),
-            cast: result.peopleMedia.map((p) => ({
-                id: p.peopleId,
-                name: p.people.name,
-                profilePath: p.people.profilePath,
-                order: p.people.order,
-                character: result.characters? result.characters.find(char => char.id == p.peopleId)?.character : null
-
-            })),
-            mediaGenres: undefined,
-            peopleMedia: undefined,
-            characters: undefined
+        if(result){
+            const response = await dbFormatedResponse(id, options, result)
+            return c.json(response, 200)  
+        }else {
+            const {mediaObj, genreMedia, response, cast, castMedia} = await fetchMedia(id, options)
+            const result = await db.batch([
+                db.insert(schema.media).values(mediaObj).returning().onConflictDoNothing(),
+                db.insert(schema.mediaGenres).values(genreMedia).returning(),
+                db.insert(schema.people).values(cast.slice(0, (cast.length-1)/2)).returning().onConflictDoNothing(),
+                db.insert(schema.people).values(cast.slice((cast.length-1)/2)).returning().onConflictDoNothing(),
+                db.insert(schema.peopleMedia).values(castMedia).returning()
+            ])
+            return c.json(response, 201)
         }
-        return c.json(response)  
     } catch (error){
-        console.error(error.cause)
-        return c.json({success:false}, 400)
+        console.error(error)
+        return c.json({success: false}, 400)
     }
 })
 

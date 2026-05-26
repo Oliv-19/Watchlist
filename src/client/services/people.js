@@ -1,18 +1,10 @@
 import axios from "axios";
 
-const key= import.meta.env.VITE_API_KEY
 const baseUrl = '/api/people'
-const options = {
-    method: 'GET',
-    headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${key}`
-      }
-};
 
-export const addPeople = async(cast, castMedia) => {
+export const getPerson = async(id) => {
   try{
-    const response = await axios.post(baseUrl, {cast, castMedia})
+    const response = await axios.get(`${baseUrl}/${id}`)
     return response.data
   } catch {
     return null

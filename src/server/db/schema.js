@@ -80,7 +80,7 @@ export const people = sqliteTable('people', {
         order: integer('order').notNull(),
         biography: text('biography'),
         profilePath: text('profile_path'),
-        alsoKnownAs: text('also_known_as'),
+        alsoKnownAs: text('also_known_as', {mode: 'json'}),
         knownFor: text('known_for'),
         birthplace: text('birthplace'),
         birthday: text('birthday'),

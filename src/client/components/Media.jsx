@@ -1,10 +1,9 @@
 import { Link, useParams } from "react-router-dom"
-import { useSearch } from "./hooks"
 import { Icon } from "./Icons"
-import { format } from "date-fns"
+import { format, parseISO } from "date-fns"
 import { useState } from "react"
 import Card from "./Card"
-import { addMedia, getMedia } from "../services/media"
+import { getMedia } from "../services/media"
 import { useEffect } from "react"
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
 const POSTER_SIZE = "w342"
@@ -30,11 +29,13 @@ const Details = ({title, info}) => {
     )
 }
 const RightInfo = ({data}) => {
+    console.log(data);
+    
     const times = data?.episodeRunTime;
     const min = times ?  Math.min(...times) : null
     const max =times ? Math.max(...times) : null
-    const release = data.releaseDate? format(new Date(data.releaseDate), 'MMM d, y'): '?'
-    const finished = data.finishedDate? format(new Date(data.finishedDate), 'MMM d, y'): '?'
+    const release = data.releaseDate? format(parseISO(data.releaseDate), 'PP'): '?'
+    const finished = data.finishedDate? format(parseISO(data.finishedDate), 'PP'): '?'
     return(
         <div className="w-80 flex flex-col justify-center">
             <div className="w-full h-20 flex items-center justify-center">
@@ -81,9 +82,9 @@ const Similar = ({data}) => {
     return (
         <>
         {data.map((similar)=> 
-            <Link to={`/${similar.id}`} state={similar.id} title={similar.name} key={similar.id} className="hover:scale-[1.1] transition-transform duration-300 shrink-0 w-45 h-70 bg-neutral-50 p-1 rounded-xl text-center">
-                <img className="m-auto h-[75%] rounded-xl" src={`${IMAGE_BASE_URL}${POSTER_SIZE}${similar.poster_path}`} alt="" />
-                <p className="font-bold">{similar.name} </p>
+            <Link to={`/${similar.id}`} state={similar.id} title={similar.title} key={similar.id} className="hover:scale-[1.1] transition-transform duration-300 shrink-0 w-45 h-70 bg-neutral-50 p-1 rounded-xl text-center">
+                <img className="m-auto h-[75%] rounded-xl" src={`${IMAGE_BASE_URL}${POSTER_SIZE}${similar.posterPath}`} alt="" />
+                <p className="font-bold">{similar.title} </p>
                 
             </Link>
         )}
@@ -133,10 +134,6 @@ function Media() {
         async function fetchMedia(){
             try{
                 let response= await getMedia(id)
-                if(!response){
-                    await addMedia(id)
-                    response= await getMedia(id)
-                }
                 setData(response)
             }catch (error){
                 console.error('error', error.message);  
