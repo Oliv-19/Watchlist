@@ -1,20 +1,14 @@
 import { useParams } from "react-router-dom";
 import Card from "./Card";
-import { useSearch } from "./hooks";
+import { useData, useSearch } from "./hooks";
 import { useState, useEffect } from "react";
 import { Pagination } from "./Pagination";
 
 function SearchResults() {
     const {query} = useParams()
     const [pageNum, setPageNum] = useState(1)
-    const [series, setSeries] = useState(null)
-    const results = useSearch('searchAll', query, pageNum)
-
-    useEffect(()=> {
-        if(results){
-            setSeries(results)
-        }
-    }, [results])
+    const series = useData('search', null, query, pageNum)
+    
     if(series == null){
         return <div>Loading...</div>
     }
@@ -23,10 +17,10 @@ function SearchResults() {
         <div className="flex flex-col items-center">
 
             <div className="w-full flex flex-row flex-wrap justify-evenly gap-5 p-2.5">
-            {Object.entries(series.results).map(([key, value]) => <Card data={value} key={key}></Card>)}
+            {series.results.map((serie) => <Card data={serie} key={serie.id}></Card>)}
             </div>
             <div className="p-6">
-                <Pagination actualPage={pageNum} setPageNum={setPageNum} length={results.total_pages}/>
+                <Pagination actualPage={pageNum} setPageNum={setPageNum} length={series.total_pages}/>
             </div>
         </div>
     )

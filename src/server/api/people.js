@@ -7,33 +7,6 @@ import axios from 'axios'
 import { responseFormat, updatesResponse } from './peopleHelpers'
 const peopleApi = new Hono()
 
-
-peopleApi.patch('/api/people/:id', async(c) => {
-    const id = await c.req.param('id')  
-    const body = await c.req.json()  
-    const db = drizzle(c.env.DB, {schema})
-
-    const updates = {
-        biography: body.biography,
-        alsoKnownAs: body.also_known_as.slice(0, 3),
-        birthday: body.birthday,
-        birthplace: body.place_of_birth
-    } 
-    
-    try{
-        const [result] = await db.update(schema.people)
-        .set(updates)
-        .where(eq(schema.people.id, Number(id)))
-        .returning()
-        
-        return c.json(result, 201)
-        
-    } catch (error){
-        console.error(error);
-        return c.json({success:false}, 400)
-    }
-})
-
 peopleApi.get('/api/people/:id', async(c)=> {
     const id = await c.req.param('id')
     const db = drizzle(c.env.DB, {schema})

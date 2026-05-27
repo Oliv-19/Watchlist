@@ -92,3 +92,13 @@ export const apiFormatedResponse = async (data, cast, genres, similarMedia) => {
     
     return response
 }
+
+export const fetchOnAir= async(options)=> {
+    const result = await axios.get('https://api.themoviedb.org/3/tv/on_the_air?language=en-US&page=1', options)
+    return result && typeof result == 'object'? result : null
+}
+
+export const searchMedia= async(query, page, options)=> {
+    const result = await axios.get(`https://api.themoviedb.org/3/search/tv?query=${query}&include_adult=false&language=en-US&page=${page}`, options)
+    return result && typeof result == 'object'? result : null
+}

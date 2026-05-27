@@ -5,6 +5,7 @@ import { useState } from "react"
 import Card from "./Card"
 import { getMedia } from "../services/media"
 import { useEffect } from "react"
+import { useData } from "./hooks"
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
 const POSTER_SIZE = "w342"
 const BG_SIZE = "original"
@@ -29,8 +30,6 @@ const Details = ({title, info}) => {
     )
 }
 const RightInfo = ({data}) => {
-    console.log(data);
-    
     const times = data?.episodeRunTime;
     const min = times ?  Math.min(...times) : null
     const max =times ? Math.max(...times) : null
@@ -129,18 +128,7 @@ const InfoBlock = ({data}) => {
 
 function Media() {
     const {id} = useParams()
-    const [data, setData] = useState(null)
-    useEffect(()=>{ 
-        async function fetchMedia(){
-            try{
-                let response= await getMedia(id)
-                setData(response)
-            }catch (error){
-                console.error('error', error.message);  
-            }
-        }
-        fetchMedia()
-    },[])
+    const data = useData('media', id)
     
     if(data == null){
         return <div>Loading...</div>

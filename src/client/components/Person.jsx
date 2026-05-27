@@ -3,6 +3,7 @@ import { format, parseISO } from "date-fns"
 import Card from "./Card"
 import { getPerson } from "../services/people"
 import { useState, useEffect } from "react"
+import { useData } from "./hooks"
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
 const POSTER_SIZE = "w342"
 
@@ -72,19 +73,10 @@ function Filmography({data}){
 
 function Person() {
     const {id} = useParams()
-    const [data, setData] = useState(null)
-    useEffect(()=>{ 
-            async function fetchPerson(){
-                let response= await getPerson(id)
-                setData(response)
-            }
-            fetchPerson()
-        },[])
+    const data = useData('person', id)
     if(data == null){
         return <div>Loading...</div>
     }
-    console.log(data);
-    
     return (
         <>
             {data && (

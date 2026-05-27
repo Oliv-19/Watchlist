@@ -1,19 +1,10 @@
 import { useState } from "react"
 import Card from "./Card"
-import { useSearch } from "./hooks"
+import {  useData } from "./hooks"
 import { useEffect } from "react"
+import { getOnAir } from "../services/media"
 function Home() {
-  const [onAir, setOnAir] = useState(() => {
-    const saved = localStorage.getItem('onAir')
-    return saved ? JSON.parse(saved) : null
-  })
-  const fetchedData =  useSearch(onAir? null : 'onAir')
-  useEffect(() => {
-    if(fetchedData && typeof fetchedData == 'object' ){
-      setOnAir(fetchedData)
-      localStorage.setItem('onAir', JSON.stringify(fetchedData))
-    }
-  }, [fetchedData])
+  const onAir = useData('onAir')
   if(onAir == null){
       return <div>Loading...</div>
   }
