@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import Card from "./Card";
-import { useData, useSearch } from "./hooks";
+import { useData } from "./hooks";
 import { useState, useEffect } from "react";
 import { Pagination } from "./Pagination";
 

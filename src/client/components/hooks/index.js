@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { getMedia, getOnAir, search } from "../../services/media";
 import { getPerson } from "../../services/people";
 

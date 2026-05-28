@@ -3,7 +3,6 @@ import { accessAuth } from '../middlewares/auth'
 import { drizzle } from 'drizzle-orm/d1'
 import { eq } from 'drizzle-orm'
 import * as schema from '../db/schema'
-import axios from 'axios'
 import { responseFormat, updatesResponse } from './peopleHelpers'
 const peopleApi = new Hono()
 
@@ -14,7 +13,7 @@ peopleApi.get('/api/people/:id', async(c)=> {
         method: 'GET',
         headers: {
             accept: 'application/json',
-            Authorization: `Bearer ${c.env.VITE_API_KEY}`
+            Authorization: `Bearer ${c.env.TMBD_API_KEY}`
         }
     }
     try{

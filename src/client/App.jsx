@@ -5,7 +5,6 @@ import { Route, Routes } from 'react-router-dom'
 import Nav from './components/Nav'
 import SearchResults from './components/SearchResults'
 import './App.css'
-import { useSearch } from './components/hooks'
 import Person from './components/Person'
 
 function App() {

@@ -21,7 +21,7 @@ app.get('/api/search/:query/:page', async(c)=> {
         method: 'GET',
         headers: {
             accept: 'application/json',
-            Authorization: `Bearer ${c.env.VITE_API_KEY}`
+            Authorization: `Bearer ${c.env.TMBD_API_KEY}`
         }
     }
     try{
@@ -40,17 +40,20 @@ app.get('/api/onAir', async(c)=> {
         method: 'GET',
         headers: {
             accept: 'application/json',
-            Authorization: `Bearer ${c.env.VITE_API_KEY}`
+            Authorization: `Bearer ${c.env.TMBD_API_KEY}`
         }
     }
     try{
-        const result = await fetchOnAir(options)
-        if(result){
-            return c.json(result.data, 200)
+        // const result = await fetchOnAir(options)
+        const result = await fetch('https://api.themoviedb.org/3/tv/on_the_air?language=en-US&page=1', options)
+        const res = result.ok && await result.json()
+        
+        if(res){
+            return  c.json(res, 200)
         }
     } catch (error){
         console.error(error.cause);
-        return c.json({success:false}, 400)
+        return c.json({success:false, error}, 400)
     }
 })
 

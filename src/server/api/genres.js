@@ -3,7 +3,6 @@ import { accessAuth } from '../middlewares/auth'
 import { drizzle } from 'drizzle-orm/d1'
 import { genres, mediaGenres } from '../db/schema'
 import { eq } from 'drizzle-orm'
-import axios from 'axios'
 const genresApi = new Hono()
 
 genresApi.use(accessAuth) 

@@ -1,9 +1,8 @@
-import axios from "axios"
-
 export const fetchMedia = async (id, options) => {
-    const fetchedData = await axios.get(`https://api.themoviedb.org/3/tv/${id}?append_to_response=credits&language=en-US`, options)
-    const similarMedia = await axios.get(`https://api.themoviedb.org/3/tv/${id}/recommendations?language=en-US&page=1`, options)       
-    const body = fetchedData.data
+    const fetchedData = await fetch(`https://api.themoviedb.org/3/tv/${id}?append_to_response=credits&language=en-US`, options)
+    const similarMedia = await fetch(`https://api.themoviedb.org/3/tv/${id}/recommendations?language=en-US&page=1`, options)       
+    const body = fetchedData.ok && await fetchedData.json()
+    const media = similarMedia.ok && await similarMedia.json()
     const cast = []
     const castMedia = []
     const mediaObj = {
@@ -43,12 +42,13 @@ export const fetchMedia = async (id, options) => {
         mediaId: mediaObj.id,
         genreId: genre.id
     }))
-    const response = await apiFormatedResponse(mediaObj, cast, body.genres, similarMedia)
+    const response = await apiFormatedResponse(mediaObj, cast, body.genres, media)
     return {mediaObj, genreMedia, response, cast, castMedia}
 }
 
 export const dbFormatedResponse = async (id, options, data) => {
-    const similar = await axios.get(`https://api.themoviedb.org/3/tv/${id}/recommendations?language=en-US&page=1`, options)       
+    const similar = await fetch(`https://api.themoviedb.org/3/tv/${id}/recommendations?language=en-US&page=1`, options)       
+    const similarMedia = similar.ok && await similar.json()
     const response = {
         ...data,
         genres: data.mediaGenres.map((g) => g.genre.name),
@@ -60,7 +60,7 @@ export const dbFormatedResponse = async (id, options, data) => {
             character: data.characters? data.characters.find(char => char.id == p.peopleId)?.character : null
 
         })),
-        similar: similar.data.results.map((s) => ({
+        similar: similarMedia.results.map((s) => ({
             id: s.id,
             title: s.name,
             posterPath: s.poster_path
@@ -94,11 +94,13 @@ export const apiFormatedResponse = async (data, cast, genres, similarMedia) => {
 }
 
 export const fetchOnAir= async(options)=> {
-    const result = await axios.get('https://api.themoviedb.org/3/tv/on_the_air?language=en-US&page=1', options)
-    return result && typeof result == 'object'? result : null
+    const result = await fetch('https://api.themoviedb.org/3/tv/on_the_air?language=en-US&page=1', options)
+    const data = result.ok && await result.json()
+    return data 
 }
 
 export const searchMedia= async(query, page, options)=> {
-    const result = await axios.get(`https://api.themoviedb.org/3/search/tv?query=${query}&include_adult=false&language=en-US&page=${page}`, options)
-    return result && typeof result == 'object'? result : null
+    const result = await fetch(`https://api.themoviedb.org/3/search/tv?query=${query}&include_adult=false&language=en-US&page=${page}`, options)
+    const data = result.ok && await result.json()
+    return data && typeof data == 'object'? data : null
 }

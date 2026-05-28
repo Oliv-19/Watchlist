@@ -26,7 +26,7 @@ mediaApi.get('/api/media/:id', async(c)=> {
         method: 'GET',
         headers: {
             accept: 'application/json',
-            Authorization: `Bearer ${c.env.VITE_API_KEY}`
+            Authorization: `Bearer ${c.env.TMBD_API_KEY}`
         }
     }
     try{
