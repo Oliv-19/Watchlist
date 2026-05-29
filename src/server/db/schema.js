@@ -4,9 +4,8 @@ import { sqliteTable, text, integer, check, primaryKey } from "drizzle-orm/sqlit
 
 export const user = sqliteTable('user', {
         id: integer('id').primaryKey(),
-        username: text('username').notNull(),
         email: text('email').notNull().unique(),
-        emailVerified: integer('email_verified', { mode:'timestamp' }),
+        passwordHash: text('password_hash').notNull(),
         createdAt: integer('created_at', { mode: "timestamp" })
             .notNull()
             .default(new Date()),
@@ -84,7 +83,6 @@ export const people = sqliteTable('people', {
         knownFor: text('known_for'),
         birthplace: text('birthplace'),
         birthday: text('birthday'),
-        allMedia: text('all_media', {mode: 'json'}),
         createdAt: integer('created_at', { mode: "timestamp" })
             .notNull()
             .default(new Date()),

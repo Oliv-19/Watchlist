@@ -1,8 +1,8 @@
 export const fetchMedia = async (id, options) => {
     const fetchedData = await fetch(`https://api.themoviedb.org/3/tv/${id}?append_to_response=credits&language=en-US`, options)
     const similarMedia = await fetch(`https://api.themoviedb.org/3/tv/${id}/recommendations?language=en-US&page=1`, options)       
-    const body = fetchedData.ok && await fetchedData.json()
-    const media = similarMedia.ok && await similarMedia.json()
+    const body = await fetchedData.json()
+    const media = await similarMedia.json()
     const cast = []
     const castMedia = []
     const mediaObj = {
@@ -48,7 +48,7 @@ export const fetchMedia = async (id, options) => {
 
 export const dbFormatedResponse = async (id, options, data) => {
     const similar = await fetch(`https://api.themoviedb.org/3/tv/${id}/recommendations?language=en-US&page=1`, options)       
-    const similarMedia = similar.ok && await similar.json()
+    const similarMedia = await similar.json()
     const response = {
         ...data,
         genres: data.mediaGenres.map((g) => g.genre.name),
@@ -80,7 +80,7 @@ export const apiFormatedResponse = async (data, cast, genres, similarMedia) => {
             ...char,
             character: data.characters? data.characters.find(char => char.id == char.id)?.character : null
         })),
-        similar: similarMedia.data.results.map((s) => ({
+        similar: similarMedia.results.map((s) => ({
             id: s.id,
             title: s.name,
             posterPath: s.poster_path
@@ -95,12 +95,12 @@ export const apiFormatedResponse = async (data, cast, genres, similarMedia) => {
 
 export const fetchOnAir= async(options)=> {
     const result = await fetch('https://api.themoviedb.org/3/tv/on_the_air?language=en-US&page=1', options)
-    const data = result.ok && await result.json()
+    const data = await result.json()
     return data 
 }
 
 export const searchMedia= async(query, page, options)=> {
     const result = await fetch(`https://api.themoviedb.org/3/search/tv?query=${query}&include_adult=false&language=en-US&page=${page}`, options)
-    const data = result.ok && await result.json()
-    return data && typeof data == 'object'? data : null
+    const data = await result.json()
+    return data
 }

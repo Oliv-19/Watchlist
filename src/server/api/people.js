@@ -6,6 +6,7 @@ import * as schema from '../db/schema'
 import { responseFormat, updatesResponse } from './peopleHelpers'
 const peopleApi = new Hono()
 
+peopleApi.use(accessAuth) 
 peopleApi.get('/api/people/:id', async(c)=> {
     const id = await c.req.param('id')
     const db = drizzle(c.env.DB, {schema})
@@ -13,7 +14,7 @@ peopleApi.get('/api/people/:id', async(c)=> {
         method: 'GET',
         headers: {
             accept: 'application/json',
-            Authorization: `Bearer ${c.env.TMBD_API_KEY}`
+            Authorization: `Bearer ${c.env.TMDB_API_KEY}`
         }
     }
     try{

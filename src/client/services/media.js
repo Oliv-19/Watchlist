@@ -3,7 +3,7 @@ const baseUrl = '/api/media'
 export const getMedia = async(id) => {
   try{
     const dbData = await fetch(`${baseUrl}/${id}`)
-    const data = dbData.ok && await dbData.json()
+    const data = await dbData.json()
 
     return data
   } catch {
@@ -19,7 +19,7 @@ export const getOnAir = async() => {
       return JSON.parse(saved)
     }else{
       const onAir = await fetch(`/api/onAir`)
-      const data = onAir.ok && await onAir.json()
+      const data = await onAir.json()
       localStorage.setItem('onAir', JSON.stringify(data))
       return data
     }
@@ -31,8 +31,9 @@ export const getOnAir = async() => {
 export const search = async(query, page) => {
   try{
     const search = await fetch(`/api/search/${query}/${page}`)
-    const data = search.ok && await search.json()
-
+    const data = await search.json()
+    console.log(data);
+    
     return data
   } catch {
     return null
