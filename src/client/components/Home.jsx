@@ -4,7 +4,7 @@ import {  useData } from "./hooks"
 import { useEffect } from "react"
 import { getOnAir } from "../services/media"
 function Home() {
-  const onAir = useData('onAir')
+  const onAir = useData({type:'onAir'})
   if(onAir == null){
       return <div>Loading...</div>
   }

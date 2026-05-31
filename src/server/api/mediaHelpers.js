@@ -42,6 +42,7 @@ export const fetchMedia = async (id, options) => {
         mediaId: mediaObj.id,
         genreId: genre.id
     }))
+    
     const response = await apiFormatedResponse(mediaObj, cast, body.genres, media)
     return {mediaObj, genreMedia, response, cast, castMedia}
 }
@@ -76,9 +77,9 @@ export const apiFormatedResponse = async (data, cast, genres, similarMedia) => {
     const response = {
         ...data,
         genres: genres.map((g) => g.name),
-        cast: cast.map(char => ({
-            ...char,
-            character: data.characters? data.characters.find(char => char.id == char.id)?.character : null
+        cast: cast.map(person => ({
+            ...person,
+            character: data.characters? data.characters.find(char => char.id == person.id)?.character : null
         })),
         similar: similarMedia.results.map((s) => ({
             id: s.id,
@@ -89,7 +90,6 @@ export const apiFormatedResponse = async (data, cast, genres, similarMedia) => {
         peopleMedia: undefined,
         characters: undefined
     }
-    
     return response
 }
 

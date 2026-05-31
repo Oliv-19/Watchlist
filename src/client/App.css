@@ -3,4 +3,7 @@
 *{
     /* outline: 1px solid red; */
     --color-text-bg:#54487447;
+    --color-input-bg: #544874;
+    --color-focus: #9084a3;
+    --color-bg:#0f0c2f;
 }

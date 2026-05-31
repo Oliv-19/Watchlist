@@ -73,14 +73,14 @@ function Filmography({data}){
 
 function Person() {
     const {id} = useParams()
-    const data = useData('person', id)
+    const data = useData({type: 'person', id})
     if(data == null){
         return <div>Loading...</div>
     }
     return (
         <>
             {data && (
-                <div className="w-full h-full bg-[#0f0c2f] text-white ">
+                <div className="w-full h-full bg-(--color-bg) text-white ">
                     <div className=" h-140 flex  gap-5 ">
                         <BasicInfo data={data}/>
                         <Biography data={data}/>

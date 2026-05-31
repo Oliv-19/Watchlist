@@ -7,7 +7,7 @@ import { Pagination } from "./Pagination";
 function SearchResults() {
     const {query} = useParams()
     const [pageNum, setPageNum] = useState(1)
-    const series = useData('search', null, query, pageNum)
+    const series = useData({type: 'search', query, page: pageNum})
     
     if(series == null){
         return <div>Loading...</div>

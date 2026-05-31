@@ -128,7 +128,7 @@ const InfoBlock = ({data}) => {
 
 function Media() {
     const {id} = useParams()
-    const data = useData('media', id)
+    const data = useData({type: 'media', id})
     
     if(data == null){
         return <div>Loading...</div>

@@ -10,14 +10,14 @@ const authApi = new Hono()
 
 authApi.use(accessAuth) 
 
-authApi.get('/auth/register', async(c)=> {
-    const {email, password} = await c.req.json()
+authApi.post('/api/auth/register', async(c)=> {
+    const body = await c.req.json()
+    const { email, password } = body
+    console.log("Datos recibidos:", email)
     const db = drizzle(c.env.DB, {schema})
-    
+    console.log('back');
     try {
-        const passwordHash = await bcrypt.hash(password, 15)
-        console.log(passwordHash);
-        
+        const passwordHash = await bcrypt.hash(password, 10)
         await db
         .insert(schema.user)
         .values({email, passwordHash})
@@ -28,7 +28,7 @@ authApi.get('/auth/register', async(c)=> {
     }
 })
 
-authApi.post('/auth/login', async(c)=> {
+authApi.post('/api/auth/login', async(c)=> {
     const {email, password} = await c.req.json()
     const db = drizzle(c.env.DB, {schema})
     console.log(email);
@@ -60,12 +60,12 @@ authApi.post('/auth/login', async(c)=> {
 })
 
 
-authApi.get('/auth/perfil', auth, async(c)=> {
+authApi.get('/api/auth/perfil', auth, async(c)=> {
     const user = c.get('user')
     return c.json({msg: `Hello ${user.email}`})
 })
 
-authApi.delete('/auth/users', async(c) => {
+authApi.delete('/api/auth/users', async(c) => {
     const db = drizzle(c.env.DB, {schema})
     try{
         await db
