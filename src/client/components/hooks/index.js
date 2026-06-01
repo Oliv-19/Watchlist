@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getMedia, getOnAir, search } from "../../services/media";
+import { getAiringToday, getMedia, getOnAir, search } from "../../services/media";
 import { getPerson } from "../../services/people";
 
 export const useData = (payload)=>{
@@ -14,7 +14,9 @@ export const useData = (payload)=>{
                     let response
                     switch(type ){
                         case 'onAir':
-                            response = await getOnAir()
+                            let onAir = await getOnAir()
+                            let airingToday = await getAiringToday()
+                            response = {onAir, airingToday}
                             break
                         case 'media':
                             response = await getMedia(id)

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { register } from "../services/user";
+import { login, perfil, register } from "../services/user";
 import { Icon } from "./Icons";
 import { useData } from "./hooks";
 import { useEffect } from "react";

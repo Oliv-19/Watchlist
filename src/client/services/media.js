@@ -12,16 +12,38 @@ export const getMedia = async(id) => {
 }
 
 export const getOnAir = async() => {
-  
   try{
-    const saved = localStorage.getItem('onAir')
-    if(saved){
-      return JSON.parse(saved)
+    const savedOnAir = localStorage.getItem('onAir')
+    if(savedOnAir){
+      const onAir = JSON.parse(savedOnAir)
+      return onAir
     }else{
       const onAir = await fetch(`/api/onAir`)
       const data = await onAir.json()
+
       localStorage.setItem('onAir', JSON.stringify(data))
+
       return data
+    }
+  } catch {
+    return null
+  }
+}
+
+export const getAiringToday = async () => {
+  try{
+    const savedAiringToday = localStorage.getItem('airingToday')
+    if(!savedAiringToday){
+      
+      const airingToday = await fetch(`/api/today`)
+      const airingTodayData = await airingToday.json()
+
+      localStorage.setItem('airingToday', JSON.stringify(airingTodayData))
+
+      return airingToday
+    } else {
+      const airingTodayData = JSON.parse(savedAiringToday)
+      return airingTodayData
     }
   } catch {
     return null

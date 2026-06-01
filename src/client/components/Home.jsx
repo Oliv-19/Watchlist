@@ -3,13 +3,66 @@ import Card from "./Card"
 import {  useData } from "./hooks"
 import { useEffect } from "react"
 import { getOnAir } from "../services/media"
+import { Icon } from "./Icons"
+import { Link } from "react-router-dom"
+import { useMemo } from "react"
+
+const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
+const BG_SIZE = "original"
+function Carousel({airingToday}){
+  
+  const data = useMemo(()=> airingToday.results.filter(item => item.backdrop_path))
+
+  const [index, setIndex] = useState(0)
+  const info = data[index]
+  if(!info) return null
+  
+  const fullBGImageUrl = `${IMAGE_BASE_URL}${BG_SIZE}${info.backdrop_path}`
+  const style = 'w-10 cursor-pointer fill-[#f7f5f0] hover:hover:scale-[1.1] transition-transform duration-300 '
+  const changeInfo = (dir)=> {
+    setIndex(prev=> {
+      if(dir == 'L' ){
+        return prev == 0? data.length-1 : prev-1
+      }
+      return prev == data.length-1 ? 0 : prev+1
+    })
+  }
+  useEffect(()=> {
+    const timer= setTimeout(()=>{ changeInfo('R') }, 5000)
+    
+    return () => clearTimeout(timer);
+  }, [index])
+  return (
+    <>
+      <div className="w-full h-100">
+        <img className="w-full h-100 object-cover absolute z-0 opacity-50" src={fullBGImageUrl}></img>
+        <div className="bg-gray-950 h-100 flex justify-between text-white px-15">
+          <button className="relative" onClick={() => {changeInfo('L')}}>
+            <Icon style={style} title={'prev'}/>
+          </button>
+          <Link to={`/media/${info.id}`} className="relative z-1 w-200 ">
+            <div className="h-full flex items-center justify-center m-auto ">
+              <h1 className=" text-5xl font-medium">{info.name}</h1>
+            </div>
+          </Link>
+          <button className="relative" onClick={() => {changeInfo('R')}}>
+            <Icon style={style} title={'next'}/>
+          </button>
+        </div>
+      </div>
+    </>
+  )
+}
+
 function Home() {
-  const onAir = useData({type:'onAir'})
+  const data = useData({type:'onAir'})
+  const {onAir, airingToday} = {...data}
   if(onAir == null){
       return <div>Loading...</div>
   }
   return (
     <>
+    <Carousel airingToday={airingToday}/>
       <div className="w-full flex flex-row flex-wrap justify-evenly gap-5 p-2.5">
         {onAir && Object.entries(onAir.results).map(([key, value]) => <Card key={key} data={value}/>)}
       </div>

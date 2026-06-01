@@ -57,4 +57,24 @@ app.get('/api/onAir', async(c)=> {
     }
 })
 
+app.get('/api/today', async(c)=> {
+    const options = {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${c.env.TMDB_API_KEY}`
+        }
+    }
+    try{
+        const today = await fetch('https://api.themoviedb.org/3/tv/airing_today?language=en-US&page=1', options)
+        const resToday = await today.json() 
+        
+        return  c.json(resToday, 200)
+        
+    } catch (error){
+        console.error(error.cause);
+        return c.json({success:false}, 400)
+    }
+})
+
 export default app

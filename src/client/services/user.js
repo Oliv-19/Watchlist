@@ -19,17 +19,14 @@ export const register = async(userData) => {
     return data
 }
 
-export const login = async()=> {
+export const login = async(userData)=> {
     const response = await fetch(`${baseUrl}/login`, {
       method: 'POST',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        email: "test@test.com",
-        password: "test"
-      })
+      body: JSON.stringify(userData)
     })
     const data = await response.json()
     console.log(data);
@@ -39,5 +36,5 @@ export const perfil = async()=> {
     const response = await fetch(`${baseUrl}/perfil`)
     const data = await response.json()
     console.log(data);
-    
+    return data
   }
