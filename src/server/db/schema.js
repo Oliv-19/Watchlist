@@ -107,3 +107,9 @@ export const mediaPeopleRelations = relations(peopleMedia, ({ one }) => ({
   media: one(media, { fields: [peopleMedia.mediaId], references: [media.id] }),
   people: one(people, { fields: [peopleMedia.peopleId], references: [people.id] }),
 }))
+
+export const airingToday = sqliteTable('airing_today', {
+    id: integer('id').primaryKey(),
+    name: text('name').notNull(),
+    backdropPath: text('backdrop_path'),
+})

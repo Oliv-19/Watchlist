@@ -20,6 +20,11 @@
 	
 	"env": {
 		"staging": {
+			"triggers": {
+				"crons": [
+				"0 0 * * *"
+				]
+			},
 			"vars": {
 				"ENVIRONMENT": "staging",
 				"POLICY_AUD": "02701e6dbbce824d860ffa26b75145ff62a49fcc166db81a203f32fa4e3568c9",

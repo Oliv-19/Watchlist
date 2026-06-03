@@ -41,10 +41,12 @@ mediaApi.get('/api/media/:id', async(c)=> {
             return c.json(response, 200)  
         }else {
             const {mediaObj, genreMedia, response, cast, castMedia} = await fetchMedia(id, options)
+            
             const result = await db.batch([
-                db.insert(schema.media).values(mediaObj).returning().onConflictDoNothing(),
-                genreMedia?.length > 0 && db.insert(schema.mediaGenres).values(genreMedia).returning().onConflictDoNothing(),
+                db.insert(schema.media).values(mediaObj).onConflictDoNothing(),
+                genreMedia.length > 0 && db.insert(schema.mediaGenres).values(genreMedia).onConflictDoNothing(),
             ])
+            
             if( cast.length > 0 && castMedia.length > 0){
                 const idk = await db.batch([
                     db.insert(schema.people).values(cast.slice(0, (cast.length-1)/2)).returning().onConflictDoNothing(),
@@ -52,10 +54,11 @@ mediaApi.get('/api/media/:id', async(c)=> {
                     db.insert(schema.peopleMedia).values(castMedia).returning().onConflictDoNothing()   
                 ])
             }
+            
             return c.json(response, 201)
         }
     } catch (error){
-        console.error(error.message, error.cause)
+        console.error(error.cause)
         return c.json({success: false}, 400)
     }
 })

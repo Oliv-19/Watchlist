@@ -11,13 +11,13 @@ const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
 const BG_SIZE = "original"
 function Carousel({airingToday}){
   
-  const data = useMemo(()=> airingToday.results.filter(item => item.backdrop_path))
+  const data = useMemo(()=> airingToday.filter(item => item.backdropPath))
 
   const [index, setIndex] = useState(0)
   const info = data[index]
   if(!info) return null
   
-  const fullBGImageUrl = `${IMAGE_BASE_URL}${BG_SIZE}${info.backdrop_path}`
+  const fullBGImageUrl = `${IMAGE_BASE_URL}${BG_SIZE}${info.backdropPath}`
   const style = 'w-10 cursor-pointer fill-[#f7f5f0] hover:hover:scale-[1.1] transition-transform duration-300 '
   const changeInfo = (dir)=> {
     setIndex(prev=> {
@@ -37,6 +37,7 @@ function Carousel({airingToday}){
       <div className="w-full h-100">
         <img className="w-full h-100 object-cover absolute z-0 opacity-50" src={fullBGImageUrl}></img>
         <div className="bg-gray-950 h-100 flex justify-between text-white px-15">
+          <div className="text-center font-medium absolute left-5 mt-2 z-1 bg-(--color-input-bg) p-5 rounded-4xl">Airing Today</div>
           <button className="relative" onClick={() => {changeInfo('L')}}>
             <Icon style={style} title={'prev'}/>
           </button>

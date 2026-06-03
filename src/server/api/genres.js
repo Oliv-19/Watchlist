@@ -1,25 +1,45 @@
 import { Hono } from 'hono'
 import { accessAuth } from '../middlewares/auth'
 import { drizzle } from 'drizzle-orm/d1'
-import { genres, mediaGenres } from '../db/schema'
 import { eq } from 'drizzle-orm'
+import * as schema from '../db/schema'
 const genresApi = new Hono()
 
 genresApi.use(accessAuth) 
 
-genresApi.post('/api/genre', async(c) => {
-    const body = await c.req.json()
+genresApi.get('/api/genre', async(c) => {
+    const db = drizzle(c.env.DB, {schema})
+    const options = {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${c.env.TMDB_API_KEY}`
+        }
+    }
     try{
-        const genres = c.env.DB.prepare('INSERT INTO genres (id, name) VALUES (?, ?)')
-        const inserts = body.genres.map((item) =>
-            genres.bind(item.id, item.name)
-        )
+        const result = await db
+        .select()
+        .from(schema.genres)
+        .all()
+        if (!result || result.length == 0){
+            console.log('fetch');
+            
+            const response = await fetch('https://api.themoviedb.org/3/genre/tv/list?language=en', options);
+            const {genres} = await response.json()
+            
+            await db.batch([
+                db.insert(schema.genres).values(genres).onConflictDoNothing(),
 
-        await c.env.DB.batch(inserts)
-        
-        return c.json({ success: true});
+            ])
+            
+            return c.json(genres, 201)
+        }
+        console.log('db');
+        return c.json(result, 200)
 
     } catch (error){
+        console.error(error);
+        
         return c.json({success:false}, 400)
     }
 })
@@ -33,17 +53,6 @@ genresApi.get('/api/genre/:id', async(c)=> {
         .from(genres)
         .where(eq(genres.id), Number(id))
         .limit(1)
-        return c.json(result);
-    } catch (error){
-        return c.json({success:false}, 400)
-    }
-})
-genresApi.get('/api/genre', async(c)=> {
-    const db = drizzle(c.env.DB)
-    
-    try{
-        const result = await db.select()
-        .from(genres)
         return c.json(result);
     } catch (error){
         return c.json({success:false}, 400)

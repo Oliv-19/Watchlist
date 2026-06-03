@@ -6,7 +6,7 @@ export const fetchMedia = async (id, options) => {
     const cast = []
     const castMedia = []
     const mediaObj = {
-        id: body.id,
+        id: Number(body.id),
         backdropPath : body.backdrop_path,
         creators: body.created_by,
         title: body.name,
@@ -40,7 +40,7 @@ export const fetchMedia = async (id, options) => {
     
     const genreMedia = body.genres.map((genre) => ({
         mediaId: mediaObj.id,
-        genreId: genre.id
+        genreId: Number(genre.id)
     }))
     
     const response = await apiFormatedResponse(mediaObj, cast, body.genres, media)
