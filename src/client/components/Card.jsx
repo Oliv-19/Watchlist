@@ -10,7 +10,7 @@ function Card({data}) {
   : image
   return (
     <Link to={`/media/${data.id}`}>
-      <div title={data.name? data.name : data.title} className="h-87.5 relative w-50 flex justify-between items-center flex-col hover:scale-[1.1] transition-transform duration-300">
+      <div title={data.name? data.name : data.title} className="h-65 md:h-87.5 relative w-40 md:w-50 flex justify-between items-center flex-col hover:scale-[1.1] transition-transform duration-300">
           <img src={fullImageUrl} alt="" className='w-full h-80'/>
           <p  className='truncate w-full'>{data.name? data.name : data.title}</p>
       </div>

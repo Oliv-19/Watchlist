@@ -12,18 +12,27 @@ const BG_SIZE = "original"
 
 const LeftInfo = ({data}) => {
     return(
-        <div className="w-90 text-center flex flex-col gap-4 text-[18px] mt-5 justify-center">
+        <div className="md:w-90 text-center flex flex-col gap-4 text-[18px] mt-5 justify-center">
             <h1 className="text-4xl ">{data.title}</h1>
             {data.originalTitle != data.title && (<h5>{data.originalTitle}</h5>)  }
-            <p className={`w-full text-[1rem] font-medium `}>
-                {data.overview}
-            </p>
+            <div className="max-h-80 md:px-5 w-full overflow-y-auto
+                [&::-webkit-scrollbar]:w-2
+                [&::-webkit-scrollbar-track]:rounded-full
+                [&::-webkit-scrollbar-thumb]:rounded-full
+                dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+                dark:[&::-webkit-scrollbar-thumb]:bg-neutral-400">
+                <p className={`p-3 md:p-0 w-full text-[1rem] font-medium `}>
+                    {data.overview}
+                </p>
+                    
+            </div>
+            
         </div>
     )
 }
 const Details = ({title, info}) => {
     return(
-        <div className="ml-20 flex gap-1.5 items-center ">
+        <div className="md:ml-20 flex gap-1.5 items-center ">
             <Icon title={title}/>
             {info}
         </div>
@@ -36,13 +45,13 @@ const RightInfo = ({data}) => {
     const release = data.releaseDate? format(parseISO(data.releaseDate), 'PP'): '?'
     const finished = data.finishedDate? format(parseISO(data.finishedDate), 'PP'): '?'
     return(
-        <div className="w-80 flex flex-col justify-center">
+        <div className="w-full md:w-80 flex flex-col justify-center">
             <div className="w-full h-20 flex items-center justify-center">
                 <button className="h-full cursor-pointer">
                     <Icon title={'add'} style={'w-8 fill-white hover:stroke-white'}></Icon>
                 </button>
             </div>
-            <div className="w-full text-center flex flex-col gap-4 text-[1rem] items-start">
+            <div className="p-8 md:p-0 w-full text-center flex flex-row flex-wrap md:flex-col gap-4 text-[1rem] justify-center md:items-start">
                 <Details title='rating' info={`${data.rating.toFixed(1)}`}/>
                 <Details title='episodes' info={`${data.seasons} Seasons`}/>
                 <Details title='episodes' info={`${data.episodes} Episodes`}/>
@@ -66,10 +75,10 @@ const Cast = ({data}) => {
     return (
         <>
         {data.sort((a,b)=> a.order - b.order).map((cast)=> 
-            <Link to={`/actor/${cast.id}`} title={cast.name} key={cast.id} className="hover:scale-[1.1] transition-transform duration-300 shrink-0 w-45 h-70 bg-neutral-50 p-1 rounded-xl text-center">
+            <Link to={`/actor/${cast.id}`} title={cast.name} key={cast.id} className="hover:scale-[1.1] transition-transform duration-300 shrink-0 w-35 md:w-45 h-55 md:h-70 bg-neutral-50 p-1 rounded-xl text-center">
                 <img className="m-auto h-[75%] rounded-xl" src={`${IMAGE_BASE_URL}${POSTER_SIZE}${cast.profilePath}`} alt="" />
-                <p className="font-bold">{cast.name} </p>
-                <p className="text-[0.9rem] text-gray-700">{cast.character} </p>
+                <p className="text-[0.8rem] md:text-[1rem]  md:font-bold">{cast.name} </p>
+                <p className="text-[0.6rem] md:text-[0.9rem] text-gray-700">{cast.character} </p>
                 
             </Link>
         )}
@@ -81,9 +90,9 @@ const Similar = ({data}) => {
     return (
         <>
         {data.map((similar)=> 
-            <Link to={`/${similar.id}`} state={similar.id} title={similar.title} key={similar.id} className="hover:scale-[1.1] transition-transform duration-300 shrink-0 w-45 h-70 bg-neutral-50 p-1 rounded-xl text-center">
-                <img className="m-auto h-[75%] rounded-xl" src={`${IMAGE_BASE_URL}${POSTER_SIZE}${similar.posterPath}`} alt="" />
-                <p className="font-bold">{similar.title} </p>
+            <Link to={`/${similar.id}`} state={similar.id} title={similar.title} key={similar.id} className="hover:scale-[1.1] transition-transform duration-300 shrink-0 w-35 md:w-45 h-55 md:h-70 bg-neutral-50 p-1 rounded-xl text-center">
+                <img className="m-auto h-[80%] rounded-xl" src={`${IMAGE_BASE_URL}${POSTER_SIZE}${similar.posterPath}`} alt="" />
+                <p className="font-bold text-[0.8rem] md:text-[1rem]">{similar.title} </p>
                 
             </Link>
         )}
@@ -111,8 +120,8 @@ const InfoBlock = ({data}) => {
                 <button key={key} name={key} onClick={changeBlock}  className={`${block == key && 'underline'} text-white cursor-pointer hover:text-gray-400 font-bold text-center text-3xl`}>{key}</button>
                 )}
             </nav>
-            <div className="mx-20">
-                <div className="flex h-full overflow-x-auto gap-5 py-5
+            <div className="mx-5 md:mx-20 ">
+                <div className="flex h-fit overflow-x-auto gap-2 md:gap-5 py-5 overflow-y-hidden
                 [&::-webkit-scrollbar]:h-2
                 [&::-webkit-scrollbar-track]:rounded-full
                 [&::-webkit-scrollbar-thumb]:rounded-full
@@ -140,16 +149,14 @@ function Media() {
         <>
             {data && (
                 <div className="w-full h-full">
-                    <div className="bg-gray-950 h-fit relative">
-                        <img className={`w-full h-full object-cover absolute z-0 opacity-20`} src={fullBGImageUrl} alt="" />
-                        <div className="pt-8 pb-2 w-full h-fit flex justify-evenly relative z-1 text-white">
+                    <div className="bg-(--color-bg) h-fit pb-4 md:h-full relative ">
+                        <img className={`mask-b-from-75% mask-b-to-transparent w-full h-full object-cover absolute z-0 opacity-35`} src={fullBGImageUrl} alt="" />
+                        <div className="pt-8 pb-2 w-full h-fit flex flex-col md:flex-row justify-evenly relative z-1 text-white">
                             <LeftInfo data={data}/>
-                            <img className="h-fit" src={fullImageUrl} alt="" />
+                            <img className="-order-1 md:order-0 h-65 w-40 md:h-fit md:w-fit m-auto md:m-0" src={fullImageUrl} alt="" />
                             <RightInfo data={data} />
 
                         </div>
-                        <div className="absolute -bottom-5 left-0 right-0 h-16 bg-linear-to-b from-transparent to-bg-[#0f0c2f]/30 backdrop-blur-md pointer-events-none"></div>
-
                     </div>
                     <InfoBlock data={data}></InfoBlock>
                 </div>

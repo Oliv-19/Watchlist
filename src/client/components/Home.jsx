@@ -34,16 +34,16 @@ function Carousel({airingToday}){
   }, [index])
   return (
     <>
-      <div className="w-full h-100">
-        <img className="w-full h-100 object-cover absolute z-0 opacity-50" src={fullBGImageUrl}></img>
-        <div className="bg-gray-950 h-100 flex justify-between text-white px-15">
-          <div className="text-center font-medium absolute left-5 mt-2 z-1 bg-(--color-input-bg) p-5 rounded-4xl">Airing Today</div>
+      <div className="w-full h-50 md:h-100">
+        <img className="w-full  object-cover absolute z-0 opacity-50 h-50 md:h-100" src={fullBGImageUrl}></img>
+        <div className="bg-gray-950 flex justify-between text-white h-full md:h-100 px-2 md:px-15">
+          <div className="text-center font-medium absolute md:left-5 md:mt-2 z-1 bg-(--color-input-bg) p-1 md:p-5 rounded-4xl">Airing Today</div>
           <button className="relative" onClick={() => {changeInfo('L')}}>
             <Icon style={style} title={'prev'}/>
           </button>
           <Link to={`/media/${info.id}`} className="relative z-1 w-200 ">
             <div className="h-full flex items-center justify-center m-auto ">
-              <h1 className=" text-5xl font-medium">{info.name}</h1>
+              <h1 className="text-center text-2xl md:text-5xl font-medium">{info.name}</h1>
             </div>
           </Link>
           <button className="relative" onClick={() => {changeInfo('R')}}>
