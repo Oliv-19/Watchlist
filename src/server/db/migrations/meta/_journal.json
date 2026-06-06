@@ -407,6 +407,13 @@
       "when": 1780670796101,
       "tag": "0057_chemical_thunderbolt_ross",
       "breakpoints": true
+    },
+    {
+      "idx": 58,
+      "version": "6",
+      "when": 1780750544563,
+      "tag": "0058_icy_celestials",
+      "breakpoints": true
     }
   ]
 }

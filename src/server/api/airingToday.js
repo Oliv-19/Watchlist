@@ -7,7 +7,13 @@ import { accessAuth } from "../middlewares/auth"
 const todayApi = new Hono()
 todayApi.use(accessAuth)
 todayApi.get('/api/today', async(c)=> {
-    const db = drizzle(c.env.DB, {schema})
+    const KV = c.env.AIRING_TODAY
+    const cached = await KV.get('airing_today', {type: 'json'})
+
+    if(cached){
+        return c.json(cached)
+        
+    }
     const options = {
         method: 'GET',
         headers: {
@@ -16,27 +22,26 @@ todayApi.get('/api/today', async(c)=> {
         }
     }
     try{
-        const result = await db
-        .select()
-        .from(schema.airingToday)
-        .all()
-    
-        if(result.length === 0) {
-            console.log('Empty table');
-            const airingToday = await fetchAiringToday(options, db)
-            return c.json(airingToday, 200)
-        }
+        const airingToday = await fetchAiringToday(options, KV)
+        await KV.put('airing_today', JSON.stringify(airingToday), {expirationTtl: 86400})
+        return c.json(airingToday, 200)
 
         return c.json(result, 200)
     } catch (error){
-        console.error(error.cause)
+        console.error(error)
         return c.json({success:false}, 400)
     }
 })
 
 
 todayApi.get('/api/onAir', async(c)=> {
-    const db = drizzle(c.env.DB, {schema})
+    const KV = c.env.ON_AIR
+    const cached = await KV.get('on_air', {type: 'json'})
+
+    if(cached){
+        return c.json(cached)
+        
+    }
     const options = {
         method: 'GET',
         headers: {
@@ -45,18 +50,10 @@ todayApi.get('/api/onAir', async(c)=> {
         }
     }
     try{
-        const result = await db
-        .select()
-        .from(schema.onAir)
-        .all()
-
-        if(result.length === 0){
-            console.log('Empty table');
-            const onAir = await fetchOnAir(options, db)
-            return c.json(onAir, 200)
-        }
-        
-        return  c.json(result, 200)
+        console.log('Empty table');
+        const onAir = await fetchOnAir(options)
+        await KV.put('on_air', JSON.stringify(onAir), {expirationTtl: 604800})
+        return c.json(onAir, 200)
         
     } catch (error){
         console.error(error.cause);

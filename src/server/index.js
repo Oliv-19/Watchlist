@@ -44,20 +44,5 @@ app.get('/api/search/:query/:page', async(c)=> {
 export default {
     fetch: app.fetch,
     async scheduled(event, env, ctx) {
-        const db = drizzle(env.DB, {schema})
-        const options = {
-            method: 'GET',
-            headers: {
-                accept: 'application/json',
-                Authorization: `Bearer ${env.TMDB_API_KEY}`
-            }
-        }
-        switch(event.cron){
-            case '0 0 * * *': 
-                await fetchAiringToday(options, db)
-                break
-            case '0 0 * * 0':
-                await fetchOnAir(options, db)
-        }
     }
 };

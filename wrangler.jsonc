@@ -9,23 +9,26 @@
 		"directory": "./dist",
 		"binding": "ASSETS"
 	},
-  "d1_databases": [
+	"d1_databases": [
 		{
-		"binding": "DB",
-		"database_name": "watchlist_local_db",
-		"database_id": "123",
-		"migrations_dir": "./src/server/db/migrations"
+			"binding": "DB",
+			"database_name": "watchlist_local_db",
+			"database_id": "123",
+			"migrations_dir": "./src/server/db/migrations"
 		}
 	],
-	
+	"kv_namespaces": [
+		{
+			"binding": "AIRING_TODAY",
+			"id": "04a3fbef6d654a7cb89ab58f92109a2a"
+		},
+		{
+			"binding": "ON_AIR",
+			"id": "cb4550e87e364a6bbbea6b242cd22209"
+		}
+	],
 	"env": {
 		"staging": {
-			"triggers": {
-				"crons": [
-				"0 0 * * *",
-				"0 0 * * 0"
-				]
-			},
 			"vars": {
 				"ENVIRONMENT": "staging",
 				"POLICY_AUD": "02701e6dbbce824d860ffa26b75145ff62a49fcc166db81a203f32fa4e3568c9",
@@ -33,21 +36,31 @@
 			},
 			"d1_databases": [
 				{
-				"binding": "DB",
-				"database_name": "watchlist_staging_db",
-				"database_id": "c3e4fe98-c4a4-4ed2-9d0e-bc48f57cc7a9",
-				"migrations_dir": "./src/server/db/migrations"
+					"binding": "DB",
+					"database_name": "watchlist_staging_db",
+					"database_id": "c3e4fe98-c4a4-4ed2-9d0e-bc48f57cc7a9",
+					"migrations_dir": "./src/server/db/migrations"
 				}
 			],
 			"observability": {
 				"enabled": true,
 				"head_sampling_rate": 1 // optional
-			}
+			},
+			"kv_namespaces": [
+				{
+					"binding": "AIRING_TODAY",
+					"id": "04a3fbef6d654a7cb89ab58f92109a2a"
+				},
+				{
+					"binding": "ON_AIR",
+					"id": "cb4550e87e364a6bbbea6b242cd22209"
+				}
+			]
 		},
 		"production": {
 			"vars": {
 				"ENVIRONMENT": "production"
 			}
 		}
-  	}
+	}
 }
