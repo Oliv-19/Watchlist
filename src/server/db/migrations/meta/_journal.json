@@ -400,6 +400,13 @@
       "when": 1780433261910,
       "tag": "0056_certain_katie_power",
       "breakpoints": true
+    },
+    {
+      "idx": 57,
+      "version": "6",
+      "when": 1780670796101,
+      "tag": "0057_chemical_thunderbolt_ross",
+      "breakpoints": true
     }
   ]
 }

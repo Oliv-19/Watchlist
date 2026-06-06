@@ -7,10 +7,10 @@ import mediaApi from './api/media'
 import genresApi from './api/genres'
 import peopleApi from './api/people'
 import authApi from './api/auth'
-import { fetchOnAir, searchMedia } from './api/mediaHelpers'
+import { searchMedia } from './api/mediaHelpers'
 import todayApi from './api/airingToday'
 import * as schema from './db/schema'
-import { fetchAiringToday } from './api/onAirHelper'
+import { fetchAiringToday, fetchOnAir } from './api/onAirHelper'
 const app = new Hono()
 
 app.use(accessAuth) 
@@ -41,26 +41,6 @@ app.get('/api/search/:query/:page', async(c)=> {
     }
 })
 
-app.get('/api/onAir', async(c)=> {
-    const options = {
-        method: 'GET',
-        headers: {
-            accept: 'application/json',
-            Authorization: `Bearer ${c.env.TMDB_API_KEY}`
-        }
-    }
-    try{
-        const result = await fetch('https://api.themoviedb.org/3/tv/on_the_air?language=en-US&page=1', options)
-        const res = await result.json() 
-        
-        return  c.json(res, 200)
-        
-    } catch (error){
-        console.error(error.cause);
-        return c.json({success:false}, 400)
-    }
-})
-
 export default {
     fetch: app.fetch,
     async scheduled(event, env, ctx) {
@@ -72,6 +52,12 @@ export default {
                 Authorization: `Bearer ${env.TMDB_API_KEY}`
             }
         }
-        const airingToday = await fetchAiringToday(options, db)
+        switch(event.cron){
+            case '0 0 * * *': 
+                await fetchAiringToday(options, db)
+                break
+            case '0 0 * * 0':
+                await fetchOnAir(options, db)
+        }
     }
 };

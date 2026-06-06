@@ -113,3 +113,9 @@ export const airingToday = sqliteTable('airing_today', {
     name: text('name').notNull(),
     backdropPath: text('backdrop_path'),
 })
+
+export const onAir = sqliteTable('on_air', {
+    id: integer('id').primaryKey(),
+    name: text('name').notNull(),
+    posterPath: text('poster_path'),
+})

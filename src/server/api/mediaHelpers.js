@@ -93,14 +93,17 @@ export const apiFormatedResponse = async (data, cast, genres, similarMedia) => {
     return response
 }
 
-export const fetchOnAir= async(options)=> {
-    const result = await fetch('https://api.themoviedb.org/3/tv/on_the_air?language=en-US&page=1', options)
-    const data = await result.json()
-    return data 
-}
-
 export const searchMedia= async(query, page, options)=> {
     const result = await fetch(`https://api.themoviedb.org/3/search/tv?query=${query}&include_adult=false&language=en-US&page=${page}`, options)
     const data = await result.json()
-    return data
+    const search = {
+        data: data.results.map((item)=> ({
+                id: item.id,
+                name : item.name,
+                posterPath : item.poster_path
+            })),
+        totalPages:data.total_pages
+    }
+    
+    return search
 }

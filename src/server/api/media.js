@@ -3,7 +3,7 @@ import { accessAuth } from '../middlewares/auth'
 import { drizzle } from 'drizzle-orm/d1'
 import * as schema from '../db/schema'
 import { eq, sql } from 'drizzle-orm'
-import { dbFormatedResponse, fetchMedia, fetchOnAir } from './mediaHelpers'
+import { dbFormatedResponse, fetchMedia } from './mediaHelpers'
 const mediaApi = new Hono()
 
 mediaApi.use(accessAuth) 

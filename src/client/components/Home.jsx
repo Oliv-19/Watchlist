@@ -65,7 +65,7 @@ function Home() {
     <>
     <Carousel airingToday={airingToday}/>
       <div className="w-full flex flex-row flex-wrap justify-evenly gap-5 p-2.5">
-        {onAir && Object.entries(onAir.results).map(([key, value]) => <Card key={key} data={value}/>)}
+        {Object.entries(onAir).map(([key, value]) => <Card key={key} data={value}/>)}
       </div>
     </>
   )

@@ -17,10 +17,10 @@ function SearchResults() {
         <div className="flex flex-col items-center">
 
             <div className="w-full flex flex-row flex-wrap justify-evenly gap-5 p-2.5">
-            {series.results.map((serie) => <Card data={serie} key={serie.id}></Card>)}
+            {series.data.map((serie) => <Card data={serie} key={serie.id}></Card>)}
             </div>
             <div className="p-6">
-                <Pagination actualPage={pageNum} setPageNum={setPageNum} length={series.total_pages}/>
+                <Pagination actualPage={pageNum} setPageNum={setPageNum} length={series.totalPages}/>
             </div>
         </div>
     )
