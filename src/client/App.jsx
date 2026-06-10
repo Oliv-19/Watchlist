@@ -6,10 +6,13 @@ import Nav from './components/Nav'
 import SearchResults from './components/SearchResults'
 import './App.css'
 import Person from './components/Person'
+import { AuthProvider } from './components/AuthContext'
 
 function App() {
    return (
     <div className="w-full h-screen text-base m-0 p-0">
+      <AuthProvider>
+
       <Nav />
       <Routes>
         <Route path="/" element={<Home/>} />
@@ -18,6 +21,7 @@ function App() {
         <Route path="/actor/:id" element={<Person />}/>
         <Route path="/author/:id" element={<Person />}/>
       </Routes>
+      </AuthProvider>
     </div>
   );
 }

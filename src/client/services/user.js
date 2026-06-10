@@ -1,9 +1,6 @@
 const baseUrl = `/api/auth`
 
 export const register = async(userData) => {
-  console.log('service')
-  console.log(userData);
-  
   const response = await fetch(`${baseUrl}/register`, {
       method: 'POST',
       headers: {
@@ -15,8 +12,6 @@ export const register = async(userData) => {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     const data = await response.json()
-    console.log(data);
-    return data
 }
 
 export const login = async(userData)=> {
@@ -29,12 +24,15 @@ export const login = async(userData)=> {
       body: JSON.stringify(userData)
     })
     const data = await response.json()
-    console.log(data);
-    
   }
-export const perfil = async()=> {
-    const response = await fetch(`${baseUrl}/perfil`)
-    const data = await response.json()
-    console.log(data);
-    return data
-  }
+export const checkLoggedIn = async()=> {
+  const response = await fetch(`${baseUrl}/check`)
+  const data = await response.json()
+  return data
+}
+
+export const logout = async()=> {
+  const response = await fetch(`${baseUrl}/logout`)
+  const data = await response.json()
+  return data
+}

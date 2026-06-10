@@ -8,7 +8,7 @@ export function Icon({title, style}){
                     <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
                 </svg>,
         tv: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <title>genre</title>
+                    <title>Watch List</title>
                     <path d="M8.16,3L6.75,4.41L9.34,7H4C2.89,7 2,7.89 2,9V19C2,20.11 2.89,21 4,21H20C21.11,21 22,20.11 22,19V9C22,7.89 21.11,7 20,7H14.66L17.25,4.41L15.84,3L12,6.84L8.16,3M4,9H17V19H4V9M19.5,9A1,1 0 0,1 20.5,10A1,1 0 0,1 19.5,11A1,1 0 0,1 18.5,10A1,1 0 0,1 19.5,9M19.5,12A1,1 0 0,1 20.5,13A1,1 0 0,1 19.5,14A1,1 0 0,1 18.5,13A1,1 0 0,1 19.5,12Z" />
                 </svg>,
         genre: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -34,9 +34,25 @@ export function Icon({title, style}){
                 <title>Previous</title>
                 <path d="M22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12M15.4,16.6L10.8,12L15.4,7.4L14,6L8,12L14,18L15.4,16.6Z" />
             </svg>,
-        account: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <title>Sign up</title>
-                <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" />
+        login: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <title>login</title>
+                <path d="M11 7L9.6 8.4L12.2 11H2V13H12.2L9.6 15.6L11 17L16 12L11 7M20 19H12V21H20C21.1 21 22 20.1 22 19V5C22 3.9 21.1 3 20 3H12V5H20V19Z" />
+            </svg>,
+        logout:<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <title>logout</title>
+                <path d="M17 7L15.59 8.41L18.17 11H8V13H18.17L15.59 15.58L17 17L22 12M4 5H12V3H4C2.9 3 2 3.9 2 5V19C2 20.1 2.9 21 4 21H12V19H4V5Z" />
+            </svg>,
+        leftArrow: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <title>Log in</title>
+            <path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" />
+        </svg>,
+        rightArrow: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <title>arrow-right</title>
+            <path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" />
+        </svg>,
+        watchList : <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <title>library</title>
+                <path d="M12,8A3,3 0 0,0 15,5A3,3 0 0,0 12,2A3,3 0 0,0 9,5A3,3 0 0,0 12,8M12,11.54C9.64,9.35 6.5,8 3,8V19C6.5,19 9.64,20.35 12,22.54C14.36,20.35 17.5,19 21,19V8C17.5,8 14.36,9.35 12,11.54Z" />
             </svg>,
     }
     

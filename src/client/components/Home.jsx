@@ -9,7 +9,7 @@ import { useMemo } from "react"
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
 const BG_SIZE = "original"
-function Carousel({airingToday}){
+function Slider({airingToday}){
   
   const data = useMemo(()=> airingToday.filter(item => item.backdropPath))
 
@@ -20,12 +20,7 @@ function Carousel({airingToday}){
   const fullBGImageUrl = `${IMAGE_BASE_URL}${BG_SIZE}${info.backdropPath}`
   const style = 'w-10 cursor-pointer fill-[#f7f5f0] hover:hover:scale-[1.1] transition-transform duration-300 '
   const changeInfo = (dir)=> {
-    setIndex(prev=> {
-      if(dir == 'L' ){
-        return prev == 0? data.length-1 : prev-1
-      }
-      return prev == data.length-1 ? 0 : prev+1
-    })
+    setIndex(prev=> dir == 'L' ? (prev == 0? data.length-1 : prev-1):(prev == data.length-1 ? 0 : prev+1))
   }
   useEffect(()=> {
     const timer= setTimeout(()=>{ changeInfo('R') }, 5000)
@@ -34,10 +29,20 @@ function Carousel({airingToday}){
   }, [index])
   return (
     <>
-      <div className="w-full h-50 md:h-100">
-        <img className="w-full  object-cover absolute z-0 opacity-50 h-50 md:h-100" src={fullBGImageUrl}></img>
-        <div className="bg-gray-950 flex justify-between text-white h-full md:h-100 px-2 md:px-15">
-          <div className="text-center font-medium absolute md:left-5 md:mt-2 z-1 bg-(--color-input-bg) p-1 md:p-5 rounded-4xl">Airing Today</div>
+      <div className="w-full h-50 md:h-100 bg-gray-950 overflow-x-hidden">
+        <div className="flex">
+          {data.map((item, i) => 
+            <img 
+            key={item.id}
+            src={`${IMAGE_BASE_URL}${BG_SIZE}${item.backdropPath}`}
+            className={` w-full object-cover absolute z-0 h-50 md:h-100 transition-opacity duration-700 ease-in-out
+              ${i === index ? 'opacity-50' : 'opacity-0'}` }
+              />
+           
+            )}
+        </div>
+           
+        <div className="flex justify-between text-white h-full md:h-100 px-2 md:px-15">
           <button className="relative" onClick={() => {changeInfo('L')}}>
             <Icon style={style} title={'prev'}/>
           </button>
@@ -63,8 +68,8 @@ function Home() {
   }
   return (
     <>
-    <Carousel airingToday={airingToday}/>
-      <div className="w-full flex flex-row flex-wrap justify-evenly gap-5 p-2.5">
+    <Slider airingToday={airingToday}/>
+      <div className="w-full flex flex-row flex-wrap justify-evenly gap-5 p-2.5 mt-5">
         {Object.entries(onAir).map(([key, value]) => <Card key={key} data={value}/>)}
       </div>
     </>

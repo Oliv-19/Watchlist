@@ -1,7 +1,7 @@
 import { Hono } from 'hono'
 import { sign } from 'hono/jwt'
 import bcrypt from 'bcryptjs';
-import { getCookie, setCookie } from 'hono/cookie'
+import { deleteCookie, getCookie, setCookie } from 'hono/cookie'
 import { accessAuth, auth } from '../middlewares/auth'
 import { drizzle } from 'drizzle-orm/d1'
 import { eq } from 'drizzle-orm'
@@ -13,14 +13,22 @@ authApi.use(accessAuth)
 authApi.post('/api/auth/register', async(c)=> {
     const body = await c.req.json()
     const { email, password } = body
-    console.log("Datos recibidos:", email)
     const db = drizzle(c.env.DB, {schema})
-    console.log('back');
     try {
         const passwordHash = await bcrypt.hash(password, 10)
-        await db
+        const [user] =await db
         .insert(schema.user)
         .values({email, passwordHash})
+        .returning()
+
+        const token = await sign({sub: user.id, email}, c.env.JWT, 'HS256')
+
+        setCookie(c, 'auth_token', token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'Strict',
+            maxAge: 60 * 60 *24
+        })
         return c.json({success:true}, 201)
     } catch (error){
         console.error(error);
@@ -31,7 +39,6 @@ authApi.post('/api/auth/register', async(c)=> {
 authApi.post('/api/auth/login', async(c)=> {
     const {email, password} = await c.req.json()
     const db = drizzle(c.env.DB, {schema})
-    console.log(email);
     
     try {
         const [user] = await db
@@ -48,21 +55,25 @@ authApi.post('/api/auth/login', async(c)=> {
             httpOnly: true,
             secure: true,
             sameSite: 'Strict',
-            // maxAge: 60 * 60 *24
-            maxAge: 10
+            maxAge: 60 * 60 *24
         })
         
-        return c.json({success:true, message: 'logged in for 1 min'})
+        return c.json({success:true})
     } catch (error){
         console.error(error);
         return c.json({success:false}, 400)
     }
 })
+authApi.get('/api/auth/logout', auth, async(c)=> {
+    deleteCookie(c, 'auth_token')
+    return c.json({loggedIn: false})
 
+})
 
-authApi.get('/api/auth/perfil', auth, async(c)=> {
+authApi.get('/api/auth/check', auth, async(c)=> {
     const user = c.get('user')
-    return c.json({msg: `Hello ${user.email}`})
+
+    return user?  c.json({loggedIn: true, user}) : c.json({loggedIn: false})
 })
 
 authApi.delete('/api/auth/users', async(c) => {

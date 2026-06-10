@@ -22,6 +22,7 @@ todayApi.get('/api/today', async(c)=> {
         }
     }
     try{
+        console.log('Empty table');
         const airingToday = await fetchAiringToday(options, KV)
         await KV.put('airing_today', JSON.stringify(airingToday), {expirationTtl: 86400})
         return c.json(airingToday, 200)
