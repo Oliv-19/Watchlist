@@ -24,6 +24,7 @@ export const login = async(userData)=> {
       body: JSON.stringify(userData)
     })
     const data = await response.json()
+    return data
   }
 export const checkLoggedIn = async()=> {
   const response = await fetch(`${baseUrl}/check`)
@@ -33,6 +34,18 @@ export const checkLoggedIn = async()=> {
 
 export const logout = async()=> {
   const response = await fetch(`${baseUrl}/logout`)
+  const data = await response.json()
+  return data
+}
+
+export const userMedia = async(id)=> {
+  const response = await fetch(`/api/user/media/${id}`)
+  const data = await response.json()
+  return data
+}
+
+export const getUserMedia = async()=> {
+  const response = await fetch(`/api/user/media`)
   const data = await response.json()
   return data
 }

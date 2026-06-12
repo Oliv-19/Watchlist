@@ -153,8 +153,8 @@ function LoginForm({onClose, isOpen}){
         async function registerUser(){
             if(form?.email){
                 try{
-                    await login(form)
-                    userLogin(form)
+                    const data = await login(form)
+                    userLogin({user: data.user, id: data.id})
                     onClose()
                 } catch (error){
                     console.log(error);

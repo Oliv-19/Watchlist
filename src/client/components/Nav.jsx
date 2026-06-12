@@ -9,7 +9,7 @@ import { useAuth } from "./AuthContext"
 function Nav() {
   const [isOpen, setIsOpen] = useState(false)
   const {user, userLogout} = useAuth()
-
+  
   const logOut = async() => {
     await logout()
     userLogout()
@@ -24,17 +24,17 @@ function Nav() {
         <Search></Search>
         {user ? (
           <>
-            <Link to={'/'} >
+            <Link to={'/profile'} className="[grid-area:1/3/2/4]">
               <Icon title={'watchList'} style={'fill-(--color-bg) w-8 '} /> 
             </Link>
-            <button className="cursor-pointer"  onClick={logOut}>
+            <button className="cursor-pointer [grid-area:1/4/2/5]"  onClick={logOut}>
               <Icon title={'logout'} style={'fill-(--color-bg) w-8 '} />  
             </button>
 
           </>
         ): (
           <>
-            <button className="cursor-pointer"  onClick={() => {setIsOpen(true)}}>
+            <button className="cursor-pointer [grid-area:1/4/2/5]"  onClick={() => {setIsOpen(true)}}>
               <Icon title={'login'} style={'fill-(--color-bg) w-8 '} /> 
             </button>
             <Account isOpen={isOpen} onClose={()=> {setIsOpen(false)}}/>

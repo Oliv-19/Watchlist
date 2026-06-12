@@ -11,12 +11,12 @@ export const AuthProvider = ({children}) => {
 
     useEffect(()=> {
         async function checkCredentials() {
-        const logged = await checkLoggedIn()
-        if(logged.loggedIn) setUser(logged.user)
+            const logged = await checkLoggedIn()
+            if(logged.loggedIn) setUser(logged.user)
         }
         checkCredentials()
     }, [])
-    const userLogin = (userData) => setUser(userData)
+    const userLogin = (userData) => userData.id && setUser(userData)
     const userLogout = () => setUser(null)
     return (
         <AuthContext value={{ user: user, userLogin, userLogout}}>

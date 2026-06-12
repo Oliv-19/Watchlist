@@ -11,6 +11,7 @@ import { searchMedia } from './api/mediaHelpers'
 import todayApi from './api/airingToday'
 import * as schema from './db/schema'
 import { fetchAiringToday, fetchOnAir } from './api/onAirHelper'
+import userApi from './api/user'
 const app = new Hono()
 
 app.use(accessAuth) 
@@ -19,6 +20,7 @@ app.route('/', mediaApi)
 app.route('/', genresApi)
 app.route('/', peopleApi)
 app.route('/', todayApi)
+app.route('/', userApi)
 
 app.get('/api/search/:query/:page', async(c)=> {
     const query = await c.req.param('query')

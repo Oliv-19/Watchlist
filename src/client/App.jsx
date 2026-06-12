@@ -7,6 +7,7 @@ import SearchResults from './components/SearchResults'
 import './App.css'
 import Person from './components/Person'
 import { AuthProvider } from './components/AuthContext'
+import { Profile } from './components/Profile'
 
 function App() {
    return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/search/:query" element={<SearchResults />}/>
         <Route path="/actor/:id" element={<Person />}/>
         <Route path="/author/:id" element={<Person />}/>
+        <Route path="/profile" element={<Profile />}/>
       </Routes>
       </AuthProvider>
     </div>

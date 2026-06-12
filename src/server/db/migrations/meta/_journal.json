@@ -414,6 +414,27 @@
       "when": 1780750544563,
       "tag": "0058_icy_celestials",
       "breakpoints": true
+    },
+    {
+      "idx": 59,
+      "version": "6",
+      "when": 1781104727585,
+      "tag": "0059_exotic_molly_hayes",
+      "breakpoints": true
+    },
+    {
+      "idx": 60,
+      "version": "6",
+      "when": 1781270182174,
+      "tag": "0060_nifty_leper_queen",
+      "breakpoints": true
+    },
+    {
+      "idx": 61,
+      "version": "6",
+      "when": 1781270885391,
+      "tag": "0061_living_old_lace",
+      "breakpoints": true
     }
   ]
 }

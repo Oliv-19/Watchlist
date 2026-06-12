@@ -20,15 +20,7 @@ authApi.post('/api/auth/register', async(c)=> {
         .insert(schema.user)
         .values({email, passwordHash})
         .returning()
-
-        const token = await sign({sub: user.id, email}, c.env.JWT, 'HS256')
-
-        setCookie(c, 'auth_token', token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'Strict',
-            maxAge: 60 * 60 *24
-        })
+        
         return c.json({success:true}, 201)
     } catch (error){
         console.error(error);
@@ -46,19 +38,23 @@ authApi.post('/api/auth/login', async(c)=> {
         .from(schema.user)
         .where(eq(schema.user.email, email))
         
-        const valid = await bcrypt.compare(password, user.passwordHash)
-        if(!valid) return c.json({error:'Invalid credentials'}, 401)
-        
-        const token = await sign({sub: user.id, email}, c.env.JWT, 'HS256')
+        if(user){
+            const valid = await bcrypt.compare(password, user.passwordHash)
+            if(!valid) return c.json({error:'Invalid credentials'}, 401)
+            
+            const token = await sign({sub: user.id, email}, c.env.JWT, 'HS256')
+    
+            setCookie(c, 'auth_token', token, {
+                httpOnly: true,
+                secure: true,
+                sameSite: 'Strict',
+                maxAge: 60 * 60 *24
+            })
+            
+            return c.json({success:true, user: user.email, id: user.id})
 
-        setCookie(c, 'auth_token', token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'Strict',
-            maxAge: 60 * 60 *24
-        })
-        
-        return c.json({success:true})
+        }
+        return c.json({success: false}, 404)
     } catch (error){
         console.error(error);
         return c.json({success:false}, 400)
@@ -73,7 +69,7 @@ authApi.get('/api/auth/logout', auth, async(c)=> {
 authApi.get('/api/auth/check', auth, async(c)=> {
     const user = c.get('user')
 
-    return user?  c.json({loggedIn: true, user}) : c.json({loggedIn: false})
+    return user?  c.json({loggedIn: true,user: user.email}) : c.json({loggedIn: false})
 })
 
 authApi.delete('/api/auth/users', async(c) => {

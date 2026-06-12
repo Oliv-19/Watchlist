@@ -15,6 +15,19 @@ export const user = sqliteTable('user', {
     }, (table) => check('email', sql`${table.email} LIKE %@%.%`)
 )
 
+export const userMedia = sqliteTable('media_user', {
+    mediaId: integer('media_id').notNull().references(() => media.id, {onDelete: 'cascade'}),
+    userId: integer('user_id').notNull().references(() => user.id, {onDelete: 'cascade'}),
+}, (t) => ({
+    pk:primaryKey({columns: [t.mediaId, t.userId]})
+}))
+
+
+export const userMediaRelations = relations(userMedia, ({ one }) => ({
+  media: one(media, { fields: [userMedia.mediaId], references: [media.id] }),
+}));
+
+
 export const genres = sqliteTable('genres', {
         id : integer('id').primaryKey(),
         name: text('name').notNull(),
@@ -61,6 +74,7 @@ export const mediaGenres = sqliteTable('media_genres', {
 export const mediaRelations = relations(media, ({ many }) => ({
   mediaGenres: many(mediaGenres),
   peopleMedia: many(peopleMedia),
+  userMedia: many(userMedia)
 }))
 
 export const genresRelations = relations(genres, ({ many }) => ({

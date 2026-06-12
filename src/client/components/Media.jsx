@@ -6,6 +6,7 @@ import Card from "./Card"
 import { getMedia } from "../services/media"
 import { useEffect } from "react"
 import { useData } from "./hooks"
+import { userMedia } from "../services/user"
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
 const POSTER_SIZE = "w342"
 const BG_SIZE = "original"
@@ -44,10 +45,14 @@ const RightInfo = ({data}) => {
     const max =times ? Math.max(...times) : null
     const release = data.releaseDate? format(parseISO(data.releaseDate), 'PP'): '?'
     const finished = data.finishedDate? format(parseISO(data.finishedDate), 'PP'): '?'
+    const add = async() => {
+        await userMedia(data.id)
+    }   
+
     return(
         <div className="w-full md:w-80 flex flex-col justify-center">
             <div className="w-full h-20 flex items-center justify-center">
-                <button className="h-full cursor-pointer">
+                <button className="h-full cursor-pointer" onClick={add}>
                     <Icon title={'add'} style={'w-8 fill-white hover:stroke-white'}></Icon>
                 </button>
             </div>
