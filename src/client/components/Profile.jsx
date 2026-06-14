@@ -1,22 +1,58 @@
 import { useEffect, useState } from "react"
 import { getUserMedia } from "../services/user"
 import Card from "./Card"
+import image from '../assets/image.png'
+import { Link } from "react-router-dom"
+import { Icon } from "./Icons"
+
+const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
+const POSTER_SIZE = "w342"
+
+
+const UserMedia = ({media})=> {
+    if(!media) return null
+    const fullImageUrl = media.posterPath? 
+      `${IMAGE_BASE_URL}${POSTER_SIZE}${media.posterPath}`
+      : image
+    const rating = 3
+    const stars = Array(5).fill(0)
+    return (
+    <>
+    <Link to={`/media/${media.id}`}>
+    <div title={media.title} className="h-65 md:h-75 bg-(--color-input-bg)
+        relative w-40 md:w-50 rounded-xl grid grid-cols-[1fr 30px] grid-rows-[1fr 20px]
+        hover:scale-[1.1] transition-transform duration-300 p-2 pr-0 gap-1">
+        <img src={fullImageUrl} alt="" className='h-60 rounded-xl [grid-area:1/1/2/2]'/>
+        <div className="flex flex-col [grid-area:1/2/2/3] " title={`${rating} Stars`}>
+            {stars.map((star, i) => 
+                <Icon title={'rating'} key={i} style={`${rating > i ? 
+                    'fill-(--color-bg-light)' :
+                    'fill-(--color-bg-light)/20' } w-8`}/>
+            )}
+        </div>
+        <p  className='truncate [grid-area:2/1/3/2] w-full text-center font-medium text-white'>{media.title}</p>
+    </div>
+    </Link>
+    </>
+    )
+}
 
 export const Profile = () => {
     const [userMedia, setUserMedia] = useState(null)
     useEffect(()=> {
-        const idk = async() => {
+        const fetchUserMedia = async() => {
             const media= await getUserMedia()
             setUserMedia(media)
         }
-        idk()
+        fetchUserMedia()
     }, [])
     if(!userMedia) return null
+    
     return (
         <>
-        <div className="flex flex-col items-center">
-            <div className="w-full flex flex-row flex-wrap justify-evenly gap-5 p-2.5">
-                {userMedia.map((serie) => <Card data={serie.media} key={serie.media.id}></Card>)}
+        <div className="bg-(--color-bg) w-full h-full p-10">
+            <div className="w-full flex flex-row flex-wrap justify-start gap-10 p-2.5">
+                {userMedia.map((serie) => <UserMedia media={serie.media} key={serie.media.id}></UserMedia>)}
             </div>
         </div>
         </>

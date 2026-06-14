@@ -6,7 +6,8 @@ import Card from "./Card"
 import { getMedia } from "../services/media"
 import { useEffect } from "react"
 import { useData } from "./hooks"
-import { userMedia } from "../services/user"
+import { saveUserMedia } from "../services/user"
+import { useAuth } from "./AuthContext"
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
 const POSTER_SIZE = "w342"
 const BG_SIZE = "original"
@@ -39,6 +40,66 @@ const Details = ({title, info}) => {
         </div>
     )
 }
+
+const UserReview = ({data}) => {
+    const {user, userLogout} = useAuth()
+    const [rating, setRating] = useState(data.userRating ? data.userRating: 0)
+    const [isEdit, setIsEdit] = useState(false)
+    if(!data) return null
+    const stars = Array(5).fill(0)
+    
+    const sendReview = async(e)=> {
+        e.preventDefault()
+        setIsEdit(false)
+    }
+    return (
+    <div className="w-full h-fit mt-2 flex items-center 
+            justify-center">
+        {user && 
+        <form onSubmit={sendReview} className={` w-fit p-10 flex flex-col items-center 
+            justify-center rounded-xl gap-6 bg-(--color-text-bg) 
+            ${isEdit && ' outline-2 outline-(--color-bg-light)'}`}>
+            <div className={`w-198.75 flex justify-between `}>
+                <div className="flex items-center " title={`${rating} Stars`}>
+                    {stars.map((star, i) => {
+                        return isEdit ? (
+                            <label className="cursor-pointer" key={i} onClick={()=> setRating(i+1)}>
+                                <Icon title={'rating'}  style={`${rating > i ? 
+                                'fill-(--color-bg-light)' :
+                                'fill-(--color-bg-light)/50' } w-10
+                                hover:stroke-(--color-bg-light) hover:stroke-2`}/>
+                                <input type="radio"  className="hidden" name={`star${i+1}`} 
+                                    id={`star${i+1}`} />
+                            </label>
+
+                        ):(
+                            <Icon key={i} title={'rating'}  style={`${rating > i ? 
+                            'fill-(--color-bg-light)' :
+                            'fill-(--color-bg-light)/50' } w-10`}/>
+                        )}
+                    )}
+                    <p className="ml-2 text-(--color-focus)" >{rating} Stars</p>
+                </div>
+                <button type="submit" className={`${!isEdit && 'hidden'} py-2 w-20 text-(--color-bg) 
+                font-medium rounded-4xl bg-(--color-bg-light) cursor-pointer`}>
+                    Save
+                </button>
+                <button type='button' className={`${isEdit && 'hidden'} py-2 w-20 text-(--color-bg) 
+                font-medium rounded-4xl bg-(--color-bg-light) cursor-pointer`}
+                onClick={()=> {setIsEdit(true)}}>
+                    Edit
+                </button>
+                
+            </div>
+            <textarea readOnly={!isEdit} draggable='false' name="review" id="review" cols={70} placeholder="What do you think? "
+                rows={5} className={`bg-(--color-input-bg) p-10 rounded-2xl resize-none 
+                text-white ${isEdit ? 'focus:outline-2 focus:outline-(--color-bg-light)' 
+                : 'focus:outline-none'}`}/>
+        </form>
+        }
+    </div>
+    )
+}
 const RightInfo = ({data}) => {
     const times = data?.episodeRunTime;
     const min = times ?  Math.min(...times) : null
@@ -46,14 +107,13 @@ const RightInfo = ({data}) => {
     const release = data.releaseDate? format(parseISO(data.releaseDate), 'PP'): '?'
     const finished = data.finishedDate? format(parseISO(data.finishedDate), 'PP'): '?'
     const add = async() => {
-        await userMedia(data.id)
+        await saveUserMedia(data.id)
     }   
-
     return(
         <div className="w-full md:w-80 flex flex-col justify-center">
             <div className="w-full h-20 flex items-center justify-center">
                 <button className="h-full cursor-pointer" onClick={add}>
-                    <Icon title={'add'} style={'w-8 fill-white hover:stroke-white'}></Icon>
+                    <Icon title={'add'} style={'w-8 fill-white hover:stroke-white'} />
                 </button>
             </div>
             <div className="p-8 md:p-0 w-full text-center flex flex-row flex-wrap md:flex-col gap-4 text-[1rem] justify-center md:items-start">
@@ -106,15 +166,18 @@ const Similar = ({data}) => {
 }
 
 const InfoBlock = ({data}) => {
-    const [block, setBlock] = useState('Cast')
+    const {user, userLogout} = useAuth()
+    const [block, setBlock] = useState(user? 'Review': 'Cast')
     if(data == null){
         return <div>Loading...</div>
     }
     const blocks = {
         Cast: <Cast data={data.cast} />,
-        Similar: <Similar data={data.similar}></Similar>
+        Similar: <Similar data={data.similar}></Similar>,
     }
-    
+    if (user){
+        blocks.Review = <UserReview  data={data}/>
+    }
     const changeBlock = (e)=> {
         block != e.target.name && setBlock(e.target.name)
     }
@@ -122,11 +185,17 @@ const InfoBlock = ({data}) => {
         <div className="bg-[#0f0c2f] h-120 w-full py-10">
             <nav className="text-center flex justify-evenly gap-5">
                 {Object.entries(blocks).map(([key,val])=> 
-                <button key={key} name={key} onClick={changeBlock}  className={`${block == key && 'underline'} text-white cursor-pointer hover:text-gray-400 font-bold text-center text-3xl`}>{key}</button>
+                    <button key={key} name={key} onClick={changeBlock}  
+                        className={`${block == key && 'underline'} text-white 
+                            cursor-pointer hover:text-gray-400 font-bold text-center 
+                            text-3xl`}>
+                                {key}
+                    </button>
                 )}
             </nav>
             <div className="mx-5 md:mx-20 ">
-                <div className="flex h-fit overflow-x-auto gap-2 md:gap-5 py-5 overflow-y-hidden
+                <div className="flex h-fit w-full overflow-x-auto gap-2 md:gap-5 
+                py-5 overflow-y-hidden
                 [&::-webkit-scrollbar]:h-2
                 [&::-webkit-scrollbar-track]:rounded-full
                 [&::-webkit-scrollbar-thumb]:rounded-full

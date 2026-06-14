@@ -29,11 +29,16 @@ mediaApi.get('/api/media/:id', async(c)=> {
             Authorization: `Bearer ${c.env.TMDB_API_KEY}`
         }
     }
+    const user = c.get('user')
     try{
         const result = await db.query.media.findFirst({
             where: eq(schema.media.id, id),
             with: { mediaGenres: { with: { genre: { columns: { name:true}}}},
-            peopleMedia: {with: {people: { columns: { name:true, profilePath: true, order: true}}}}
+                peopleMedia: {with: {people: { columns: { name:true, profilePath: true, order: true}}}},
+                userMedia: {
+                    where: (userMedia, { eq }) => user && eq(userMedia.userId, user.sub),
+                    columns: { userRating: true }
+                }
             }
         })
         if(result){
@@ -58,7 +63,7 @@ mediaApi.get('/api/media/:id', async(c)=> {
             return c.json(response, 201)
         }
     } catch (error){
-        console.error(error.cause)
+        console.error(error)
         return c.json({success: false}, 400)
     }
 })

@@ -20,8 +20,22 @@ authApi.post('/api/auth/register', async(c)=> {
         .insert(schema.user)
         .values({email, passwordHash})
         .returning()
+
+        if(user){
+            
+            const token = await sign({sub: user.id, email}, c.env.JWT, 'HS256')
+            setCookie(c, 'auth_token', token, {
+                httpOnly: true,
+                secure: true,
+                sameSite: 'Strict',
+                maxAge: 60 * 60 *24
+            })
+            
+            return c.json({success:true, user: user.email, id: user.id}, 201)
+
+        }
         
-        return c.json({success:true}, 201)
+        return c.json({success:true, error:'Could not log in to account'}, 201)
     } catch (error){
         console.error(error);
         return c.json({success:false}, 400)
@@ -54,7 +68,7 @@ authApi.post('/api/auth/login', async(c)=> {
             return c.json({success:true, user: user.email, id: user.id})
 
         }
-        return c.json({success: false}, 404)
+        return c.json({success: false, error: 'User not found'}, 404)
     } catch (error){
         console.error(error);
         return c.json({success:false}, 400)

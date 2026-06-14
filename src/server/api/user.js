@@ -32,6 +32,8 @@ userApi.get('/api/user/media', auth, async(c)=> {
 
 userApi.get('/api/user/media/:id', auth, async(c)=> {
     const id = await c.req.param('id')
+    console.log(id);
+    
     const db = drizzle(c.env.DB, {schema})
     const user = c.get('user')
     

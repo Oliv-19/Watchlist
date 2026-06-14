@@ -111,9 +111,8 @@ function SignUpForm({onClose, isOpen}){
         async function registerUser(){
             if(form?.email){
                 try{
-                    await register(form)
-                    await login(form)
-                    userLogin(form)
+                    const data = await register(form)
+                    userLogin({user: data.user, id: data.id})
                     onClose()
                 } catch (error){
                     console.log(error);

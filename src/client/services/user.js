@@ -12,6 +12,7 @@ export const register = async(userData) => {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     const data = await response.json()
+    return data
 }
 
 export const login = async(userData)=> {
@@ -38,7 +39,7 @@ export const logout = async()=> {
   return data
 }
 
-export const userMedia = async(id)=> {
+export const saveUserMedia = async(id)=> {
   const response = await fetch(`/api/user/media/${id}`)
   const data = await response.json()
   return data

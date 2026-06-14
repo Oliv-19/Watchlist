@@ -43,8 +43,11 @@
 				}
 			],
 			"observability": {
-				"enabled": true,
-				"head_sampling_rate": 1 // optional
+				"enabled": false,
+				"head_sampling_rate": 1,
+				"logs": {
+					"enabled": false
+				} // optional
 			},
 			"kv_namespaces": [
 				{
