@@ -6,7 +6,7 @@ import Card from "./Card"
 import { getMedia } from "../services/media"
 import { useEffect } from "react"
 import { useData } from "./hooks"
-import { saveUserMedia } from "../services/user"
+import { saveUserMedia, updateUserMedia } from "../services/user"
 import { useAuth } from "./AuthContext"
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
 const POSTER_SIZE = "w342"
@@ -45,11 +45,25 @@ const UserReview = ({data}) => {
     const {user, userLogout} = useAuth()
     const [rating, setRating] = useState(data.userRating ? data.userRating: 0)
     const [isEdit, setIsEdit] = useState(false)
+    const [formData, setFormData] = useState(null)
     if(!data) return null
     const stars = Array(5).fill(0)
+
+    useEffect(()=> {
+        const saveReview = async () => {
+            if(formData){
+                console.log('front');
+                await updateUserMedia(formData)
+            }
+            
+        }
+        saveReview()
+    }, [formData])
     
     const sendReview = async(e)=> {
         e.preventDefault()
+        const form = new FormData(e.target)
+        setFormData({rating: rating, review: form.get('review'), id: data.id})
         setIsEdit(false)
     }
     return (

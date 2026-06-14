@@ -18,7 +18,8 @@ export const user = sqliteTable('user', {
 export const userMedia = sqliteTable('media_user', {
     mediaId: integer('media_id').notNull().references(() => media.id, {onDelete: 'cascade'}),
     userId: integer('user_id').notNull().references(() => user.id, {onDelete: 'cascade'}),
-    userRating: integer('user_rating')
+    userRating: integer('user_rating'),
+    userReview: text('user_review'),
 }, (t) => ({
     pk:primaryKey({columns: [t.mediaId, t.userId]})
 }))

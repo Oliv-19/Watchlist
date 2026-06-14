@@ -45,6 +45,18 @@ export const saveUserMedia = async(id)=> {
   return data
 }
 
+export const updateUserMedia = async(review)=> {
+  const response = await fetch(`/api/user/media/${review.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(review)
+  })
+  const data = await response.json()
+  return data
+}
+
 export const getUserMedia = async()=> {
   const response = await fetch(`/api/user/media`)
   const data = await response.json()

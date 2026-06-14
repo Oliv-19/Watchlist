@@ -2,7 +2,7 @@ import { drizzle } from "drizzle-orm/d1"
 import { Hono } from "hono"
 import * as schema from '../db/schema'
 import { accessAuth, auth } from "../middlewares/auth"
-import { eq } from "drizzle-orm"
+import { and, eq } from "drizzle-orm"
 
 const userApi = new Hono()
 userApi.use(accessAuth)
@@ -44,6 +44,30 @@ userApi.get('/api/user/media/:id', auth, async(c)=> {
             mediaId: id,
             userId: user.sub
         })
+        return c.json({success: true}, 201)
+    } catch (error) {
+        console.error(error);
+        
+        return c.json({success: false}, 400)
+    }
+})
+
+
+userApi.put('/api/user/media/:id', auth, async(c)=> {
+    const body = await c.req.json()
+    
+    const db = drizzle(c.env.DB, {schema})
+    const user = c.get('user')
+    
+    try{
+        const [response] = await db.update(schema.userMedia)
+        .set({userRating: body.rating, userReview: body.review})
+        .where(and(
+            eq(schema.userMedia.mediaId, body.id),
+            eq(schema.userMedia.userId, user.sub),
+        ))
+        .returning()
+
         return c.json({success: true}, 201)
     } catch (error) {
         console.error(error);
