@@ -1,4 +1,3 @@
-import {useNavigate } from "react-router"
 
 export default function ErrorPage(){
     const navigate = useNavigate()
@@ -12,5 +11,16 @@ export default function ErrorPage(){
                 </button>
             </div>
         </main>
+    )
+}
+
+export const ErrorMessage = ({message}) => {
+    return (
+        <div className="w-full flex justify-center mt-10 p-10 text-center text-white 
+            font-medium text-xl">
+            <div className="bg-(--color-text-bg) w-fit p-10 rounded-xl">
+                {message}
+            </div>
+        </div>
     )
 }

@@ -1,0 +1,68 @@
+import { format, parseISO } from "date-fns"
+import { Icon } from "../Icons"
+import { Link } from "react-router-dom"
+import { saveUserMedia } from "../../services/user"
+
+const Details = ({title, info}) => {
+    return(
+        <div className="md:ml-20 flex gap-1.5 items-center ">
+            <Icon title={title}/>
+            {info}
+        </div>
+    )
+}
+export const LeftInfo = ({data}) => {
+    return(
+        <div className="md:w-90 text-center flex flex-col gap-4 text-[18px] mt-5 justify-center">
+            <h1 className="text-4xl ">{data.title}</h1>
+            {data.originalTitle != data.title && (<h5>{data.originalTitle}</h5>)  }
+            <div className="max-h-80 md:px-5 w-full overflow-y-auto
+                [&::-webkit-scrollbar]:w-2
+                [&::-webkit-scrollbar-track]:rounded-full
+                [&::-webkit-scrollbar-thumb]:rounded-full
+                dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+                dark:[&::-webkit-scrollbar-thumb]:bg-neutral-400">
+                <p className={`p-3 md:p-0 w-full text-[1rem] font-medium `}>
+                    {data.overview}
+                </p>
+                    
+            </div>
+            
+        </div>
+    )
+}
+export const RightInfo = ({data}) => {
+    const times = data?.episodeRunTime;
+    const min = times ?  Math.min(...times) : null
+    const max =times ? Math.max(...times) : null
+    const release = data.releaseDate? format(parseISO(data.releaseDate), 'PP'): '?'
+    const finished = data.finishedDate? format(parseISO(data.finishedDate), 'PP'): '?'
+    const add = async() => {
+        await saveUserMedia(data.id)
+    }   
+    return(
+        <div className="w-full md:w-80 flex flex-col justify-center">
+            <div className="w-full h-20 flex items-center justify-center">
+                <button className="h-full cursor-pointer" onClick={add}>
+                    <Icon title={'add'} style={'w-8 fill-white hover:stroke-white'} />
+                </button>
+            </div>
+            <div className="p-8 md:p-0 w-full text-center flex flex-row flex-wrap md:flex-col gap-4 text-[1rem] justify-center md:items-start">
+                <Details title='rating' info={`${data.rating.toFixed(1)}`}/>
+                <Details title='episodes' info={`${data.seasons} Seasons`}/>
+                <Details title='episodes' info={`${data.episodes} Episodes`}/>
+
+                {data.episodeRunTime.length >0 && <Details title='episodes' info={`${data.episodeRunTime.length >1 ?  `${min}-${max} min` : `${data.episodeRunTime[0]} min`}`}/>}
+                
+                {data.genres.map((g) => <Details key={g} title='genre' info={g}/>)}
+                <Details title='calendar' info={`${release} - ${finished}`}/>
+                {data.creators?.length >=1  &&
+                    <div className="flex justify-evenly w-full flex-wrap">
+                        <h1 className="w-full font-bold">{data.creators && (data.creators.length > 1? 'Creators': 'Creator')}</h1>
+                        {data.creators.map((creator)=> <Link title="Creator" className="underline underline-offset-5" key={creator.id} to={`/author/${creator.id}`} state={creator.id}>{creator.name}</Link>)}
+                    </div>
+                }
+            </div>
+        </div>
+    )
+}

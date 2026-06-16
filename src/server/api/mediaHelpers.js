@@ -67,6 +67,7 @@ export const dbFormatedResponse = async (id, options, data) => {
             posterPath: s.poster_path
         })),
         userRating : data.userMedia[0]?.userRating,
+        userReview : data.userMedia[0]?.userReview,
         userMedia: undefined,
         mediaGenres: undefined,
         peopleMedia: undefined,

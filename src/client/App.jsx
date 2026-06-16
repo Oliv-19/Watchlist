@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import Home from './components/Home'
-import Media from './components/Media'
+import Media from './components/Media/Media'
 import { Link, Route, Routes } from 'react-router-dom'
 import Nav from './components/Nav'
 import SearchResults from './components/SearchResults'
