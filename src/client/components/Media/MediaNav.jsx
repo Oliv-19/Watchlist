@@ -175,7 +175,7 @@ export const InfoBlock = ({data}) => {
                     <button key={key} name={key} onClick={changeBlock}  
                         className={`${block == key && 'underline'} text-white 
                             cursor-pointer hover:text-gray-400 font-bold text-center 
-                            text-3xl`}>
+                            text-[1rem] md:text-3xl`}>
                         {key}
                     </button>
                 )}

@@ -9,3 +9,30 @@
     --color-bg-light:#decdf9;
     --grid-nav: 200px 1fr 50px 50px;
 }
+
+.form{
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.25rem;
+}
+
+.btn{
+    font-weight: 700;
+    align-items: center;
+    gap: 0.25rem;
+    cursor: pointer;
+    width: fit-content;
+    height: 2rem;
+
+}
+
+.btnSubmit{
+    width: 100%;
+    padding: 0.73rem;
+    border-radius: 0.73rem;
+    margin-top: 1.75rem;
+    cursor: pointer;
+    font-weight: 500;
+}

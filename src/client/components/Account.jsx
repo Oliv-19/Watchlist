@@ -4,11 +4,12 @@ import { Icon } from "./Icons";
 import { useData } from "./hooks";
 import { useEffect } from "react";
 import { useAuth } from "./AuthContext";
+import { view } from "drizzle-orm/sqlite-core";
 
 function Input({label, type, placeholder, formType}){
     return (
         <>
-            {formType == 'signUp' ? (
+            {formType == 'login' ? (
                 <>
                     <label className="font-medium text-(--color-bg-light)">
                         {label}
@@ -63,12 +64,10 @@ function Info(){
         textTwo: `Already have an account?`,
         icon: `w-25 fill-(--color-bg-light) `,
         div: `bg-(--color-bg) -translate-x-full`,
-        bigTextStyle: `text-(--color-bg-light) text-5xl font-bold`,
-        textOneStyle: `font-medium text-(--color-input-bg)  text-xl`,
-        textTwoStyle: `font-medium text-(--color-focus) text-[1rem]`,
-        button: `text-(--color-bg-light) font-bold flex items-center gap-1 
-            cursor-pointer w-fit h-8  border-b-2 border-transparent 
-            hover:border-b-2 hover:border-(--color-bg-light)`,
+        bigTextStyle: `text-(--color-bg-light)`,
+        textOneStyle: `text-(--color-input-bg)`,
+        textTwoStyle: `text-(--color-focus)`,
+        button: `text-(--color-bg-light) hover:border-(--color-bg-light)`,
         buttonText: <>
             <p>Login</p>
             <Icon title={'rightArrow'} style={'fill-(--color-bg-light) w-6'} />
@@ -81,13 +80,13 @@ function Info(){
     return (
         <>
         <div className={`absolute right-0 transition-all duration-300 p-15 
-                ease-in-out w-100 h-full flex flex-col justify-center items-center
-                rounded-2xl ${theme.div}`}>
+                ease-in-out w-100 h-full hidden md:flex md:flex-col justify-center 
+                items-center rounded-2xl ${theme.div} `}>
             <Icon title={'tv'} style={theme.icon}></Icon>
-            <h1 className={`${theme.bigTextStyle} text-5xl font-bold`}>
+            <h1 className={`${theme.bigTextStyle} text-5xl font-bold `}>
                 {theme.bigText}
                 </h1>
-            <h1 className={`${theme.textOneStyle} font-medium`}>
+            <h1 className={`${theme.textOneStyle} font-medium text-xl`}>
                 {theme.textOne}
                 </h1>
             <h1 className={`${theme.textTwoStyle} font-medium text-[1rem]`}>
@@ -104,7 +103,32 @@ function Info(){
     )
 }
 
-function SignUpForm({onClose, isOpen}){
+function Title({text}){
+    return (
+        <>
+            <Icon title={'tv'} style={text == 'Login' ? 'w-10  fill-(--color-input-bg)' : 
+                'w-10  fill-(--color-input-bg)'} />
+            <h1 className={`text-3xl font-bold ${text == 'Login' ? 
+                'text-(--color-input-bg)' : 'text-(--color-bg-light)'}`}>
+                {text}
+            </h1>
+        </>
+    )
+}
+
+function BtnChangeView ({changeView, text}){
+    return (
+        <button className={`flex md:hidden btn 
+        ${text == 'Login' ? 'text-(--color-input-bg) flex-row self-start ' : 
+            'text-(--color-bg-light) self-end flex-row-reverse'}`} 
+        onClick={changeView}>
+            <Icon title={text == 'Login' ? 'leftArrow': 'rightArrow'} style={'fill-(--color-bg-light) w-6'} />
+            <p >{text}</p>     
+        </button>
+    )
+}
+
+function Form ({onClose, changeView, view}){
     const [form, setForm] = useState(null)
     const {userLogin} = useAuth()
     useEffect(()=> {
@@ -120,36 +144,7 @@ function SignUpForm({onClose, isOpen}){
                 }
             }
         }
-        registerUser()
-    }, [form])
-    const submit = async(e)=> {
-        e.preventDefault()
-        
-        const form = new FormData(e.target)
-        setForm({email: form.get('email'), password: form.get('password')})
-    }
-    return (
-        <>
-            <form id="login" onSubmit={submit} action="" className={`
-                    p-10 w-100 h-full flex flex-col justify-center gap-5  
-                    bg-(--color-bg-light) rounded-r-2xl
-                `}>
-                <Input label={'Email address'} type={'email'} 
-                placeholder={'email@address.com'} formType={'login'}/>
-                <Input label={'Password'} type={'password'} 
-                placeholder={'********'} formType={'login'}/>
-                <button type="submit" className="w-full bg-(--color-input-bg) p-3 rounded-xl mt-7 cursor-pointer font-medium hover:bg-(--color-input-bg)/90 hover:outline-2 hover:outline-(--color-focus) ">Submit</button>
-            </form>
-
-        </>
-    )
-}
-
-function LoginForm({onClose, isOpen}){
-    const [form, setForm] = useState(null)
-    const {userLogin} = useAuth()
-    useEffect(()=> {
-        async function registerUser(){
+        async function loginUser(){
             if(form?.email){
                 try{
                     const data = await login(form)
@@ -160,7 +155,8 @@ function LoginForm({onClose, isOpen}){
                 }
             }
         }
-        registerUser()
+        if(view == 'login') loginUser()
+        else if(view == 'signUp') registerUser()
     }, [form])
     const submit = async(e)=> {
         e.preventDefault()
@@ -170,32 +166,53 @@ function LoginForm({onClose, isOpen}){
     }
     return (
         <>
-            <form id="signUp" onSubmit={submit} action="" className={`
-            p-10 w-100 h-full flex flex-col justify-center gap-5  
+        <form id={view} onSubmit={submit} action="" className={`form w-90 md:w-100  h-full
+             ${view == 'login' ? 'bg-(--color-bg) rounded-l-2xl' :
+                'bg-(--color-bg-light) rounded-r-2xl'
+            }
             `}>
-                <Input label={'Email address'} type={'email'} 
-                placeholder={'email@address.com'} formType={'signUp'}/>
-                <Input label={'Password'} type={'password'}
-                 placeholder={'********'} formType={'signUp'}/>
-                <button type="submit" className="w-full bg-(--color-input-bg) p-3 rounded-xl mt-7 cursor-pointer font-medium hover:bg-(--color-input-bg)/90 hover:outline-2 hover:outline-(--color-focus) ">Submit</button>
-            </form>
+            <div className="flex items-end md:hidden gap-2">
+                <Title text={ view == 'login' ? 'Login': 'Sign Up'}/>
+            </div>
+            <Input label={'Email address'} type={'email'} 
+                placeholder={'email@address.com'} formType={view}/>
+            <Input label={'Password'} type={'password'} 
+            placeholder={'********'} formType={view}/>
+
+             <button type="submit" className={` btnSubmit
+                ${view == 'login' ? `bg-(--color-input-bg) p-3 
+                    hover:bg-(--color-input-bg)/90 hover:outline-2 
+                    hover:outline-(--color-focus)`: 
+                    `bg-(--color-input-bg) 
+                    hover:bg-(--color-input-bg)/90 hover:outline-2 
+                    hover:outline-(--color-focus) `}
+                `}>Submit</button>
+                
+
+            <BtnChangeView changeView={changeView} 
+                text={view == 'signUp' ? 'Login': 'Sign Up'}/>
+        </form>
+
         </>
     )
 }
 
 export function Account({isOpen, onClose}) {
-
+    const [view, setView] = useState('login')
     if(!isOpen) return null
    return (
     <div className="fixed top-0 z-2 right-0  h-full w-full flex">
         <div onClick={onClose} className="fixed inset-0 bg-black/50 transition-opacity"></div>
-        <div className="relative flex justify-center w-200 h-120 
-            bg-(--color-bg)  m-auto rounded-2xl text-slate-200 
-            ">
-            <LoginForm onClose={onClose}/>
-            <SignUpForm onClose={onClose}/>
+        <div className={`relative justify-center w-200 h-120 
+            bg-(--color-bg)  m-auto rounded-2xl text-slate-200 flex 
+            transition-all duration-300 ease-in-out
+            ${view == 'login' ? 'translate-x-0': '-translate-x-90'}
+            `}>
+            <Form onClose={onClose} changeView={() => {setView('signUp')}} view={'login'}/>
+            <Form onClose={onClose} changeView={() => {setView('login')}} view={'signUp'}/>
             <Info />
         </div> 
+
     </div>
   );
 }
