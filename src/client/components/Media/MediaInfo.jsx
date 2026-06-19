@@ -2,6 +2,10 @@ import { format, parseISO } from "date-fns"
 import { Icon } from "../Icons"
 import { Link } from "react-router-dom"
 import { saveUserMedia } from "../../services/user"
+import { useAuth } from "../AuthContext"
+import { useState } from "react"
+import { useMediaData } from "./MediaContext"
+import { ErrorMessage } from "../ErrorPage"
 
 const Details = ({title, info}) => {
     return(
@@ -11,7 +15,9 @@ const Details = ({title, info}) => {
         </div>
     )
 }
-export const LeftInfo = ({data}) => {
+export const LeftInfo = () => {
+    const {data} = useMediaData()
+    if(!data) return null
     return(
         <div className="md:w-90 text-center flex flex-col gap-4 text-[18px] mt-5 justify-center">
             <h1 className="text-4xl ">{data.title}</h1>
@@ -31,7 +37,10 @@ export const LeftInfo = ({data}) => {
         </div>
     )
 }
-export const RightInfo = ({data}) => {
+export const RightInfo = () => {
+    const {data, triggerRefresh} = useMediaData()
+    const {user} = useAuth()
+    if(!data) return null
     const times = data?.episodeRunTime;
     const min = times ?  Math.min(...times) : null
     const max =times ? Math.max(...times) : null
@@ -39,13 +48,19 @@ export const RightInfo = ({data}) => {
     const finished = data.finishedDate? format(parseISO(data.finishedDate), 'PP'): '?'
     const add = async() => {
         await saveUserMedia(data.id)
-    }   
+        triggerRefresh(true)
+    }
+    
     return(
         <div className="w-full md:w-80 flex flex-col justify-center">
             <div className="w-full h-20 flex items-center justify-center">
-                <button className="h-full cursor-pointer" onClick={add}>
-                    <Icon title={'add'} style={'w-8 fill-white hover:stroke-white'} />
-                </button>
+                {user && 
+                    <button className="h-full cursor-pointer" onClick={add}>
+                        <Icon title={'add'} style={`stroke-3 stroke-white
+                        w-8 ${!data.userInfo ? 'fill-transparent': 
+                        'fill-white'} `} />
+                    </button>
+                }
             </div>
             <div className="p-8 md:p-0 w-full text-center flex flex-row flex-wrap md:flex-col gap-4 text-[1rem] justify-center md:items-start">
                 <Details title='rating' info={`${data.rating.toFixed(1)}`}/>

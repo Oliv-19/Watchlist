@@ -4,6 +4,7 @@ import { updateUserMedia } from "../../services/user"
 import { Icon } from "../Icons"
 import { Link } from "react-router-dom"
 import { ErrorMessage } from "../ErrorPage"
+import { useMediaData } from "./MediaContext"
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
 const POSTER_SIZE = "w342"
@@ -78,25 +79,26 @@ const TextArea = ({isEdit, review, setReview, userReview}) => {
     )
 }
 
-const UserReview = ({data}) => {
-    const {user, userLogout} = useAuth()
-    const [rating, setRating] = useState(data.userRating ? data.userRating: 0)
-    const [review, setReview] = useState(data.userReview ? data.userReview: '')
+const UserReview = () => {
+    const {user} = useAuth()
+    const {data} = useMediaData()
+    const userInfo= data?.userInfo
+    const [rating, setRating] = useState(userInfo ? userInfo.userRating: 0)
+    const [review, setReview] = useState(userInfo ? userInfo.userRating: '')
     const [isEdit, setIsEdit] = useState(false)
     const [formData, setFormData] = useState(null)
-    if(!data) return null
-    if(!user) return <ErrorMessage message='Login or Sign Up to add your review'/>
-    
     useEffect(()=> {
         const saveReview = async () => {
             if(formData){
-                console.log('front');
                 await updateUserMedia(formData)
             }
             
         }
         saveReview()
     }, [formData])
+    if(!user) return <ErrorMessage message='Login or Sign Up to add your review'/>
+    if(!userInfo) return <ErrorMessage message='Add to watchlist to add your review'/>
+    
     
     const sendReview = async(e)=> {
         e.preventDefault()
@@ -104,14 +106,13 @@ const UserReview = ({data}) => {
         setIsEdit(false)
     }
     const reset = ()=> {
-        setReview(data.userReview ? data.userReview: '')
-        setRating(data.userRating ? data.userRating: 0)
+        setReview(userInfo.userReview ? userInfo.userReview: '')
+        setRating(userInfo.userRating ? userInfo.userRating: 0)
         setIsEdit(false)
     }
     return (
     <div className="w-full h-fit mt-2 flex items-center 
             justify-center">
-        {user && 
         <form onSubmit={sendReview} className={` w-fit p-10 flex flex-col items-center 
             justify-center rounded-xl gap-6 bg-(--color-text-bg) 
             ${isEdit && ' outline-2 outline-(--color-bg-light)'}`}>
@@ -119,9 +120,9 @@ const UserReview = ({data}) => {
                 <Stars isEdit={isEdit} rating={rating} setRating={setRating} />
                 <Buttons isEdit={isEdit} setIsEdit={setIsEdit} reset={reset}/>
             </div>
-            <TextArea isEdit={isEdit} review={review} setReview={setReview} userReview={data.userReview}/>
+            <TextArea isEdit={isEdit} review={review} setReview={setReview} userReview={userInfo.userReview}/>
         </form>
-        }
+        
     </div>
     )
 }
@@ -154,16 +155,17 @@ const Similar = ({data}) => {
     )
 }
 
-export const InfoBlock = ({data}) => {
-    const {user, userLogout} = useAuth()
+export const MediaNav = () => {
+    const {user} = useAuth()
     const [block, setBlock] = useState('Cast')
+    const {data} = useMediaData()
     if(data == null){
         return <div>Loading...</div>
     }
     const blocks = {
         Review : <UserReview  data={data}/>,
         Cast: <Cast data={data.cast} />,
-        Similar: <Similar data={data.similar}></Similar>,
+        Similar: <Similar data={data.similar} />
     }
     const changeBlock = (e)=> {
         block != e.target.name && setBlock(e.target.name)

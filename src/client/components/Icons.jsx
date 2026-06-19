@@ -23,9 +23,9 @@ export function Icon({title, style}){
                     <path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" />
                 </svg>,
         add: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <title>Add to watchlist</title>
-                <path d="M17,18L12,15.82L7,18V5H17M17,3H7A2,2 0 0,0 5,5V21L12,18L19,21V5C19,3.89 18.1,3 17,3Z" />
-            </svg>,
+            <title>Add to watchlist</title>
+            <path d="M17,3H7A2,2 0 0,0 5,5V21L12,18L19,21V5C19,3.89 18.1,3 17,3Z" />
+        </svg>,
         next: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <title>Next</title>
                 <path d="M22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12M10,18L16,12L10,6L8.6,7.4L13.2,12L8.6,16.6L10,18Z" />
@@ -54,6 +54,10 @@ export function Icon({title, style}){
                 <title>library</title>
                 <path d="M12,8A3,3 0 0,0 15,5A3,3 0 0,0 12,2A3,3 0 0,0 9,5A3,3 0 0,0 12,8M12,11.54C9.64,9.35 6.5,8 3,8V19C6.5,19 9.64,20.35 12,22.54C14.36,20.35 17.5,19 21,19V8C17.5,8 14.36,9.35 12,11.54Z" />
             </svg>,
+        menu: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <title>menu</title>
+            <path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
+        </svg>
         
     }
     
