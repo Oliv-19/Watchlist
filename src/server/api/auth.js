@@ -27,8 +27,9 @@ authApi.post('/api/auth/register', async(c)=> {
             setCookie(c, 'auth_token', token, {
                 httpOnly: true,
                 secure: true,
-                sameSite: 'Strict',
-                maxAge: 60 * 60 *24
+                sameSite: 'Lax',
+                maxAge: 60 * 60 *24,
+                path: '/',
             })
             
             return c.json({success:true, user: user.email, id: user.id}, 201)
@@ -61,8 +62,9 @@ authApi.post('/api/auth/login', async(c)=> {
             setCookie(c, 'auth_token', token, {
                 httpOnly: true,
                 secure: true,
-                sameSite: 'Strict',
-                maxAge: 60 * 60 *24
+                sameSite: 'None',
+                maxAge: 60 * 60 *24,
+                path: '/',
             })
             
             return c.json({success:true, user: user.email, id: user.id})

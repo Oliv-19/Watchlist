@@ -45,11 +45,13 @@ mediaApi.get('/api/media/:id', async(c)=> {
             const response = await dbFormatedResponse(id, options, result)
             return c.json(response, 200)  
         }else {
-            const {mediaObj, genreMedia, response, cast, castMedia} = await fetchMedia(id, options)
+            const media = await fetchMedia(id, options)
+            if(!media) return c.json({success: false}, 400)
+            const {mediaObj, genreMedia, response, cast, castMedia} = media
             
             const result = await db.batch([
                 db.insert(schema.media).values(mediaObj).onConflictDoNothing(),
-                genreMedia.length > 0 && db.insert(schema.mediaGenres).values(genreMedia).onConflictDoNothing(),
+                genreMedia?.length > 0 && db.insert(schema.mediaGenres).values(genreMedia).onConflictDoNothing(),
             ])
             
             if( cast.length > 0 && castMedia.length > 0){

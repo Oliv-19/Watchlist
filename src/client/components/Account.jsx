@@ -80,7 +80,7 @@ function Info(){
     return (
         <>
         <div className={`absolute right-0 transition-all duration-300 p-15 
-                ease-in-out w-100 h-full hidden md:flex md:flex-col justify-center 
+                ease-in-out w-100 h-full hidden sm:flex sm:flex-col justify-center 
                 items-center rounded-2xl ${theme.div} `}>
             <Icon title={'tv'} style={theme.icon}></Icon>
             <h1 className={`${theme.bigTextStyle} text-5xl font-bold `}>
@@ -105,24 +105,25 @@ function Info(){
 
 function Title({text}){
     return (
-        <>
-            <Icon title={'tv'} style={text == 'Login' ? 'w-10  fill-(--color-input-bg)' : 
+        <div className="w-30 flex items-start gap-2 justify-start">
+            <Icon title={'tv'} style={text == 'Login' ? 'w-10  fill-(--color-bg-light)' : 
                 'w-10  fill-(--color-input-bg)'} />
-            <h1 className={`text-3xl font-bold ${text == 'Login' ? 
-                'text-(--color-input-bg)' : 'text-(--color-bg-light)'}`}>
+            <h1 className={`text-2xl w-full sm:text-3xl font-bold ${text == 'Login' ? 
+                'text-(--color-bg-light)' : 'text-(--color-input-bg)'}`}>
                 {text}
             </h1>
-        </>
+        </div>
     )
 }
 
 function BtnChangeView ({changeView, text}){
     return (
-        <button className={`flex md:hidden btn 
+        <button className={`flex sm:hidden btn 
         ${text == 'Login' ? 'text-(--color-input-bg) flex-row self-start ' : 
             'text-(--color-bg-light) self-end flex-row-reverse'}`} 
         onClick={changeView}>
-            <Icon title={text == 'Login' ? 'leftArrow': 'rightArrow'} style={'fill-(--color-bg-light) w-6'} />
+            <Icon title={text == 'Login' ? 'leftArrow': 'rightArrow'} 
+            style={text == 'Sign Up' ? 'fill-(--color-bg-light) w-6': 'fill-(--color-input-bg) w-6'} />
             <p >{text}</p>     
         </button>
     )
@@ -166,20 +167,26 @@ function Form ({onClose, changeView, view}){
     }
     return (
         <>
-        <form id={view} onSubmit={submit} action="" className={`form w-90 md:w-100  h-full
-             ${view == 'login' ? 'bg-(--color-bg) rounded-l-2xl' :
+        <form id={view} onSubmit={submit} action="" className={`form p-5 sm:p-10 w-90 sm:w-100  
+            h-full ${view == 'login' ? 'bg-(--color-bg) rounded-l-2xl' :
                 'bg-(--color-bg-light) rounded-r-2xl'
             }
             `}>
-            <div className="flex items-end md:hidden gap-2">
+            <div className="flex sm:hidden justify-between pr-2">
                 <Title text={ view == 'login' ? 'Login': 'Sign Up'}/>
+                <button onClick={onClose} className={`w-8 h-8 font-medium rounded-2xl
+                        ${view == 'login' ? 
+                        'text-(--color-bg) bg-(--color-bg-light)' :
+                        'text-(--color-bg-light) bg-(--color-input-bg)'}`}>
+                    X
+                    </button>
             </div>
             <Input label={'Email address'} type={'email'} 
                 placeholder={'email@address.com'} formType={view}/>
             <Input label={'Password'} type={'password'} 
             placeholder={'********'} formType={view}/>
 
-             <button type="submit" className={` btnSubmit
+             <button type="submit" className={` btnSubmit mt-0 sm:mt-7
                 ${view == 'login' ? `bg-(--color-input-bg) p-3 
                     hover:bg-(--color-input-bg)/90 hover:outline-2 
                     hover:outline-(--color-focus)`: 
@@ -203,8 +210,8 @@ export function Account({isOpen, onClose}) {
    return (
     <div className="fixed top-0 z-2 right-0  h-full w-full flex">
         <div onClick={onClose} className="fixed inset-0 bg-black/50 transition-opacity"></div>
-        <div className={`relative justify-center w-200 h-120 
-            bg-(--color-bg)  m-auto rounded-2xl text-slate-200 flex 
+        <div className={`relative justify-center w-200 h-95 sm:h-120 
+            bg-(--color-bg)  sm:m-auto rounded-2xl text-slate-200 flex 
             transition-all duration-300 ease-in-out
             ${view == 'login' ? 'translate-x-0': '-translate-x-90'}
             `}>

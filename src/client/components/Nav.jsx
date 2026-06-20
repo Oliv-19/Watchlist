@@ -20,11 +20,11 @@ function Menu({onClose, open, logOut}){
             `}>
               <button>X</button>
           <button className="cursor-pointer flex w-full gap-2"  onClick={logOut}>
-            <Icon title={'logout'} style={'fill-(--color-bg-light) w-6 md:w-8 '} />  
+            <Icon title={'logout'} style={'fill-(--color-bg-light) w-6 sm:w-8 '} />  
             Log Out
           </button>
           <Link to={'/profile'} className="flex w-full gap-2">
-              <Icon title={'watchList'} style={'fill-(--color-bg-light) w-6 md:w-8 '} /> 
+              <Icon title={'watchList'} style={'fill-(--color-bg-light) w-6 sm:w-8 '} /> 
               Watchlist
             </Link>
         </div> 
@@ -44,23 +44,23 @@ function Nav() {
   }
 
   return (
-    <nav className="flex md:grid  md:grid-cols-(--grid-nav) justify-center md:justify-items-center gap-2 w-full p-3 items-center">
+    <nav className="flex sm:grid  sm:grid-cols-(--grid-nav) justify-center sm:justify-items-center gap-2 w-full p-3 items-center">
         <Link to={`/`} className="flex items-center">
-          <Icon title={'tv'}  style={'fill-(--color-bg) w-8 md:w-10'}/>
-          <h1 className=" hidden md:block md:text-(--color-bg) md:font-bold md:text-2xl md:mt-2">Watch List</h1>
+          <Icon title={'tv'}  style={'fill-(--color-bg) w-8 sm:w-10'}/>
+          <h1 className=" hidden sm:block sm:text-(--color-bg) sm:font-bold sm:text-2xl sm:mt-2">Watch List</h1>
         </Link>
         <Search></Search>
         {user ? (
           <>
-            <Link to={'/profile'} className="hidden md:block [grid-area:1/3/2/4]">
-              <Icon title={'watchList'} style={'fill-(--color-bg) w-6 md:w-8 '} /> 
+            <Link to={'/profile'} className="hidden sm:block [grid-area:1/3/2/4]">
+              <Icon title={'watchList'} style={'fill-(--color-bg) w-6 sm:w-8 '} /> 
             </Link>
-            <button className="hidden md:block cursor-pointer [grid-area:1/4/2/5]"  onClick={logOut}>
-              <Icon title={'logout'} style={'fill-(--color-bg) w-6 md:w-8 '} />  
+            <button className="hidden sm:block cursor-pointer [grid-area:1/4/2/5]"  onClick={logOut}>
+              <Icon title={'logout'} style={'fill-(--color-bg) w-6 sm:w-8 '} />  
             </button>
-            <div className="block md:hidden">
+            <div className="block sm:hidden">
               <button className="cursor-pointer [grid-area:1/4/2/5]"  onClick={()=>{setOpenMenu(true)}}>
-                <Icon title={'menu'} style={'fill-(--color-bg) w-6 md:w-8 '} />  
+                <Icon title={'menu'} style={'fill-(--color-bg) w-6 sm:w-8 '} />  
               </button>
               <Menu onClose={()=>{setOpenMenu(false)}} open={openMenu} logOut={logOut}/>
 

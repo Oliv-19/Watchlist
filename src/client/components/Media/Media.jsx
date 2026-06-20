@@ -27,11 +27,11 @@ function Media() {
     return (
         <MediaProvider data={{data, triggerRefresh}}>
             <div className="w-full h-full">
-                <div className="bg-(--color-bg) h-fit pb-4 md:h-full relative ">
+                <div className="bg-(--color-bg) h-fit pb-4 sm:h-full relative ">
                     <img className={`mask-b-from-75% mask-b-to-transparent w-full h-full object-cover absolute z-0 opacity-35`} src={fullBGImageUrl} alt="" />
-                    <div className="pt-8 pb-2 w-full h-fit flex flex-col md:flex-row justify-evenly relative z-1 text-white">
+                    <div className="pt-8 pb-2 w-full h-fit flex flex-col sm:flex-row justify-evenly relative z-1 text-white">
                         <LeftInfo/>
-                        <img className="-order-1 md:order-0 h-65 w-40 md:h-fit md:w-fit m-auto md:m-0" src={fullImageUrl} alt="" />
+                        <img className="-order-1 sm:order-0 h-65 w-40 sm:h-fit sm:w-fit m-auto sm:m-0" src={fullImageUrl} alt="" />
                         <RightInfo />
 
                     </div>

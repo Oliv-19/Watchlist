@@ -84,7 +84,7 @@ const UserReview = () => {
     const {data} = useMediaData()
     const userInfo= data?.userInfo
     const [rating, setRating] = useState(userInfo ? userInfo.userRating: 0)
-    const [review, setReview] = useState(userInfo ? userInfo.userRating: '')
+    const [review, setReview] = useState(userInfo ? userInfo.userReview: '')
     const [isEdit, setIsEdit] = useState(false)
     const [formData, setFormData] = useState(null)
     useEffect(()=> {
@@ -127,13 +127,14 @@ const UserReview = () => {
     )
 }
 const Cast = ({data}) => { 
+    if(data.length == 0) return <ErrorMessage message='No data found'/>
     return (
         <>
         {data.sort((a,b)=> a.order - b.order).map((cast)=> 
-            <Link to={`/actor/${cast.id}`} title={cast.name} key={cast.id} className="hover:scale-[1.1] transition-transform duration-300 shrink-0 w-35 md:w-45 h-55 md:h-70 bg-neutral-50 p-1 rounded-xl text-center">
+            <Link to={`/actor/${cast.id}`} title={cast.name} key={cast.id} className="hover:scale-[1.1] transition-transform duration-300 shrink-0 w-35 sm:w-45 h-55 sm:h-70 bg-neutral-50 p-1 rounded-xl text-center">
                 <img className="m-auto h-[75%] rounded-xl" src={`${IMAGE_BASE_URL}${POSTER_SIZE}${cast.profilePath}`} alt="" />
-                <p className="text-[0.8rem] md:text-[1rem]  md:font-bold">{cast.name} </p>
-                <p className="text-[0.6rem] md:text-[0.9rem] text-gray-700">{cast.character} </p>
+                <p className="text-[0.8rem] sm:text-[1rem]  sm:font-bold">{cast.name} </p>
+                <p className="text-[0.6rem] sm:text-[0.9rem] text-gray-700">{cast.character} </p>
                 
             </Link>
         )}
@@ -145,9 +146,9 @@ const Similar = ({data}) => {
     return (
         <>
         {data.map((similar)=> 
-            <Link to={`/media/${similar.id}`} state={similar.id} title={similar.title} key={similar.id} className="hover:scale-[1.1] transition-transform duration-300 shrink-0 w-35 md:w-45 h-55 md:h-70 bg-neutral-50 p-1 rounded-xl text-center">
+            <Link to={`/media/${similar.id}`} state={similar.id} title={similar.title} key={similar.id} className="hover:scale-[1.1] transition-transform duration-300 shrink-0 w-35 sm:w-45 h-55 sm:h-70 bg-neutral-50 p-1 rounded-xl text-center">
                 <img className="m-auto h-[80%] rounded-xl" src={`${IMAGE_BASE_URL}${POSTER_SIZE}${similar.posterPath}`} alt="" />
-                <p className="font-bold text-[0.8rem] md:text-[1rem]">{similar.title} </p>
+                <p className="font-bold text-[0.8rem] sm:text-[1rem]">{similar.title} </p>
                 
             </Link>
         )}
@@ -177,13 +178,13 @@ export const MediaNav = () => {
                     <button key={key} name={key} onClick={changeBlock}  
                         className={`${block == key && 'underline'} text-white 
                             cursor-pointer hover:text-gray-400 font-bold text-center 
-                            text-[1rem] md:text-3xl`}>
+                            text-[1rem] sm:text-3xl`}>
                         {key}
                     </button>
                 )}
             </nav>
-            <div className="mx-5 md:mx-20 ">
-                <div className="flex h-fit w-full overflow-x-auto gap-2 md:gap-5 
+            <div className="mx-5 sm:mx-20 ">
+                <div className="flex h-fit w-full overflow-x-auto gap-2 sm:gap-5 
                 py-5 overflow-y-hidden
                 [&::-webkit-scrollbar]:h-2
                 [&::-webkit-scrollbar-track]:rounded-full

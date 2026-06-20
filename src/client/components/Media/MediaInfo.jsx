@@ -9,7 +9,7 @@ import { ErrorMessage } from "../ErrorPage"
 
 const Details = ({title, info}) => {
     return(
-        <div className="md:ml-20 flex gap-1.5 items-center ">
+        <div className="sm:ml-20 flex gap-1.5 items-center ">
             <Icon title={title}/>
             {info}
         </div>
@@ -19,16 +19,16 @@ export const LeftInfo = () => {
     const {data} = useMediaData()
     if(!data) return null
     return(
-        <div className="md:w-90 text-center flex flex-col gap-4 text-[18px] mt-5 justify-center">
+        <div className="sm:w-90 text-center flex flex-col gap-4 text-[18px] mt-5 justify-center">
             <h1 className="text-4xl ">{data.title}</h1>
             {data.originalTitle != data.title && (<h5>{data.originalTitle}</h5>)  }
-            <div className="max-h-80 md:px-5 w-full overflow-y-auto
+            <div className="max-h-80 sm:px-5 w-full overflow-y-auto
                 [&::-webkit-scrollbar]:w-2
                 [&::-webkit-scrollbar-track]:rounded-full
                 [&::-webkit-scrollbar-thumb]:rounded-full
                 dark:[&::-webkit-scrollbar-track]:bg-neutral-700
                 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-400">
-                <p className={`p-3 md:p-0 w-full text-[1rem] font-medium `}>
+                <p className={`p-3 sm:p-0 w-full text-[1rem] font-medium `}>
                     {data.overview}
                 </p>
                     
@@ -52,7 +52,7 @@ export const RightInfo = () => {
     }
     
     return(
-        <div className="w-full md:w-80 flex flex-col justify-center">
+        <div className="w-full sm:w-80 flex flex-col justify-center">
             <div className="w-full h-20 flex items-center justify-center">
                 {user && 
                     <button className="h-full cursor-pointer" onClick={add}>
@@ -62,7 +62,7 @@ export const RightInfo = () => {
                     </button>
                 }
             </div>
-            <div className="p-8 md:p-0 w-full text-center flex flex-row flex-wrap md:flex-col gap-4 text-[1rem] justify-center md:items-start">
+            <div className="p-8 sm:p-0 w-full text-center flex flex-row flex-wrap sm:flex-col gap-4 text-[1rem] justify-center sm:items-start">
                 <Details title='rating' info={`${data.rating.toFixed(1)}`}/>
                 <Details title='episodes' info={`${data.seasons} Seasons`}/>
                 <Details title='episodes' info={`${data.episodes} Episodes`}/>

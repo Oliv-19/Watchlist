@@ -11,7 +11,7 @@ function Search() {
     navigate(`/search/${query}`)
   }
   return (
-    <form id="searchForm" className="w-60 md:w-75" onSubmit={search}>   
+    <form id="searchForm" className="w-60 sm:w-75" onSubmit={search}>   
       <label htmlFor="search" className=" text-gray-900 sr-only dark:text-white">Search</label>
       <div className="relative">
           <div className="absolute inset-y-0 inset-s-0 flex items-center ps-3 pointer-events-none">

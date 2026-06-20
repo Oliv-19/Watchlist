@@ -16,6 +16,8 @@ userApi.get('/api/user/media', auth, async(c)=> {
         const result = await db
         .select({
             userId: schema.userMedia.userId,
+            userRating: schema.userMedia.userRating,
+            userReview: schema.userMedia.userReview,
             media: schema.media 
         })
         .from(schema.userMedia)

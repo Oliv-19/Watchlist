@@ -9,7 +9,7 @@ const POSTER_SIZE = "w342"
 
 function Detail({title, info}){
     return (
-        <div className="bg-(--color-text-bg) p-2 rounded-xl w-full md:w-50">
+        <div className="bg-(--color-text-bg) p-2 rounded-xl w-full sm:w-50">
             <h1 className="text-[1rem] font-medium border-b-2 border-b-indigo-300">{title}</h1>
             <p className="text-[0.9rem] ">{info}</p>
         </div>
@@ -19,8 +19,8 @@ function Detail({title, info}){
 function Biography({data}){
     return (
         <div className=" flex flex-col justify-center gap-8 ">
-            <div className=" md:w-200 h-fit md:max-h-70 bg-(--color-text-bg) mx-5 md:mt-10  md:mx-0 p-4 md:p-8 rounded-xl">
-                <div className="w-full h-full max-h-90 text-[1rem] md:text-[1.1rem] overflow-y-auto
+            <div className=" sm:w-200 h-fit sm:max-h-70 bg-(--color-text-bg) mx-5 sm:mt-10  sm:mx-0 p-4 sm:p-8 rounded-xl">
+                <div className="w-full h-full max-h-90 text-[1rem] sm:text-[1.1rem] overflow-y-auto
                 [&::-webkit-scrollbar]:w-2
                 [&::-webkit-scrollbar-track]:rounded-full
                 [&::-webkit-scrollbar-thumb]:rounded-full
@@ -29,7 +29,7 @@ function Biography({data}){
                     <p>{data.biography}</p>
                 </div>
             </div>
-            <div className="w-full flex flex-col md:flex-row justify-center px-5 gap-3 ">
+            <div className="w-full flex flex-col sm:flex-row justify-center px-5 gap-3 ">
                 <Detail title='Known for' info={data.knownFor} />
                 <Detail title='Birthplace' info={data.birthplace} />
                 <Detail title='Birthday' info={format(parseISO(data.birthday), 'PP')} />
@@ -40,7 +40,7 @@ function Biography({data}){
 function BasicInfo({data}){
     const fullImageUrl = `${IMAGE_BASE_URL}${POSTER_SIZE}${data.profilePath}`
     return (
-        <div className="w-full md:w-100 h-full flex flex-col items-center  justify-center gap-4 py-4 text-center"> 
+        <div className="w-full sm:w-100 h-full flex flex-col items-center  justify-center gap-4 py-4 text-center"> 
             <img className="h-70 rounded-2xl" src={fullImageUrl} alt={data.name} />
             <h1 className="text-2xl underline underline-offset-5 decoration-indigo-300">{data.name}</h1>
             {data.alsoKnownAs && data.alsoKnownAs.length >= 1 && (
@@ -59,7 +59,7 @@ function BasicInfo({data}){
 function Filmography({data}){
     return (
         <div className="w-full flex justify-center">
-            <div className="w-290 flex flex-row flex-wrap justify-start gap-5 md:gap-8 px-2.5 py-10">
+            <div className="w-290 flex flex-row flex-wrap justify-start gap-5 sm:gap-8 px-2.5 py-10">
                 {data.map((serie)=> {
                     const string = serie.character
                     if(!string.includes('Self'))
@@ -81,7 +81,7 @@ function Person() {
         <>
             {data && (
                 <div className="w-full h-fit bg-(--color-bg) text-white ">
-                    <div className=" h-fit md:flex  gap-5  py-10">
+                    <div className=" h-fit sm:flex  gap-5  py-10">
                         <BasicInfo data={data}/>
                         <Biography data={data}/>
                     </div>

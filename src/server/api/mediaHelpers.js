@@ -1,11 +1,14 @@
 export const fetchMedia = async (id, options) => {
-    const fetchedData = await fetch(`https://api.themoviedb.org/3/tv/${id}?append_to_response=credits&language=en-US`, options)
-    const similarMedia = await fetch(`https://api.themoviedb.org/3/tv/${id}/recommendations?language=en-US&page=1`, options)       
-    const body = await fetchedData.json()
-    const media = await similarMedia.json()
-    const cast = []
-    const castMedia = []
-    const mediaObj = {
+    try {
+        const fetchedData = await fetch(`https://api.themoviedb.org/3/tv/${id}?append_to_response=credits&language=en-US`, options)
+        const similarMedia = await fetch(`https://api.themoviedb.org/3/tv/${id}/recommendations?language=en-US&page=1`, options)       
+        const body = await fetchedData.json()
+        const media = await similarMedia.json()
+        const cast = []
+        const castMedia = []
+        
+        if(Object.hasOwn(body, 'success') && !body.success ) return null
+        const mediaObj = {
         id: Number(body.id),
         backdropPath : body.backdrop_path,
         creators: body.created_by,
@@ -33,18 +36,23 @@ export const fetchMedia = async (id, options) => {
                 peopleId: char.id,
             })
             return {
-            id: char.id,
-            character: char.character}
-        }),
+                id: char.id,
+                character: char.character}
+            }),
+        }
+        
+        const genreMedia = body.genres.map((genre) => ({
+            mediaId: mediaObj.id,
+            genreId: Number(genre.id)
+        }))
+        
+        const response = await apiFormatedResponse(mediaObj, cast, body.genres, media)
+        return {mediaObj, genreMedia, response, cast, castMedia}
+    } catch (error) {
+        console.error(error);
+        
+        return null
     }
-    
-    const genreMedia = body.genres.map((genre) => ({
-        mediaId: mediaObj.id,
-        genreId: Number(genre.id)
-    }))
-    
-    const response = await apiFormatedResponse(mediaObj, cast, body.genres, media)
-    return {mediaObj, genreMedia, response, cast, castMedia}
 }
 
 export const dbFormatedResponse = async (id, options, data) => {
