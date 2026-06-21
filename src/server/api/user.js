@@ -63,7 +63,7 @@ userApi.put('/api/user/media/:id', auth, async(c)=> {
     
     try{
         const [response] = await db.update(schema.userMedia)
-        .set({userRating: body.rating, userReview: body.review})
+        .set({userRating: body.rating, userReview: body.review, status:body.status})
         .where(and(
             eq(schema.userMedia.mediaId, body.id),
             eq(schema.userMedia.userId, user.sub),

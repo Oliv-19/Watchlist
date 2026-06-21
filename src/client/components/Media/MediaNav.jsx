@@ -5,127 +5,13 @@ import { Icon } from "../Icons"
 import { Link } from "react-router-dom"
 import { ErrorMessage } from "../ErrorPage"
 import { useMediaData } from "./MediaContext"
+import { MediaReview } from "./MediaReview"
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
 const POSTER_SIZE = "w342"
 const BG_SIZE = "original"
 
-const Stars = ({isEdit, setRating, rating}) => {
-    const stars = Array(5).fill(0)
-    return (
-    <div className="flex items-center " title={`${rating} Stars`}>
-        {stars.map((star, i) => {
-            return isEdit ? (
-                <label className="cursor-pointer" key={i} onClick={()=> setRating(i+1)}>
-                    <Icon title={'rating'}  style={`${rating > i ? 
-                    'fill-(--color-bg-light)' :
-                    'fill-(--color-bg-light)/50' } w-10
-                    hover:stroke-(--color-bg-light) hover:stroke-2`}/>
-                    <input type="radio"  className="hidden" name={`star${i+1}`} 
-                        id={`star${i+1}`} />
-                </label>
 
-            ):(
-                <Icon key={i} title={'rating'}  style={`${rating > i ? 
-                'fill-(--color-bg-light)' :
-                'fill-(--color-bg-light)/50' } w-10`}/>
-            )}
-        )}
-        <p className="ml-2 text-(--color-focus)" >{rating} Stars</p>
-    </div>
-    )
-}
-
-const Buttons = ({isEdit, setIsEdit, reset}) => {
-    return (
-        <>
-        {isEdit ? (
-            <div className={`flex gap-3`}>
-                <button type="reset" className={` py-2 w-20 text-(--color-bg) 
-                font-medium rounded-4xl bg-(--color-bg-light) cursor-pointer`}
-                onClick={reset}>
-                    Cancel
-                </button>
-                <button type="submit" className={` py-2 w-20 text-(--color-bg) 
-                font-medium rounded-4xl bg-(--color-bg-light) cursor-pointer`}>
-                    Save
-                </button>
-    
-            </div>
-        ) : (
-            <button type='button' className={`py-2 w-20 
-            text-(--color-bg) font-medium rounded-4xl bg-(--color-bg-light) 
-            cursor-pointer`}
-            onClick={() => {setIsEdit(true)}}>
-                Edit
-            </button>
-        )}
-        </>
-    )
-}
-
-const TextArea = ({isEdit, review, setReview, userReview}) => {
-    const changeReview = (e)=> {
-        setReview(e.target.value)
-    }
-    return (
-    <textarea readOnly={!isEdit} draggable='false' name="review" id="review" 
-        cols={70} placeholder="What do you think?" value={review} 
-        onChange={changeReview} rows={5} 
-        className={`bg-(--color-input-bg) p-10 rounded-2xl resize-none 
-        text-white ${isEdit ? 'focus:outline-2 focus:outline-(--color-bg-light)' 
-        : 'focus:outline-none'}`}/>
-        
-    )
-}
-
-const UserReview = () => {
-    const {user} = useAuth()
-    const {data} = useMediaData()
-    const userInfo= data?.userInfo
-    const [rating, setRating] = useState(userInfo ? userInfo.userRating: 0)
-    const [review, setReview] = useState(userInfo ? userInfo.userReview: '')
-    const [isEdit, setIsEdit] = useState(false)
-    const [formData, setFormData] = useState(null)
-    useEffect(()=> {
-        const saveReview = async () => {
-            if(formData){
-                await updateUserMedia(formData)
-            }
-            
-        }
-        saveReview()
-    }, [formData])
-    if(!user) return <ErrorMessage message='Login or Sign Up to add your review'/>
-    if(!userInfo) return <ErrorMessage message='Add to watchlist to add your review'/>
-    
-    
-    const sendReview = async(e)=> {
-        e.preventDefault()
-        setFormData({rating: rating, review: review, id: data.id})
-        setIsEdit(false)
-    }
-    const reset = ()=> {
-        setReview(userInfo.userReview ? userInfo.userReview: '')
-        setRating(userInfo.userRating ? userInfo.userRating: 0)
-        setIsEdit(false)
-    }
-    return (
-    <div className="w-full h-fit mt-2 flex items-center 
-            justify-center">
-        <form onSubmit={sendReview} className={` w-fit p-10 flex flex-col items-center 
-            justify-center rounded-xl gap-6 bg-(--color-text-bg) 
-            ${isEdit && ' outline-2 outline-(--color-bg-light)'}`}>
-            <div className={`w-198.75 flex justify-between `}>
-                <Stars isEdit={isEdit} rating={rating} setRating={setRating} />
-                <Buttons isEdit={isEdit} setIsEdit={setIsEdit} reset={reset}/>
-            </div>
-            <TextArea isEdit={isEdit} review={review} setReview={setReview} userReview={userInfo.userReview}/>
-        </form>
-        
-    </div>
-    )
-}
 const Cast = ({data}) => { 
     if(data.length == 0) return <ErrorMessage message='No data found'/>
     return (
@@ -164,7 +50,6 @@ export const MediaNav = () => {
         return <div>Loading...</div>
     }
     const blocks = {
-        Review : <UserReview  data={data}/>,
         Cast: <Cast data={data.cast} />,
         Similar: <Similar data={data.similar} />
     }
@@ -172,8 +57,8 @@ export const MediaNav = () => {
         block != e.target.name && setBlock(e.target.name)
     }
     return (
-        <div className="bg-[#0f0c2f] h-120 w-full py-10">
-            <nav className="text-center flex justify-evenly gap-5">
+        <div className="bg-(--color-bg) h-fit w-full ">
+            <nav className="text-center flex justify-evenly gap-5 pt-10">
                 {Object.entries(blocks).map(([key,val])=> 
                     <button key={key} name={key} onClick={changeBlock}  
                         className={`${block == key && 'underline'} text-white 

@@ -8,6 +8,8 @@ import { useData } from "../hooks"
 import { LeftInfo, RightInfo } from "./MediaInfo"
 import { MediaNav } from "./MediaNav"
 import { MediaProvider } from "./MediaContext"
+import { MediaReviewProvider } from "./MediaReviewContext"
+import { MediaReview } from "./MediaReview"
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
 const POSTER_SIZE = "w342"
 const BG_SIZE = "original"
@@ -17,15 +19,17 @@ function Media() {
     const {id} = useParams()
     const [refreshData, setRefreshData] = useState(false);
     const data = useData({type: 'media', id, saved: refreshData})
-    
     if(data == null){
         return <div>Loading...</div>
     }
+    const isSaved = Object.hasOwn(data, 'userInfo') ? (
+        Object.keys(data.userInfo).length > 0 ? true : false
+    ) : false
     const fullImageUrl = `${IMAGE_BASE_URL}${POSTER_SIZE}${data.posterPath}`
     const fullBGImageUrl = `${IMAGE_BASE_URL}${BG_SIZE}${data.backdropPath}`
     const triggerRefresh = () => {setRefreshData(true)}
     return (
-        <MediaProvider data={{data, triggerRefresh}}>
+        <MediaProvider data={{data, triggerRefresh, saved: isSaved}}>
             <div className="w-full h-full">
                 <div className="bg-(--color-bg) h-fit pb-4 sm:h-full relative ">
                     <img className={`mask-b-from-75% mask-b-to-transparent w-full h-full object-cover absolute z-0 opacity-35`} src={fullBGImageUrl} alt="" />
@@ -36,6 +40,9 @@ function Media() {
 
                     </div>
                 </div>
+                <MediaReviewProvider data={isSaved? {...data.userInfo, id: data.id}: null}>
+                    <MediaReview />
+                </MediaReviewProvider>
                 <MediaNav />
             </div>
         </MediaProvider>

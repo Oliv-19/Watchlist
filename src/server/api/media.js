@@ -37,7 +37,7 @@ mediaApi.get('/api/media/:id', async(c)=> {
                 peopleMedia: {with: {people: { columns: { name:true, profilePath: true, order: true}}}},
                 userMedia: {
                     where: (userMedia, { eq }) => user && eq(userMedia.userId, user.sub),
-                    columns: { userRating: true, userReview:true}
+                    columns: { userRating: true, userReview:true, status:true}
                 }
             }
         })

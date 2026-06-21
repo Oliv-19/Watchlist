@@ -77,7 +77,7 @@ export const dbFormatedResponse = async (id, options, data) => {
         userInfo:{
             userRating : data.userMedia[0]?.userRating,
             userReview : data.userMedia[0]?.userReview,
-
+            status: data.userMedia[0]?.status,
         },
         userMedia: undefined,
         mediaGenres: undefined,

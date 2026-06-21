@@ -449,6 +449,34 @@
       "when": 1781449969097,
       "tag": "0063_slimy_zaladane",
       "breakpoints": true
+    },
+    {
+      "idx": 64,
+      "version": "6",
+      "when": 1781970238858,
+      "tag": "0064_fixed_luke_cage",
+      "breakpoints": true
+    },
+    {
+      "idx": 65,
+      "version": "6",
+      "when": 1782074196310,
+      "tag": "0065_purple_iron_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 66,
+      "version": "6",
+      "when": 1782075124130,
+      "tag": "0066_parched_orphan",
+      "breakpoints": true
+    },
+    {
+      "idx": 67,
+      "version": "6",
+      "when": 1782079800321,
+      "tag": "0067_dizzy_madame_web",
+      "breakpoints": true
     }
   ]
 }

@@ -1,4 +1,5 @@
 import { relations, sql } from "drizzle-orm";
+import { pgEnum } from "drizzle-orm/pg-core";
 import { sqliteTable, text, integer, check, primaryKey } from "drizzle-orm/sqlite-core";
 
 
@@ -14,12 +15,14 @@ export const user = sqliteTable('user', {
             .default(new Date()) 
     }, (table) => check('email', sql`${table.email} LIKE %@%.%`)
 )
+export const statusEnum = pgEnum('status', ['saved', 'finished', 'dropped'])
 
 export const userMedia = sqliteTable('media_user', {
     mediaId: integer('media_id').notNull().references(() => media.id, {onDelete: 'cascade'}),
     userId: integer('user_id').notNull().references(() => user.id, {onDelete: 'cascade'}),
     userRating: integer('user_rating'),
     userReview: text('user_review'),
+    status: statusEnum().notNull().default('saved'),
 }, (t) => ({
     pk:primaryKey({columns: [t.mediaId, t.userId]})
 }))

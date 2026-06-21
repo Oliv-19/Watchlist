@@ -52,7 +52,7 @@ export const Profile = () => {
     
     return (
         <>
-        <div className="bg-(--color-bg) w-full h-full p-10">
+        <div className="bg-(--color-bg) w-full min-h-136 h-fit p-10">
             <div className="w-full flex flex-row flex-wrap justify-start gap-10 p-2.5">
                 {userMedia.map((serie) => 
                     <UserMedia rating={serie.userRating} 
