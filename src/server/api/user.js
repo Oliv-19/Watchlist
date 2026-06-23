@@ -18,6 +18,7 @@ userApi.get('/api/user/media', auth, async(c)=> {
             userId: schema.userMedia.userId,
             userRating: schema.userMedia.userRating,
             userReview: schema.userMedia.userReview,
+            status: schema.userMedia.status,
             media: schema.media 
         })
         .from(schema.userMedia)

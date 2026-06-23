@@ -39,7 +39,8 @@ export const LeftInfo = () => {
 }
 
 export const RightInfo = () => {
-    const {data, triggerRefresh, saved} = useMediaData()
+    const {data, triggerRefresh} = useMediaData()
+    
     const {user} = useAuth()
     if(!data) return null
     const times = data?.episodeRunTime;
@@ -47,7 +48,7 @@ export const RightInfo = () => {
     const max =times ? Math.max(...times) : null
     const release = data.releaseDate? format(parseISO(data.releaseDate), 'PP'): '?'
     const finished = data.finishedDate? format(parseISO(data.finishedDate), 'PP'): '?'
-
+    const isSaved = data.userInfo.saved
     const add = async() => {
         await saveUserMedia(data.id)
         triggerRefresh(true)
@@ -59,7 +60,7 @@ export const RightInfo = () => {
                     <button className="h-full cursor-pointer" onClick={add}>
                         <Icon title={'add'} style={`stroke-3 stroke-white
                         hover:fill-white focus:fill-white
-                        w-8 ${!saved ? 
+                        w-8 ${!isSaved ? 
                             'fill-transparent': 
                             'fill-white'} `} />
                     </button>

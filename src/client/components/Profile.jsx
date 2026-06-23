@@ -9,7 +9,10 @@ const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
 const POSTER_SIZE = "w342"
 
 
-const UserMedia = ({media, rating, review})=> {
+const UserMedia = ({serie})=> {
+    const {media, userRating, userReview, status}= serie
+    console.log(serie);
+    
     if(!media) return null
     const fullImageUrl = media.posterPath? 
       `${IMAGE_BASE_URL}${POSTER_SIZE}${media.posterPath}`
@@ -19,20 +22,33 @@ const UserMedia = ({media, rating, review})=> {
     return (
     <>
     <Link to={`/media/${media.id}`}>
-    <div title={media.title} className="h-65 sm:h-75 bg-(--color-input-bg)
-        relative w-40 sm:w-50 rounded-xl grid grid-cols-[1fr 30px] grid-rows-[1fr 20px]
-        hover:scale-[1.1] transition-transform duration-300 p-2 gap-1">
-        <img src={fullImageUrl} alt="" className={`h-60 rounded-xl justify-self-center`}/>
-        {rating && 
-            <div className="flex flex-col [grid-area:1/2/2/3] " title={`${rating} Stars`}>
+    <div title={media.title} className="
+        relative flex hover:scale-[1.1] transition-transform duration-300 p-2 ">
+        <div className={`${status == 'saved' && 'hidden'} absolute bg-(--color-input-bg) flex items-center 
+        justify-center w-13 h-13 rounded-4xl`}>
+            <Icon title={status} 
+                style={'w-8 fill-(--color-bg-light)'}/>
+
+        </div>
+        <div className={`bg-(--color-input-bg) flex flex-col 
+            ${userRating > 0 && 'rounded-tr-none'} justify-around items-center 
+            h-65 sm:h-75 w-40 sm:w-50 rounded-xl`}>
+            <img src={fullImageUrl} alt="" className={`h-60  rounded-xl 
+                justify-self-center`}/>
+            <p className='truncate w-full text-center font-medium text-white'>
+                {media.title}
+            </p>
+        </div>
+        {userRating && 
+            <div className="flex flex-col py-2 h-fit bg-(--color-input-bg) 
+            rounded-r-xl" title={`${userRating} Stars`}>
                 {stars.map((star, i) => 
-                    <Icon title={'rating'} key={i} style={`${rating > i ? 
+                    <Icon title={'rating'} key={i} style={`${userRating > i ? 
                         'fill-(--color-bg-light)' :
                         'fill-(--color-bg-light)/20' } w-8`}/>
                 )}
             </div>
         }
-        <p  className='truncate [grid-area:2/1/3/2] w-full text-center font-medium text-white'>{media.title}</p>
     </div>
     </Link>
     </>
@@ -55,9 +71,7 @@ export const Profile = () => {
         <div className="bg-(--color-bg) w-full min-h-136 h-fit p-10">
             <div className="w-full flex flex-row flex-wrap justify-start gap-10 p-2.5">
                 {userMedia.map((serie) => 
-                    <UserMedia rating={serie.userRating} 
-                        review={serie.userReview} 
-                        media={serie.media} 
+                    <UserMedia serie={serie}
                         key={serie.media.id} />
                 )}
             </div>

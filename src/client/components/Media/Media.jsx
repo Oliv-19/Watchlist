@@ -22,14 +22,11 @@ function Media() {
     if(data == null){
         return <div>Loading...</div>
     }
-    const isSaved = Object.hasOwn(data, 'userInfo') ? (
-        Object.keys(data.userInfo).length > 0 ? true : false
-    ) : false
     const fullImageUrl = `${IMAGE_BASE_URL}${POSTER_SIZE}${data.posterPath}`
     const fullBGImageUrl = `${IMAGE_BASE_URL}${BG_SIZE}${data.backdropPath}`
     const triggerRefresh = () => {setRefreshData(true)}
     return (
-        <MediaProvider data={{data, triggerRefresh, saved: isSaved}}>
+        <MediaProvider data={{data, triggerRefresh}}>
             <div className="w-full h-full">
                 <div className="bg-(--color-bg) h-fit pb-4 sm:h-full relative ">
                     <img className={`mask-b-from-75% mask-b-to-transparent w-full h-full object-cover absolute z-0 opacity-35`} src={fullBGImageUrl} alt="" />
@@ -40,7 +37,7 @@ function Media() {
 
                     </div>
                 </div>
-                <MediaReviewProvider data={isSaved? {...data.userInfo, id: data.id}: null}>
+                <MediaReviewProvider data={{...data.userInfo, id: data.id}}>
                     <MediaReview />
                 </MediaReviewProvider>
                 <MediaNav />

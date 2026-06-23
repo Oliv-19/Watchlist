@@ -79,7 +79,7 @@ const TextArea = () => {
         
     )
 }
-const Option = ({option, closeDropdown})=> {
+const Option = ({option, icon, closeDropdown})=> {
     const {setStatus, status} = useMediaReviewData()
     const changeStatus = ()=> {
         setStatus(option) 
@@ -87,8 +87,11 @@ const Option = ({option, closeDropdown})=> {
     }
     return (
         <>
-        <div onClick={changeStatus} className="p-2 hover:bg-(--color-focus) font-medium rounded-xl">
-            {option}
+        <div onClick={changeStatus} className="p-2 flex gap-1 hover:bg-(--color-focus) font-medium rounded-xl">
+            <Icon title={icon} />
+            <p className="first-letter:uppercase lowercase">
+                {option}
+            </p>
         </div>
         </>
     )
@@ -102,24 +105,25 @@ const Status = () => {
             <div className={`flex items-center gap-2 text-white cursor-pointer 
             relative w-35`}>
                 <button id="dropdownDefaultButton" onClick={()=> {isEdit && setOpenDropdown(prev=> !prev)}}
-                className={`flex items-center justify-between z-3 w-full border-2 
+                className={`flex items-center gap-2  z-3 w-full border-2 
                 font-medium border-(--color-bg-light) pl-3 p-2 rounded-4xl 
                 ${isEdit && 'cursor-pointer'} `} 
                 type="button">
+                    <Icon title={status == 'saved'? 'add': status} 
+                        style={'w-5 fill-white'}/>
                     <p className="first-letter:uppercase lowercase">
                         {status}
                     </p>
-                    {isEdit &&
-                        <Icon title={'dropdown'} /> 
-                    }
+                    <Icon title={'dropdown'} style={`${isEdit? 'w-4 fill-white': 'hidden'}`}/> 
+                    
                 </button>
                 
                 <div id="dropdown" className={`z-2 ${openDropdown ? 'flex': 'hidden'}
                 bg-(--color-bg) flex-col absolute top-6 pt-5 left-0 w-full rounded-b-2xl
                 border-2 border-(--color-bg-light) border-t-0`}>
-                    <Option option={'Saved'} closeDropdown={()=> {setOpenDropdown(false)}} />
-                    <Option option={'Finished'} closeDropdown={()=> {setOpenDropdown(false)}}/>
-                    <Option option={'Abandoned'} closeDropdown={()=> {setOpenDropdown(false)}}/>
+                    <Option icon={'add'} option={'saved'} closeDropdown={()=> {setOpenDropdown(false)}} />
+                    <Option icon={'finished'} option={'finished'} closeDropdown={()=> {setOpenDropdown(false)}}/>
+                    <Option icon={'dropped'} option={'dropped'} closeDropdown={()=> {setOpenDropdown(false)}}/>
                 </div>
 
             
@@ -131,10 +135,10 @@ const Status = () => {
 
 export const MediaReview = () => {
     const {user} = useAuth()
-    const {data, saved} = useMediaData()
+    const {data} = useMediaData()
     const reviewData = useMediaReviewData()
     
-    if(!reviewData || !user || !saved) return null
+    if(!reviewData || !user || !data.userInfo.saved) return null
     return (
         <div className="w-full h-fit flex items-center 
                 justify-center bg-(--color-bg) pt-2">

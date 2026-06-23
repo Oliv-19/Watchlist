@@ -5,9 +5,9 @@ import { useAuth } from '../AuthContext';
 const MediaReviewContext = createContext(null)
 
 export const MediaReviewProvider = ({data, children }) => {
-    const [rating, setRating] = useState(data ? data.userRating: 0)
-    const [review, setReview] = useState(data ? data.userReview: '')
-    const [status, setStatus] = useState(data ? data.status : 'Saved')
+    const [rating, setRating] = useState(data.userRating ? data.userRating: 0)
+    const [review, setReview] = useState(data.userReview ? data.userReview: '')
+    const [status, setStatus] = useState(data.status ? data.status : 'Saved')
     const [isEdit, setIsEdit] = useState(false)
     const [formData, setFormData] = useState(null)
     const sendReview = async(e)=> {

@@ -74,7 +74,8 @@ export const dbFormatedResponse = async (id, options, data) => {
             title: s.name,
             posterPath: s.poster_path
         })),
-        userInfo:{
+        userInfo :  {
+            saved: data.userMedia[0]? true: false,
             userRating : data.userMedia[0]?.userRating,
             userReview : data.userMedia[0]?.userReview,
             status: data.userMedia[0]?.status,
@@ -100,6 +101,9 @@ export const apiFormatedResponse = async (data, cast, genres, similarMedia) => {
             title: s.name,
             posterPath: s.poster_path
         })),
+        userInfo :  {
+            saved: false
+        },
         mediaGenres: undefined,
         peopleMedia: undefined,
         characters: undefined
