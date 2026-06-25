@@ -4,8 +4,9 @@ import bcrypt from 'bcryptjs';
 import { deleteCookie, getCookie, setCookie } from 'hono/cookie'
 import { accessAuth, auth } from '../middlewares/auth'
 import { drizzle } from 'drizzle-orm/d1'
-import { eq } from 'drizzle-orm'
+import { eq, ne } from 'drizzle-orm'
 import * as schema from '../db/schema'
+import { add, getUnixTime } from 'date-fns';
 const authApi = new Hono()
 
 authApi.use(accessAuth) 
@@ -58,7 +59,6 @@ authApi.post('/api/auth/login', async(c)=> {
             if(!valid) return c.json({error:'Invalid credentials'}, 401)
             
             const token = await sign({sub: user.id, email}, c.env.JWT, 'HS256')
-    
             setCookie(c, 'auth_token', token, {
                 httpOnly: true,
                 secure: true,

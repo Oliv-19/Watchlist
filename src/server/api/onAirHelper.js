@@ -13,7 +13,8 @@ export const fetchAiringToday = async(options) => {
 }
 
 export const fetchOnAir= async(options)=> {
-    const onAir = await fetch('https://api.themoviedb.org/3/tv/on_the_air?language=en-US&page=1', options)
+    const url = 'https://api.themoviedb.org/3/trending/tv/week?language=en-US'
+    const onAir = await fetch(url, options)
     const data = await onAir.json()
 
     const onAirObj = data.results.map((item)=> ({
