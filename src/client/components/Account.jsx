@@ -204,8 +204,10 @@ function Form ({onClose, changeView, view}){
     )
 }
 
-export function Account({isOpen, onClose}) {
+export function Account() {
     const [view, setView] = useState('login')
+    const {isOpen, setIsOpen} = useAuth()
+    const onClose = ()=> {setIsOpen(false)}
     if(!isOpen) return null
    return (
     <div className="fixed top-0 z-2 right-0  h-full w-full flex">

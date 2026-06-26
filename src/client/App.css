@@ -10,6 +10,10 @@
     --grid-nav: 200px 1fr 50px 50px;
 }
 
+body{
+    overflow-x: hidden;
+}
+
 .form{
     display: flex;
     flex-direction: column;

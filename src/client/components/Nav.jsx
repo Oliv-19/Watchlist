@@ -7,23 +7,26 @@ import { useEffect } from "react"
 import { checkLoggedIn, logout } from "../services/user"
 import { useAuth } from "./AuthContext"
 
-function Menu({onClose, open, logOut}){
+function Menu(){
+  const {setOpenMenu, openMenu, userLogout} = useAuth()
+  const onClose = ()=> {setOpenMenu(false)}
   return (
     <>
-      <div className={`${!open && 'pointer-events-none'} fixed top-0 z-2 right-0  h-full w-full flex`}>
-        <div onClick={onClose} 
-        className={`fixed ${open && 'bg-black/50'} inset-0`} />
-        <div className={`relative justify-start w-50 h-full left-full p-5 
+      <div className={`overflow-hidden 
+      ${!openMenu && 'pointer-events-none' } absolute 
+      top-0 z-5 right-0  h-full w-full flex`}>
+        <div onClick={onClose} className={`fixed ${openMenu && 'bg-black/50'} inset-0`} />
+        <div className={`fixed justify-start w-50 h-full left-full p-5 
             bg-(--color-bg) rounded-l-2xl text-slate-200 flex flex-col items-start
-            transition-all duration-300 ease-in-out gap-4
-            ${open ? '-translate-x-50' :'translate-x-0'}
+            transition-all duration-300 ease-in-out gap-4 
+            ${openMenu ? '-translate-x-50' :'translate-x-0'}
             `}>
-              <button>X</button>
-          <button className="cursor-pointer flex w-full gap-2"  onClick={logOut}>
+              <button onClick={onClose}>X</button>
+          <button className="cursor-pointer flex w-full gap-2"  onClick={userLogout}>
             <Icon title={'logout'} style={'fill-(--color-bg-light) w-6 sm:w-8 '} />  
             Log Out
           </button>
-          <Link to={'/profile'} className="flex w-full gap-2">
+          <Link onClick={onClose} to={'/profile'} className="flex w-full gap-2">
               <Icon title={'watchList'} style={'fill-(--color-bg-light) w-6 sm:w-8 '} /> 
               Watchlist
             </Link>
@@ -34,15 +37,10 @@ function Menu({onClose, open, logOut}){
   )
 }
 function Nav() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [openMenu, setOpenMenu] = useState(false)
-  const {user, userLogout} = useAuth()
-  
-  const logOut = async() => {
-    await logout()
-    userLogout()
+  const {user, setOpenMenu, userLogout, isOpen, setIsOpen} = useAuth()
+  const openMenuModal = ()=> {
+    setOpenMenu(true)
   }
-
   return (
     <nav className="flex sm:grid  sm:grid-cols-(--grid-nav) justify-center sm:justify-items-center gap-2 w-full p-3 items-center">
         <Link to={`/`} className="flex items-center">
@@ -55,14 +53,16 @@ function Nav() {
             <Link to={'/profile'} className="hidden sm:block [grid-area:1/3/2/4]">
               <Icon title={'watchList'} style={'fill-(--color-bg) w-6 sm:w-8 '} /> 
             </Link>
-            <button className="hidden sm:block cursor-pointer [grid-area:1/4/2/5]"  onClick={logOut}>
-              <Icon title={'logout'} style={'fill-(--color-bg) w-6 sm:w-8 '} />  
+            <button className="hidden sm:block cursor-pointer [grid-area:1/4/2/5]"  
+              onClick={userLogout}>
+                <Icon title={'logout'} style={'fill-(--color-bg) w-6 sm:w-8 '} />  
             </button>
             <div className="block sm:hidden">
-              <button className="cursor-pointer [grid-area:1/4/2/5]"  onClick={()=>{setOpenMenu(true)}}>
-                <Icon title={'menu'} style={'fill-(--color-bg) w-6 sm:w-8 '} />  
+              <button className="cursor-pointer [grid-area:1/4/2/5]"  
+                onClick={openMenuModal}>
+                  <Icon title={'menu'} style={'fill-(--color-bg) w-6 sm:w-8 '} />  
               </button>
-              <Menu onClose={()=>{setOpenMenu(false)}} open={openMenu} logOut={logOut}/>
+              <Menu />
 
             </div>
           </>
@@ -71,7 +71,7 @@ function Nav() {
             <button className="cursor-pointer [grid-area:1/4/2/5]"  onClick={() => {setIsOpen(true)}}>
               <Icon title={'login'} style={'fill-(--color-bg) w-8 '} /> 
             </button>
-            <Account isOpen={isOpen} onClose={()=> {setIsOpen(false)}}/>
+            <Account />
           </>
         )
         }
