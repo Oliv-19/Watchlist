@@ -42,10 +42,11 @@ function Nav() {
     setOpenMenu(true)
   }
   return (
-    <nav className="flex sm:grid  sm:grid-cols-(--grid-nav) justify-center sm:justify-items-center gap-2 w-full p-3 items-center">
+    <nav className="flex sm:grid  sm:grid-cols-(--grid-nav) justify-center 
+      sm:justify-items-center gap-2 w-full p-3 items-center bg-white">
         <Link to={`/`} className="flex items-center">
           <Icon title={'tv'}  style={'fill-(--color-bg) w-8 sm:w-10'}/>
-          <h1 className=" hidden sm:block sm:text-(--color-bg) sm:font-bold sm:text-2xl sm:mt-2">Watch List</h1>
+          <h1 className=" hidden sm:block text-(--color-bg) sm:font-bold sm:text-2xl sm:mt-2">Watch List</h1>
         </Link>
         <Search></Search>
         {user ? (

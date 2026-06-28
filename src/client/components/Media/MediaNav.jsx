@@ -17,7 +17,9 @@ const Cast = ({data}) => {
     return (
         <>
         {data.sort((a,b)=> a.order - b.order).map((cast)=> 
-            <Link to={`/actor/${cast.id}`} title={cast.name} key={cast.id} className="hover:scale-[1.1] transition-transform duration-300 shrink-0 w-35 sm:w-45 h-55 sm:h-70 bg-neutral-50 p-1 rounded-xl text-center">
+            <Link to={`/actor/${cast.id}`} title={cast.name} key={cast.id} 
+            className="hover:scale-[1.1] transition-transform duration-300 shrink-0 
+            w-35 sm:w-45 h-55 sm:h-70 bg-(--color-text) p-1 rounded-xl text-center">
                 <img className="m-auto h-[75%] rounded-xl" src={`${IMAGE_BASE_URL}${POSTER_SIZE}${cast.profilePath}`} alt="" />
                 <p className="text-[0.8rem] sm:text-[1rem]  sm:font-bold">{cast.name} </p>
                 <p className="text-[0.6rem] sm:text-[0.9rem] text-gray-700">{cast.character} </p>
@@ -32,7 +34,10 @@ const Similar = ({data}) => {
     return (
         <>
         {data.map((similar)=> 
-            <Link to={`/media/${similar.id}`} state={similar.id} title={similar.title} key={similar.id} className="hover:scale-[1.1] transition-transform duration-300 shrink-0 w-35 sm:w-45 h-55 sm:h-70 bg-neutral-50 p-1 rounded-xl text-center">
+            <Link to={`/media/${similar.id}`} state={similar.id} title={similar.title} 
+            key={similar.id} className="hover:scale-[1.1] transition-transform 
+            duration-300 shrink-0 w-35 sm:w-45 h-55 sm:h-70 bg-(--color-text) p-1 
+            rounded-xl text-center">
                 <img className="m-auto h-[80%] rounded-xl" src={`${IMAGE_BASE_URL}${POSTER_SIZE}${similar.posterPath}`} alt="" />
                 <p className="font-bold text-[0.8rem] sm:text-[1rem]">{similar.title} </p>
                 
@@ -61,7 +66,7 @@ export const MediaNav = () => {
             <nav className="text-center flex justify-evenly gap-5 pt-10">
                 {Object.entries(blocks).map(([key,val])=> 
                     <button key={key} name={key} onClick={changeBlock}  
-                        className={`${block == key && 'underline'} text-white 
+                        className={`${block == key && 'underline'} text-(--color-text) 
                             cursor-pointer hover:text-gray-400 font-bold text-center 
                             text-[1rem] sm:text-3xl`}>
                         {key}

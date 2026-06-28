@@ -16,7 +16,7 @@ export default function ErrorPage(){
 
 export const ErrorMessage = ({message}) => {
     return (
-        <div className="w-full flex justify-center mt-10 p-10 text-center text-white 
+        <div className="w-full flex justify-center mt-10 p-10 text-center text-(--color-text) 
             font-medium text-[1rem] sm:text-xl">
             <div className="bg-(--color-text-bg) w-fit p-10 rounded-xl">
                 {message}

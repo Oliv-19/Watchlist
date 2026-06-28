@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react'
 import Home from './components/Home'
 import Media from './components/Media/Media'
-import { Link, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import Nav from './components/Nav'
 import SearchResults from './components/SearchResults'
 import './App.css'
 import Person from './components/Person'
 import { AuthProvider } from './components/AuthContext'
-import { Profile } from './components/Profile'
+import { Profile } from './components/Profile/Profile'
 
 function App() {
    return (

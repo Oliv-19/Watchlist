@@ -80,7 +80,7 @@ function Person() {
     return (
         <>
             {data && (
-                <div className="w-full h-fit bg-(--color-bg) text-white ">
+                <div className="w-full h-fit bg-(--color-bg) text-(--color-text) ">
                     <div className=" h-fit sm:flex  gap-5  py-10">
                         <BasicInfo data={data}/>
                         <Biography data={data}/>

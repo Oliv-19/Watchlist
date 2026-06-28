@@ -1,0 +1,35 @@
+import { useEffect, useState } from "react"
+import { getUserMedia } from "../../services/user"
+import image from '../../assets/image.png'
+import { useAuth } from "../AuthContext"
+import { MediaCard } from "./MediaCard"
+import { Filter } from "./Filter"
+
+
+export const Profile = () => {
+    const [userMedia, setUserMedia] = useState(null)
+    const {user} = useAuth()
+    useEffect(()=> {
+        const fetchUserMedia = async() => {    
+            const media= await getUserMedia()
+            setUserMedia(media)
+        }
+        fetchUserMedia()
+    }, [])
+    if(!userMedia || !user) return null
+    
+    return (
+        <>
+        <div className="bg-(--color-bg) w-full min-h-136 h-fit p-2 sm:p-10">
+            <Filter/>
+            <div className="w-full flex flex-row flex-wrap items-center justify-center
+            sm:justify-start sm:gap-5 sm:p-2.5">
+                {userMedia.map((serie) => 
+                    <MediaCard serie={serie}
+                        key={serie.media.id} />
+                )}
+            </div>
+        </div>
+        </>
+    )
+}

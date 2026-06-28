@@ -3,9 +3,11 @@
 *{
     /* outline: 1px solid red; */
     --color-text-bg:#54487447;
+    --color-text:#f4eefd;
     --color-input-bg: #544874;
     --color-focus: #9084a3;
     --color-bg:#0f0c2f;
+    --color-bg-2: #262349;
     --color-bg-light:#decdf9;
     --grid-nav: 200px 1fr 50px 50px;
 }

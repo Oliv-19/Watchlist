@@ -1,16 +1,10 @@
-import { useEffect, useState } from "react"
-import { getUserMedia } from "../services/user"
-import Card from "./Card"
-import image from '../assets/image.png'
-import { Link, useNavigate } from "react-router-dom"
-import { Icon } from "./Icons"
-import { useAuth } from "./AuthContext"
+import { Link } from "react-router-dom"
+import { Icon } from "../Icons"
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
 const POSTER_SIZE = "w342"
 
-
-const UserMedia = ({serie})=> {
+export const MediaCard = ({serie})=> {
     const {media, userRating, userReview, status}= serie
     
     if(!media) return null
@@ -34,7 +28,7 @@ const UserMedia = ({serie})=> {
             ${userRating > 0 && 'sm:rounded-tr-none'} justify-around items-center 
              rounded-xl`}>
             <img src={fullImageUrl} alt="" className={`h-40 sm:h-55 rounded-xl`}/>
-            <p className='truncate w-30 sm:w-full sm:px-3 text-center font-medium text-white'>
+            <p className='truncate w-30 sm:w-full sm:px-3 text-center font-medium text-(--color-text)'>
                 {media.title}
             </p>
         </div>
@@ -51,32 +45,5 @@ const UserMedia = ({serie})=> {
     </div>
     </Link>
     </>
-    )
-}
-
-export const Profile = () => {
-    const [userMedia, setUserMedia] = useState(null)
-    const {user} = useAuth()
-    useEffect(()=> {
-        const fetchUserMedia = async() => {    
-            const media= await getUserMedia()
-            setUserMedia(media)
-        }
-        fetchUserMedia()
-    }, [])
-    if(!userMedia || !user) return null
-    
-    return (
-        <>
-        <div className="bg-(--color-bg) w-full min-h-136 h-fit p-2 sm:p-10">
-            <div className="w-full flex flex-row flex-wrap items-center justify-center
-            sm:justify-start sm:gap-5 sm:p-2.5">
-                {userMedia.map((serie) => 
-                    <UserMedia serie={serie}
-                        key={serie.media.id} />
-                )}
-            </div>
-        </div>
-        </>
     )
 }

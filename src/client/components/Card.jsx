@@ -11,8 +11,8 @@ function Card({data}) {
   return (
     <Link to={`/media/${data.id}`}>
       <div title={data.name? data.name : data.title} className="h-65 sm:h-87.5 relative w-40 sm:w-50 flex justify-between items-center flex-col hover:scale-[1.1] transition-transform duration-300">
-          <img src={fullImageUrl} alt="" className='w-full h-80'/>
-          <p  className='truncate w-full'>{data.name? data.name : data.title}</p>
+          <img src={fullImageUrl} alt="" className='w-full h-80 rounded'/>
+          <p  className='truncate w-full text-(--color-text) font-medium'>{data.name? data.name : data.title}</p>
       </div>
     </Link>
   )

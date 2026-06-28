@@ -5,6 +5,7 @@ import { ErrorMessage } from "../ErrorPage"
 import { Icon } from "../Icons"
 import { updateUserMedia } from "../../services/user"
 import { MediaReviewProvider, useMediaReviewData } from "./MediaReviewContext"
+import { Dropdown } from "../Dropdown"
 
 const Stars = () => {
     const {isEdit, setRating, rating} = useMediaReviewData()
@@ -74,62 +75,20 @@ const TextArea = () => {
         cols={70} placeholder="What do you think?" value={review? review: undefined} 
         onChange={changeReview} rows={5} 
         className={`bg-(--color-input-bg) p-10 rounded-2xl resize-none 
-        text-white ${isEdit ? 'focus:outline-2 focus:outline-(--color-bg-light)' 
+        text-(--color-text) ${isEdit ? 'focus:outline-2 focus:outline-(--color-bg-light)' 
         : 'focus:outline-none'}`}/>
         
     )
 }
-const Option = ({option, icon, closeDropdown})=> {
-    const {setStatus, status} = useMediaReviewData()
-    const changeStatus = ()=> {
-        setStatus(option) 
-        closeDropdown()  
-    }
-    return (
-        <>
-        <div onClick={changeStatus} className="p-2 flex gap-1 hover:bg-(--color-focus) font-medium rounded-xl">
-            <Icon title={icon} />
-            <p className="first-letter:uppercase lowercase">
-                {option}
-            </p>
-        </div>
-        </>
-    )
-}
 const Status = () => {
-    const {isEdit, status} = useMediaReviewData()
-    const [openDropdown, setOpenDropdown] = useState(false)
+    const {isEdit, status, setStatus} = useMediaReviewData()
+    const changeStatus = (option)=> {
+        setStatus(option) 
+    }
     return(
-        <div className="flex items-center gap-2">
-            <p className="font-medium text-white cursor-default">Status: </p>
-            <div className={`flex items-center gap-2 text-white cursor-pointer 
-            relative w-35`}>
-                <button id="dropdownDefaultButton" onClick={()=> {isEdit && setOpenDropdown(prev=> !prev)}}
-                className={`flex items-center gap-2  z-3 w-full border-2 
-                font-medium border-(--color-bg-light) pl-3 p-2 rounded-4xl 
-                ${isEdit && 'cursor-pointer'} `} 
-                type="button">
-                    <Icon title={status == 'saved'? 'add': status} 
-                        style={'w-5 fill-white'}/>
-                    <p className="first-letter:uppercase lowercase">
-                        {status}
-                    </p>
-                    <Icon title={'dropdown'} style={`${isEdit? 'w-4 fill-white': 'hidden'}`}/> 
-                    
-                </button>
-                
-                <div id="dropdown" className={`z-2 ${openDropdown ? 'flex': 'hidden'}
-                bg-(--color-bg) flex-col absolute top-6 pt-5 left-0 w-full rounded-b-2xl
-                border-2 border-(--color-bg-light) border-t-0`}>
-                    <Option icon={'add'} option={'saved'} closeDropdown={()=> {setOpenDropdown(false)}} />
-                    <Option icon={'finished'} option={'finished'} closeDropdown={()=> {setOpenDropdown(false)}}/>
-                    <Option icon={'dropped'} option={'dropped'} closeDropdown={()=> {setOpenDropdown(false)}}/>
-                </div>
-
-            
-            </div>
-
-        </div>
+        <Dropdown disabled={!isEdit} initValue={status} 
+        options={['saved', 'finished', 'dropped']} 
+        onClick={changeStatus}/>
     )
 }
 

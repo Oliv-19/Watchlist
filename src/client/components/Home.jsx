@@ -6,6 +6,7 @@ import { getOnAir } from "../services/media"
 import { Icon } from "./Icons"
 import { Link } from "react-router-dom"
 import { useMemo } from "react"
+import { LoadingHome } from "./Loading"
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
 const BG_SIZE = "original"
@@ -42,7 +43,7 @@ function Slider({airingToday}){
             )}
         </div>
            
-        <div className="flex justify-between text-white h-full sm:h-100 px-2 sm:px-15">
+        <div className="flex justify-between text-(--color-text) h-full sm:h-100 px-2 sm:px-15">
           <button className="relative" onClick={() => {changeInfo('L')}}>
             <Icon style={style} title={'prev'}/>
           </button>
@@ -64,12 +65,15 @@ function Home() {
   const data = useData({type:'onAir'})
   const {onAir, airingToday} = {...data}
   if(onAir == null){
-      return <div>Loading...</div>
+      return <div>
+        <LoadingHome/>
+      </div>
   }
   return (
     <>
     <Slider airingToday={airingToday}/>
-      <div className="w-full flex flex-row flex-wrap justify-evenly gap-5 p-2.5 mt-5">
+      <div className="w-full flex flex-row flex-wrap justify-evenly gap-5 p-2.5 pt-10
+        bg-(--color-bg-2)">
         {Object.entries(onAir).map(([key, value]) => <Card key={key} data={value}/>)}
       </div>
     </>

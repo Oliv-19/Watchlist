@@ -5,7 +5,7 @@ const PagButton = ({direction, changePage}) => {
     }
 
     return (
-        <button onClick={()=> {changePage(direction)}} type="button" className="cursor-pointer inline-flex items-center justify-center box-border outline outline-black  hover:bg-black hover:text-white  w-9 h-9 ">
+        <button onClick={()=> {changePage(direction)}} type="button" className="cursor-pointer inline-flex items-center justify-center box-border outline outline-black  hover:bg-black hover:text-(--color-text)  w-9 h-9 ">
             {directions[direction]}
         </button>
     )
