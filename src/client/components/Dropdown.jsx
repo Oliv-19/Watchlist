@@ -19,8 +19,7 @@ const Option = ({option, icon, setSelected, closeDropdown, onClick})=> {
     )
 }
 
-export const Dropdown = ({disabled, initValue = 'saved', options, onClick})=> {
-    const [selected, setSelected] = useState(initValue)
+export const Dropdown = ({disabled, selected, setSelected, options, onClick})=> {
     const [openDropdown, setOpenDropdown] = useState(false)
     return (
         <>
@@ -38,7 +37,7 @@ export const Dropdown = ({disabled, initValue = 'saved', options, onClick})=> {
                     <p className="first-letter:uppercase lowercase">
                         {selected}
                     </p>
-                    <Icon title={'dropdown'} style={`w-4 fill-white`}/> 
+                    <Icon title={'dropdown'} style={`w-4 fill-white `}/> 
                 </button>
                 
                 <div id="dropdown" className={`z-2 ${openDropdown ? 'flex': 'hidden'}
