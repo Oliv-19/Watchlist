@@ -1,9 +1,8 @@
 import { useState } from "react"
 import { Icon } from "./Icons"
 
-const Option = ({option, icon, setSelected, closeDropdown, onClick})=> {
+const Option = ({option, icon, closeDropdown, onClick})=> {
     const clickHandler= ()=> {
-        setSelected(option)
         onClick(option)
         closeDropdown()  
     }
@@ -19,7 +18,7 @@ const Option = ({option, icon, setSelected, closeDropdown, onClick})=> {
     )
 }
 
-export const Dropdown = ({disabled, selected, setSelected, options, onClick})=> {
+export const Dropdown = ({disabled, selected, options, onClick})=> {
     const [openDropdown, setOpenDropdown] = useState(false)
     return (
         <>
@@ -49,7 +48,6 @@ export const Dropdown = ({disabled, selected, setSelected, options, onClick})=> 
                             option={opt} 
                             closeDropdown={()=> {setOpenDropdown(false)}} 
                             onClick={onClick}
-                            setSelected={setSelected}
                         />
                  
                     )}

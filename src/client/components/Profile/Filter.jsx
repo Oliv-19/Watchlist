@@ -7,6 +7,7 @@ export const Filter = ()=> {
     const {selected, setSelected, filterMedia} = useProfileData()
     const options = ['all', 'saved', 'finished', 'dropped']
     const onClick = (option) => {
+        setSelected(option)
         filterMedia(option)
     }
     return (

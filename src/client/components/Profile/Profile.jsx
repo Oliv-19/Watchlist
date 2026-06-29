@@ -5,10 +5,11 @@ import { useAuth } from "../AuthContext"
 import { MediaCard } from "./MediaCard"
 import { Filter } from "./Filter"
 import { ProfileProvider, useProfileData } from "./ProfileContext"
+import { LoadingWatchList } from "../Loading"
 
 const UserMedia = () => {
     const {media}= useProfileData()
-    if(!media) return null
+    if(!media) return <LoadingWatchList />
     return(
         <>
         <div className="w-full flex flex-row flex-wrap items-center justify-center

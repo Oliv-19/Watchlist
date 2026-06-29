@@ -84,10 +84,11 @@ const Status = () => {
     const {isEdit, status, setStatus} = useMediaReviewData()
     const [selected, setSelected] = useState('saved')
     const changeStatus = (option)=> {
+        setSelected(option)
         setStatus(option) 
     }
     return(
-        <Dropdown disabled={!isEdit} selected={selected} setSelected={setSelected}
+        <Dropdown disabled={!isEdit} selected={selected} 
         options={['saved', 'finished', 'dropped']} 
         onClick={changeStatus}/>
     )
