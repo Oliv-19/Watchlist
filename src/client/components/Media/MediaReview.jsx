@@ -81,14 +81,13 @@ const TextArea = () => {
     )
 }
 const Status = () => {
-    const {isEdit, status, setStatus} = useMediaReviewData()
-    const [selected, setSelected] = useState('saved')
+    const {isEdit, status, setStatus, setSelected, selected} = useMediaReviewData()
     const changeStatus = (option)=> {
-        setSelected(option)
+        setStatus(option)
         setStatus(option) 
     }
     return(
-        <Dropdown disabled={!isEdit} selected={selected} 
+        <Dropdown disabled={!isEdit} selected={status} 
         options={['saved', 'finished', 'dropped']} 
         onClick={changeStatus}/>
     )

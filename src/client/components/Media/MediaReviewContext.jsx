@@ -18,7 +18,7 @@ export const MediaReviewProvider = ({data, children }) => {
     const reset = ()=> {
         setReview(data.userReview ? data.userReview: '')
         setRating(data.userRating ? data.userRating: 0)
-        setStatus(data.status ? data.status: 'Saved')
+        setStatus(data.status ? data.status: '')
         setIsEdit(false)
     }
     useEffect(()=> {

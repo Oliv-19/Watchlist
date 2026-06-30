@@ -1,11 +1,12 @@
 import { useState } from "react"
 import { Icon } from "./Icons"
 
-const Option = ({option, icon, closeDropdown, onClick})=> {
+const Option = ({option, closeDropdown, onClick})=> {
     const clickHandler= ()=> {
         onClick(option)
         closeDropdown()  
     }
+    const icon = option == 'saved'? 'add': (option== 'all' ? 'filter': option)
     return (
         <>
         <div onClick={clickHandler} className="p-2 flex gap-1 hover:bg-(--color-focus) font-medium rounded-xl">
@@ -20,9 +21,14 @@ const Option = ({option, icon, closeDropdown, onClick})=> {
 
 export const Dropdown = ({disabled, selected, options, onClick})=> {
     const [openDropdown, setOpenDropdown] = useState(false)
+    const initIcon = selected == 'saved'? 'add': (selected== 'all' ? 'filter': selected)
     return (
         <>
         <div className="flex items-center gap-2">
+            <div onClick={()=>{setOpenDropdown(false)}}    
+                className={`${openDropdown? 'block': 'hidden'} h-full w-full fixed 
+                inset-0 z-2`} />
+
             <div className={`flex items-center gap-2 text-(--color-text) cursor-pointer 
             relative w-35`}>
                 <button id="dropdownDefaultButton" 
@@ -31,9 +37,9 @@ export const Dropdown = ({disabled, selected, options, onClick})=> {
                 font-medium border-(--color-bg-light) pl-3 p-2 rounded-4xl
                 ${!disabled && 'cursor-pointer'}`} 
                 type="button">
-                    <Icon title={selected == 'saved'? 'add': selected} 
+                    <Icon title={initIcon} 
                         style={'w-5 fill-white'}/>
-                    <p className="first-letter:uppercase lowercase">
+                    <p className="first-letter:uppercase lowercase w-13">
                         {selected}
                     </p>
                     <Icon title={'dropdown'} style={`w-4 fill-white `}/> 
@@ -44,7 +50,6 @@ export const Dropdown = ({disabled, selected, options, onClick})=> {
                 border-2 border-(--color-bg-light) border-t-0`}>
                     {options.map((opt)=> 
                         <Option key={opt} 
-                            icon={opt == 'saved'? 'add': opt} 
                             option={opt} 
                             closeDropdown={()=> {setOpenDropdown(false)}} 
                             onClick={onClick}

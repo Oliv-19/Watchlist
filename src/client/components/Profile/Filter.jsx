@@ -12,7 +12,7 @@ export const Filter = ()=> {
     }
     return (
         <>
-        <div className="">
+        <div className="flex justify-center md:justify-end md:px-15">
             <Dropdown options={options} selected={selected} setSelected={setSelected}
                 onClick={onClick}
                 />

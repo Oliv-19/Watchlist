@@ -13,7 +13,7 @@ const UserMedia = () => {
     return(
         <>
         <div className="w-full flex flex-row flex-wrap items-center justify-center
-        sm:justify-start sm:gap-5 sm:p-2.5">
+        lg:justify-start lg:gap-5 lg:p-2.5">
             {media.map((serie) => 
                 <MediaCard serie={serie}
                 key={serie.media.id} />
