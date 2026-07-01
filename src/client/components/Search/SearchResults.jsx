@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
-import Card from "./Card";
-import { useData } from "./hooks";
+import Card from "../Card";
+import { useData } from "../hooks";
 import { useState, useEffect } from "react";
-import { Pagination } from "./Pagination";
+import { Pagination } from "../Pagination";
 
 function SearchResults() {
     const {query} = useParams()

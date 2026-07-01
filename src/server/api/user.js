@@ -13,20 +13,33 @@ userApi.get('/api/user/media', auth, async(c)=> {
     
     
     try{
-        const result = await db
-        .select({
-            userId: schema.userMedia.userId,
-            userRating: schema.userMedia.userRating,
-            userReview: schema.userMedia.userReview,
-            status: schema.userMedia.status,
-            media: schema.media 
+        const result = await db.query.userMedia.findMany({
+            where: eq(schema.userMedia.userId, user.sub),
+            with: {
+                media: {
+                    columns:{id:true, title:true, posterPath:true},
+                    with: {
+                        mediaGenres: {
+                            with:{genre:{
+                                columns:{name:true}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         })
-        .from(schema.userMedia)
-        .leftJoin(schema.media, eq(schema.userMedia.mediaId, schema.media.id))
-        .where(eq(schema.userMedia.userId, user.sub));   
-        return c.json(result, 200)
+        const formattedResult = result.map(item => ({
+            ...item,
+            mediaGenres: null,
+            media: {
+                ...item.media,
+                genres: item.media.mediaGenres.map(mg => mg.genre.name)
+            }
+        }));
+        return c.json(formattedResult, 200)
     } catch (error) {
-        console.error(error);
+        console.error(error.cause);
         
         return c.json({success: false}, 400)
     }

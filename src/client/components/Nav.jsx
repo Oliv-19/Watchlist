@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Account } from "./Account"
-import Search from "./Search"
+import Search from "./Search/Search"
 import { Link } from "react-router-dom"
 import { Icon } from "./Icons"
 import { useEffect } from "react"

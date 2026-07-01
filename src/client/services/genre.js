@@ -9,7 +9,7 @@ export const getGenre = async(id) => {
     return null
   }
 }
-export const getAllGenres = async(id) => {
+export const getAllGenres = async() => {
   try{
     const response = await fetch(`${baseUrl}`)
     const data = await response.json()

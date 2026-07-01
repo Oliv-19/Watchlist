@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { Icon } from "./Icons"
+import { Icon } from "../Icons"
 
 function Search() {
   const [query, setQuery] = useState('')
