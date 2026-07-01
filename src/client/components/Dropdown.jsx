@@ -1,17 +1,23 @@
 import { useState } from "react"
 import { Icon } from "./Icons"
 
-const Option = ({option, closeDropdown, onClick})=> {
+const Option = ({type, option, closeDropdown, onClick})=> {
     const clickHandler= ()=> {
         onClick(option)
         closeDropdown()  
     }
-    const icon = option == 'saved'? 'add': (option== 'all' ? 'filter': option)
+    let icon = 'filter'
+    if(type == 'status'){
+        icon = option == 'saved'? 'add': (option== 'all' ? 'filter': option)
+    }else if(type == 'genre'){
+        icon = option == 'all' ? 'filter': 'genre'
+    }
     return (
         <>
-        <div onClick={clickHandler} className="p-2 flex gap-1 hover:bg-(--color-focus) font-medium rounded-xl">
-            <Icon title={icon} />
-            <p className="first-letter:uppercase lowercase">
+        <div onClick={clickHandler} className="p-2 flex gap-1 hover:bg-(--color-focus) 
+            font-medium rounded-xl items-center">
+            <Icon title={icon} style={'w-5 fill-(--color-text)'}/>
+            <p className="first-letter:uppercase lowercase border-b border-(--color-focus)">
                 {option}
             </p>
         </div>
@@ -19,9 +25,15 @@ const Option = ({option, closeDropdown, onClick})=> {
     )
 }
 
-export const Dropdown = ({disabled, selected, options, onClick})=> {
+export const Dropdown = ({type= 'status',disabled, selected, options, onClick})=> {
     const [openDropdown, setOpenDropdown] = useState(false)
-    const initIcon = selected == 'saved'? 'add': (selected== 'all' ? 'filter': selected)
+    let initIcon = 'filter'
+    if(type == 'status'){
+        initIcon = selected == 'saved'? 'add': (selected== 'all' ? 'filter': selected)
+
+    }else if(type == 'genre'){
+        initIcon = selected == 'all' ? 'filter': 'genre'
+    }
     return (
         <>
         <div className="flex items-center gap-2">
@@ -36,24 +48,27 @@ export const Dropdown = ({disabled, selected, options, onClick})=> {
                 className={`flex items-center gap-2  z-3 w-full border-2 
                 font-medium border-(--color-bg-light) pl-3 p-2 rounded-4xl
                 ${!disabled && 'cursor-pointer'}`} 
-                type="button">
+                type="button" title={`Filter by: ${selected}`}>
+                    
                     <Icon title={initIcon} 
                         style={'w-5 fill-white'}/>
-                    <p className="first-letter:uppercase lowercase w-13">
+                    <p className="first-letter:uppercase lowercase w-13 truncate">
                         {selected}
                     </p>
                     <Icon title={'dropdown'} style={`w-4 fill-white `}/> 
                 </button>
                 
                 <div id="dropdown" className={`z-2 ${openDropdown ? 'flex': 'hidden'}
-                bg-(--color-bg) flex-col absolute top-6 pt-5 left-0 w-full rounded-b-2xl
-                border-2 border-(--color-bg-light) border-t-0`}>
+                bg-(--color-bg) flex-col absolute top-12 left-0 
+                outline-2 outline-(--color-bg-light) rounded-2xl 
+                ${options.length > 10 ? 'flex-wrap w-85 h-94': 'w-full '}`}>
                     {options.map((opt)=> 
                         <Option key={opt} 
-                            option={opt} 
-                            closeDropdown={()=> {setOpenDropdown(false)}} 
-                            onClick={onClick}
-                        />
+                        type={type}
+                        option={opt} 
+                        closeDropdown={()=> {setOpenDropdown(false)}} 
+                        onClick={onClick}
+                        /> 
                  
                     )}
                 </div>

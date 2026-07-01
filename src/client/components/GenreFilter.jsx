@@ -29,7 +29,7 @@ export const GenreFilter = ({media, setFilteredMedia})=> {
         <>
         <div className="flex justify-center md:justify-end md:px-15">
             <Dropdown options={genres} selected={genreFilter} setSelected={setGenreFilter}
-                onClick={onClick}
+                onClick={onClick} type="genre"
                 />
         </div>
 

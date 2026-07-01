@@ -14,10 +14,22 @@ export const Filter = ()=> {
     return (
         <>
         <div className="flex justify-center md:justify-end md:px-15">
-            <GenreFilter media={userMedia} setFilteredMedia={setFilteredMedia}/>
-            <Dropdown options={options} selected={selected} setSelected={setSelected}
-                onClick={onClick}
-                />
+            <div className="flex flex-col justify-center h-18 gap-1 items-center">
+                <p className="text-[0.9rem] 
+                    text-(--color-text)/70 font-medium">
+                    Filter by: Genres
+                </p>
+                <GenreFilter media={userMedia} setFilteredMedia={setFilteredMedia}/>
+            </div>
+            <div className="flex flex-col justify-center h-18 gap-1 items-center">
+                <p className="text-[0.9rem] 
+                    text-(--color-text)/70 font-medium">
+                    Filter by: Status
+                </p>
+                <Dropdown options={options} selected={selected} setSelected={setSelected}
+                    onClick={onClick}
+                    />
+            </div>
         </div>
 
         </>

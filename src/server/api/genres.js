@@ -34,7 +34,6 @@ genresApi.get('/api/genre', async(c) => {
             
             return c.json(genres, 201)
         }
-        console.log('db');
         return c.json(result, 200)
 
     } catch (error){
