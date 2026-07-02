@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { Icon } from "./Icons";
 
 export function LoadingMedia(){
     const baseClass = "bg-(--color-bg-light)/20 animate-pulse rounded"
@@ -87,6 +88,54 @@ function LoadingUserMediaCard(){
     )
 }
 
+function LoadingDropdown(){
+    return (
+        <>
+        <div className="flex justify-center md:justify-end md:px-15">
+            <div className="flex justify-center md:justify-end md:px-15">
+                <div className="flex flex-col justify-center h-18 gap-1 items-center">
+                    <p className="text-[0.9rem] 
+                        text-(--color-text)/70 font-medium">
+                        Filter by: Genres
+                    </p>
+                    <button id="dropdownDefaultButton" disabled
+                        className={`flex items-center gap-2  z-3 w-full border-2 
+                            font-medium border-(--color-bg-light) pl-3 p-2 rounded-4xl text-(--color-text)`}
+                            type="button" title={`Filter by: Genre`}>
+                            
+                            <Icon title={'filter'} 
+                                style={'w-5 fill-white'}/>
+                            <p className="first-letter:uppercase lowercase w-13 truncate">
+                            All
+                            </p>
+                            <Icon title={'dropdown'} style={`w-4 fill-white `}/> 
+                    </button>
+                </div>
+            </div>
+            <div className="flex flex-col justify-center h-18 gap-1 items-center">
+                <p className="text-[0.9rem] 
+                    text-(--color-text)/70 font-medium">
+                    Filter by: Status
+                </p>
+               <button id="dropdownDefaultButton" disabled
+                    className={`flex items-center gap-2  z-3 w-full border-2 
+                    font-medium border-(--color-bg-light) pl-3 p-2 rounded-4xl text-(--color-text)`}
+                    type="button" title={`Filter by: Status`}>
+                        
+                        <Icon title={'filter'} 
+                            style={'w-5 fill-white'}/>
+                        <p className="first-letter:uppercase lowercase w-13 truncate">
+                           All
+                        </p>
+                        <Icon title={'dropdown'} style={`w-4 fill-white `}/> 
+                </button>
+            </div>
+        </div>
+
+        </>
+    )
+}
+
 export function LoadingWatchList(){
     const baseClass = "bg-(--color-bg-light)/20 animate-pulse rounded"
     const { pathname } = useLocation()
@@ -96,13 +145,15 @@ export function LoadingWatchList(){
     }, [pathname])
     return (
         <>
-            <div className={`bg-(--color-bg) w-full min-h-136 h-fit p-2 sm:p-14
-                flex justify-evenly flex-wrap`}>
-                <LoadingUserMediaCard/>
-                <LoadingUserMediaCard/>
-                <LoadingUserMediaCard/>
-                <LoadingUserMediaCard/>
-                <LoadingUserMediaCard/>
+            <div className={`bg-(--color-bg) w-full h-full p-2 sm:p-14 flex flex-col gap-5`}>
+                    <LoadingDropdown />
+                    <div className="flex justify-evenly flex-wrap">
+                        <LoadingUserMediaCard/>
+                        <LoadingUserMediaCard/>
+                        <LoadingUserMediaCard/>
+                        <LoadingUserMediaCard/>
+                        <LoadingUserMediaCard/>
+                    </div>
             </div>
         </>
     )
