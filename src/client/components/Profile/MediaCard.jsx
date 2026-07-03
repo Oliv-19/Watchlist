@@ -8,9 +8,8 @@ export const MediaCard = ({serie})=> {
     const {media, userRating, userReview, status}= serie
     
     if(!media) return null
-    const fullImageUrl = media.posterPath? 
+    const fullImageUrl = media.posterPath &&
       `${IMAGE_BASE_URL}${POSTER_SIZE}${media.posterPath}`
-      : image
       
     const stars = Array(5).fill(0)
     return (
@@ -27,7 +26,19 @@ export const MediaCard = ({serie})=> {
         <div className={`bg-(--color-input-bg) flex flex-col h-55 sm:h-full w-45
             ${userRating > 0 && 'sm:rounded-tr-none'} justify-around items-center 
              rounded-xl`}>
-            <img src={fullImageUrl} alt="" className={`h-40 sm:h-55 rounded-xl`}/>
+                {fullImageUrl ? (
+                <>
+                <img src={fullImageUrl} alt="" className={`h-40 sm:h-55 rounded-xl`}/>
+                </>
+                ):(
+                <>
+                <div className='h-40 sm:h-55 w-36.5 rounded-xl bg-(--color-bg-2)
+                    relative flex justify-center items-center'>
+                    <Icon title={'brokenImage'} style={'w-40 fill-(--color-bg-light)/50'}/>
+                </div>
+                </>
+                )
+            }
             <p className='truncate w-30 sm:w-full sm:px-3 text-center font-medium text-(--color-text)'>
                 {media.title}
             </p>

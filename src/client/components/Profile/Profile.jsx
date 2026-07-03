@@ -28,7 +28,7 @@ export const Profile = () => {
     return (
         <>
         <ProfileProvider>
-            <div className="bg-(--color-bg) w-full min-h-136 h-fit p-2 sm:p-10">
+            <div className="bg-(--color-bg) w-full min-h-fit h-full p-2 sm:p-10">
                 <Filter/>
                 <UserMedia />
             </div>

@@ -20,21 +20,41 @@ function Media() {
     const {id} = useParams()
     const [refreshData, setRefreshData] = useState(false);
     const data = useData({type: 'media', id, saved: refreshData})
+    const fullImageUrl = data?.posterPath && `${IMAGE_BASE_URL}${POSTER_SIZE}${data.posterPath}`
+    const fullBGImageUrl = data?.backdropPath && `${IMAGE_BASE_URL}${BG_SIZE}${data.backdropPath}`
     if(data == null){
         return <LoadingMedia />
     }
-    const fullImageUrl = `${IMAGE_BASE_URL}${POSTER_SIZE}${data.posterPath}`
-    const fullBGImageUrl = `${IMAGE_BASE_URL}${BG_SIZE}${data.backdropPath}`
     const triggerRefresh = () => {setRefreshData(true)}
+    
     return (
         <MediaProvider data={{data, triggerRefresh}}>
             <div className="w-full h-full">
                 <div className="bg-(--color-bg) h-fit pb-4 sm:h-full relative ">
-                    <img className={`mask-b-from-75% mask-b-to-transparent w-full h-full object-cover absolute z-0 opacity-35`} src={fullBGImageUrl} alt="" />
+                    {fullBGImageUrl && 
+                        <img className={`mask-b-from-75% mask-b-to-transparent w-full h-full 
+                            object-cover absolute z-0 opacity-35`} src={fullBGImageUrl} 
+                            alt="" />
+                    }
                     <div className="pt-8 pb-2 w-full h-fit flex flex-col sm:flex-row 
                     justify-evenly relative z-1 text-(--color-text)">
                         <LeftInfo/>
-                        <img className="-order-1 sm:order-0 h-65 w-40 sm:h-fit sm:w-fit m-auto sm:m-0" src={fullImageUrl} alt="" />
+                        {fullImageUrl ? 
+                        (
+                        <>
+                        <img className="-order-1 sm:order-0 h-65 w-40 
+                        sm:h-fit sm:w-fit m-auto sm:m-0" src={fullImageUrl} alt="" />
+                        </>
+                        ) : (
+                        <>
+                        <div className='-order-1 sm:order-0 h-65 w-40 border 
+                        border-(--color-bg-light) sm:h-128.25 sm:w-85.5 m-auto sm:m-0 
+                        flex justify-center items-center bg-(--color-bg-2)'>
+                        <Icon title={'brokenImage'} style={'w-50 fill-(--color-bg-light)/50'}/>
+                        </div>
+                        </>
+                        ) 
+                        }
                         <RightInfo />
 
                     </div>

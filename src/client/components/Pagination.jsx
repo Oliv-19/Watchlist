@@ -5,7 +5,11 @@ const PagButton = ({direction, changePage}) => {
     }
 
     return (
-        <button onClick={()=> {changePage(direction)}} type="button" className="cursor-pointer inline-flex items-center justify-center box-border outline outline-black  hover:bg-black hover:text-(--color-text)  w-9 h-9 ">
+        <button onClick={()=> {changePage(direction)}} type="button" 
+            className={`cursor-pointer inline-flex items-center justify-center 
+            box-border outline outline-(--color-bg-light) hover:bg-(--color-bg-light) 
+            hover:text-(--color-bg)
+            w-9 h-9 ${direction == 'prev'? 'rounded-l': 'rounded-r'}`}>
             {directions[direction]}
         </button>
     )
@@ -27,9 +31,11 @@ export const Pagination = ({length, actualPage, setPageNum}) => {
         }
     }
     return (
-        <form id="page" className="flex justify-center" role="group" onSubmit={inputChangePage}>
+        <form id="page" className="flex justify-center text-(--color-text)" role="group" onSubmit={inputChangePage}>
             <PagButton direction={'prev'} changePage={changePage}/>
-            <input name="page" type="text" placeholder={`${actualPage} of ${length}`} className="inline-flex text-sm items-center justify-center box-border outline outline-black px-3 h-9 w-[4.3rem]"/>
+            <input name="page" type="text" placeholder={`${actualPage} of ${length}`} 
+                className="inline-flex text-sm items-center justify-center box-border 
+                outline outline-(--color-bg-light) px-3 h-9 w-[4.3rem] placeholder:text-(--color-text)"/>
             <button type="submit" form="page" className="invisible"></button>
             <PagButton direction={'next'} changePage={changePage}/>
         </form>
