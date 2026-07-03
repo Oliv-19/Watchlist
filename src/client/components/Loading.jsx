@@ -4,11 +4,6 @@ import { Icon } from "./Icons";
 
 export function LoadingMedia(){
     const baseClass = "bg-(--color-bg-light)/20 animate-pulse rounded"
-    const { pathname } = useLocation()
-
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [pathname])
     return (
         <>
         <div className={`w-full h-fit md:h-full overflow-hidden`}>
@@ -155,6 +150,33 @@ export function LoadingWatchList(){
                         <LoadingUserMediaCard/>
                     </div>
             </div>
+        </>
+    )
+}
+
+export function LoadingSearchResults(){
+    return (
+        <>
+        <div className="bg-(--color-bg-2) py-5">
+            <div className="w-full flex flex-row flex-wrap justify-evenly gap-5 px-2.5 mt-5
+                ">
+                <LoadingCard/>
+                <LoadingCard/>
+                <LoadingCard/>
+                <LoadingCard/>
+                <LoadingCard/>
+                <LoadingCard/>
+                <LoadingCard/>
+                <LoadingCard/>
+                <LoadingCard/>
+                <LoadingCard/>
+                <LoadingCard/>
+                <LoadingCard/>
+                <LoadingCard/>
+                <LoadingCard/>
+                <LoadingCard/>
+            </div>
+        </div>
         </>
     )
 }

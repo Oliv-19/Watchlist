@@ -3,6 +3,7 @@ import Card from "../Card";
 import { useData } from "../hooks";
 import { useState, useEffect } from "react";
 import { Pagination } from "../Pagination";
+import { LoadingSearchResults } from "../Loading";
 
 function SearchResults() {
     const {query} = useParams()
@@ -10,7 +11,7 @@ function SearchResults() {
     const series = useData({type: 'search', query, page: pageNum})
     
     if(series == null){
-        return <div>Loading...</div>
+        return <LoadingSearchResults />
     }
     
     return (
