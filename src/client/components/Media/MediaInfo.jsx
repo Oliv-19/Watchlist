@@ -40,7 +40,7 @@ export const LeftInfo = () => {
 }
 
 export const RightInfo = () => {
-    const {data, triggerRefresh} = useMediaData()
+    const {data, saved, setIsSaved} = useMediaData()
     
     const {user} = useAuth()
     if(!data) return null
@@ -49,11 +49,14 @@ export const RightInfo = () => {
     const max =times ? Math.max(...times) : null
     const release = data.releaseDate? format(parseISO(data.releaseDate), 'PP'): '?'
     const finished = data.finishedDate? format(parseISO(data.finishedDate), 'PP'): '?'
-    const isSaved = data.userInfo.saved
     const add = async() => {
-        await saveUserMedia(data.id)
-        triggerRefresh()
-        
+        try{
+            await saveUserMedia(data.id)
+            setIsSaved(true)
+        }catch{
+            console.error("Couldn't save media");
+            
+        }
     }
     return(
         <div className="w-full sm:w-80 flex flex-col justify-center text-(--color-text)">
@@ -62,7 +65,7 @@ export const RightInfo = () => {
                     <button className="h-full cursor-pointer" onClick={add}>
                         <Icon title={'add'} style={`stroke-3 stroke-(--color-text)
                         hover:fill-(--color-text) focus:fill-(--color-text)
-                        w-8 ${!isSaved ? 
+                        w-8 ${!saved ? 
                             'fill-transparent': 
                             'fill-(--color-text)'} `} />
                     </button>

@@ -87,7 +87,7 @@ const Status = () => {
         setStatus(option) 
     }
     return(
-        <Dropdown disabled={!isEdit} selected={status} 
+        <Dropdown disabled={!isEdit} selected={status? status: 'saved'} 
         options={['saved', 'finished', 'dropped']} 
         onClick={changeStatus}/>
     )
@@ -95,10 +95,12 @@ const Status = () => {
 
 export const MediaReview = () => {
     const {user} = useAuth()
-    const {data} = useMediaData()
+    const {saved} = useMediaData()
     const reviewData = useMediaReviewData()
     
-    if(!reviewData || !user || !data.userInfo.saved) return null
+    if(!reviewData || !user || !saved) return null
+    console.log(reviewData);
+    
     return (
         <div className="w-full h-fit flex items-center 
                 justify-center bg-(--color-bg) pt-2">

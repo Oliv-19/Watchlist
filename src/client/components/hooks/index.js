@@ -7,7 +7,6 @@ export const useData = (payload)=>{
     const query = payload.query
     const page = payload.page
     const id = payload.id
-    const saved = payload.saved
     const [data, setData] = useState(null) 
     useEffect(()=>{ 
             async function fetchData(){
@@ -35,6 +34,6 @@ export const useData = (payload)=>{
                 }
             }
             fetchData()
-        },[type, id, query, page, saved])
+        },[type, id, query, page])
     return data
 }

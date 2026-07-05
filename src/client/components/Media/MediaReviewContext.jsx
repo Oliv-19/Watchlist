@@ -5,11 +5,17 @@ import { useAuth } from '../AuthContext';
 const MediaReviewContext = createContext(null)
 
 export const MediaReviewProvider = ({data, children }) => {
-    const [rating, setRating] = useState(data.userRating ? data.userRating: 0)
-    const [review, setReview] = useState(data.userReview ? data.userReview: '')
-    const [status, setStatus] = useState(data.status ? data.status : 'Saved')
+    const [rating, setRating] = useState(0)
+    const [review, setReview] = useState('')
+    const [status, setStatus] = useState('saved')
     const [isEdit, setIsEdit] = useState(false)
     const [formData, setFormData] = useState(null)
+
+    useEffect(()=> {
+        setRating(data.userRating)
+        setReview(data.userReview)
+        setStatus(data.status)
+    }, [data])
     const sendReview = async(e)=> {
         e.preventDefault()
         setFormData({rating, review, status, id: data.id})
