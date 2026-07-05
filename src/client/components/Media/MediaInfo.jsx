@@ -52,7 +52,8 @@ export const RightInfo = () => {
     const isSaved = data.userInfo.saved
     const add = async() => {
         await saveUserMedia(data.id)
-        triggerRefresh(true)
+        triggerRefresh()
+        
     }
     return(
         <div className="w-full sm:w-80 flex flex-col justify-center text-(--color-text)">

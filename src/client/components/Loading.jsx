@@ -91,7 +91,7 @@ function LoadingDropdown(){
                 <div className="flex flex-col justify-center h-18 gap-1 items-center">
                     <p className="text-[0.9rem] 
                         text-(--color-text)/70 font-medium">
-                        Filter by: Genres
+                        Filter by: Genre
                     </p>
                     <button id="dropdownDefaultButton" disabled
                         className={`flex items-center gap-2  z-3 w-full border-2 
@@ -141,14 +141,14 @@ export function LoadingWatchList(){
     return (
         <>
             <div className={`bg-(--color-bg) w-full h-full p-2 sm:p-14 flex flex-col gap-5`}>
-                    <LoadingDropdown />
-                    <div className="flex justify-evenly flex-wrap">
-                        <LoadingUserMediaCard/>
-                        <LoadingUserMediaCard/>
-                        <LoadingUserMediaCard/>
-                        <LoadingUserMediaCard/>
-                        <LoadingUserMediaCard/>
-                    </div>
+                <LoadingDropdown />
+                <div className="flex justify-evenly flex-wrap">
+                    <LoadingUserMediaCard/>
+                    <LoadingUserMediaCard/>
+                    <LoadingUserMediaCard/>
+                    <LoadingUserMediaCard/>
+                    <LoadingUserMediaCard/>
+                </div>
             </div>
         </>
     )

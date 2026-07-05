@@ -4,9 +4,9 @@ import { verify } from "hono/jwt";
 import { jwtVerify, createRemoteJWKSet, errors } from "jose";
 
 export const accessAuth = createMiddleware(async(context, next)=>{
-  if(context.env.ENVIRONMENT === "development"){
+  if(context.env.ENVIRONMENT === "development" || context.env.ENVIRONMENT === "production"){
         return await next()
-    }
+  } else if (context.env.ENVIRONMENT === "staging") {
     if (!context.env.POLICY_AUD) {
       return context.json('Missing required audience', 403)
     }
@@ -27,6 +27,7 @@ export const accessAuth = createMiddleware(async(context, next)=>{
       const message = error instanceof Error ? error.message : "Unknown error";
       return context.json(`Invalid token: ${message}`, 403)
     }
+  }
 })
 export const auth = createMiddleware(async(c, next)=> {
   const token = getCookie(c, 'auth_token')

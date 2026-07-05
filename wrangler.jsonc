@@ -47,7 +47,7 @@
 				"head_sampling_rate": 1,
 				"logs": {
 					"enabled": false
-				} // optional
+				} 
 			},
 			"kv_namespaces": [
 				{
@@ -63,7 +63,32 @@
 		"production": {
 			"vars": {
 				"ENVIRONMENT": "production"
-			}
+			},
+			"d1_databases": [
+				{
+					"binding": "DB",
+					"database_name": "watchlist_prod_db",
+					"database_id": "f80b0734-906c-48da-aec1-f1017cbba8bf",
+					"migrations_dir": "./src/server/db/migrations"
+				}
+			],
+			"observability": {
+				"enabled": false,
+				"head_sampling_rate": 1,
+				"logs": {
+					"enabled": true
+				} 
+			},
+			"kv_namespaces": [
+				{
+					"binding": "AIRING_TODAY",
+					"id": "04a3fbef6d654a7cb89ab58f92109a2a"
+				},
+				{
+					"binding": "ON_AIR",
+					"id": "cb4550e87e364a6bbbea6b242cd22209"
+				}
+			]
 		}
 	}
 }

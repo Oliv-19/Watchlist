@@ -9,7 +9,6 @@ import { LoadingWatchList } from "../Loading"
 
 const UserMedia = () => {
     const {media}= useProfileData()
-    if(!media) return <LoadingWatchList />
     return(
         <>
         <div className="w-full flex flex-row flex-wrap items-center justify-center
@@ -23,15 +22,25 @@ const UserMedia = () => {
     )
 }
 
+const Content = () => {
+    const {media}= useProfileData()
+    if(!media) return <LoadingWatchList />
+    return (
+        <>
+            <div className="bg-(--color-bg) w-full min-h-fit h-full p-2 sm:p-10">
+                <Filter/>
+                <UserMedia />
+            </div>
+        </>
+    )
+}
+
 
 export const Profile = () => {
     return (
         <>
         <ProfileProvider>
-            <div className="bg-(--color-bg) w-full min-h-fit h-full p-2 sm:p-10">
-                <Filter/>
-                <UserMedia />
-            </div>
+            <Content/>
         </ProfileProvider>
         </>
     )

@@ -16,7 +16,8 @@
     "db:generate": "npx drizzle-kit generate",
     "db:migrate:local": "wrangler d1 migrations apply watchlist_local_db --local",
     "db:migrate:staging": "wrangler d1 migrations apply watchlist_staging_db --remote --env staging",
-    "db:migrate": "pnpm run db:migrate:local && wrangler d1 migrations apply watchlist_staging_db --remote --env staging"
+    "db:migrate": "pnpm run db:migrate:local && wrangler d1 migrations apply watchlist_staging_db --remote --env staging",
+    "db:migrate:prod": "wrangler d1 migrations apply watchlist_prod_db --remote --env production"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.4",
