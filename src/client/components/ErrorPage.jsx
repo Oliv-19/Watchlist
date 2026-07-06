@@ -9,6 +9,9 @@ export default function ErrorPage(){
                 <button onClick={()=> navigate(-1)}>
                     Go back
                 </button>
+                <button onClick={()=> navigate('/')}>
+                   Go to Home page
+                </button>
             </div>
         </main>
     )

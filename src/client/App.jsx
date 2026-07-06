@@ -8,6 +8,7 @@ import Person from './components/Person'
 import { AuthProvider } from './components/AuthContext'
 import { Profile } from './components/Profile/Profile'
 import { useEffect } from 'react'
+import ErrorPage from './components/ErrorPage'
 
 function App() {
   const { pathname } = useLocation()
@@ -21,12 +22,12 @@ function App() {
 
     <Nav />
     <Routes>
-      <Route path="/" element={<Home/>} />
-      <Route path="/media/:id" element={<Media />} />
-      <Route path="/search/:query" element={<SearchResults />}/>
-      <Route path="/actor/:id" element={<Person />}/>
-      <Route path="/author/:id" element={<Person />}/>
-      <Route path="/profile" element={<Profile />}/>
+      <Route path="/" element={<Home/>} errorElement={<ErrorPage />}/>
+      <Route path="/media/:id" element={<Media />}  errorElement={<ErrorPage />}/>
+      <Route path="/search/:query" element={<SearchResults />} errorElement={<ErrorPage />}/>
+      <Route path="/actor/:id" element={<Person />} errorElement={<ErrorPage />}/>
+      <Route path="/author/:id" element={<Person />} errorElement={<ErrorPage />}/>
+      <Route path="/profile" element={<Profile />} errorElement={<ErrorPage />}/>
     </Routes>
     </AuthProvider>
   </div>
