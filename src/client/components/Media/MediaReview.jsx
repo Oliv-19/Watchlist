@@ -86,9 +86,10 @@ const Status = () => {
         setStatus(option)
         setStatus(option) 
     }
+    const selectedStatus = status? ( status== 'saved'? 'watchlist': status) : 'watchlist'
     return(
-        <Dropdown disabled={!isEdit} selected={status? status: 'saved'} 
-        options={['saved', 'finished', 'dropped']} 
+        <Dropdown disabled={!isEdit} selected={selectedStatus} 
+        options={['watchlist', 'finished', 'dropped']} 
         onClick={changeStatus}/>
     )
 }

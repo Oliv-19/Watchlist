@@ -6,7 +6,7 @@ import { GenreFilter } from "../GenreFilter"
 
 export const Filter = ()=> {
     const {selected, setSelected, filterMedia, userMedia, setFilteredMedia} = useProfileData()
-    const options = ['all', 'saved', 'finished', 'dropped']
+    const options = ['all', 'watchlist', 'finished', 'dropped']
     const onClick = (option) => {
         setSelected(option)
         filterMedia(option)

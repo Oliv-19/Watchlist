@@ -20,6 +20,7 @@ export const ProfileProvider = ({children}) => {
         fetchUserMedia()
     }, [])
     const filterMedia = (filter)=> {
+        filter = filter == 'watchlist'? 'saved': filter
         setFilteredMedia(() => (filter == 'all' ? userMedia :
             userMedia.filter((media)=> media.status == filter)))
     }

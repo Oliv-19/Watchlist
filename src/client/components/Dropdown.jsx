@@ -8,7 +8,7 @@ const Option = ({type, option, closeDropdown, onClick})=> {
     }
     let icon = 'filter'
     if(type == 'status'){
-        icon = option == 'saved'? 'add': (option== 'all' ? 'filter': option)
+        icon = option == 'watchlist'? 'add': (option== 'all' ? 'filter': option)
     }else if(type == 'genre'){
         icon = option == 'all' ? 'filter': 'genre'
     }
@@ -29,7 +29,7 @@ export const Dropdown = ({type= 'status',disabled, selected, options, onClick})=
     const [openDropdown, setOpenDropdown] = useState(false)
     let initIcon = 'filter'
     if(type == 'status'){
-        initIcon = selected == 'saved'? 'add': (selected== 'all' ? 'filter': selected)
+        initIcon = selected == 'watchlist'? 'add': (selected== 'all' ? 'filter': selected)
 
     }else if(type == 'genre'){
         initIcon = selected == 'all' ? 'filter': 'genre'
