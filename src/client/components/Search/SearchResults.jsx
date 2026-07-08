@@ -15,9 +15,9 @@ function SearchResults() {
     }
     
     return (
-        <div className="flex flex-col items-center bg-(--color-bg-2) py-5">
+        <div className="flex flex-col min-h-fit h-full items-center bg-(--color-bg-2) py-5">
 
-            <div className="w-full flex flex-row flex-wrap justify-evenly gap-5 p-2.5">
+            <div className="w-full min-h-130 h-fit flex flex-row flex-wrap justify-evenly gap-5 p-2.5">
             {series.data.map((serie) => <Card data={serie} key={serie.id}></Card>)}
             </div>
             <div className="p-6">
