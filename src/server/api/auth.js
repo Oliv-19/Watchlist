@@ -29,7 +29,7 @@ authApi.post('/api/auth/register', async(c)=> {
                 httpOnly: true,
                 secure: true,
                 sameSite: 'Lax',
-                maxAge: 60 * 60 *24,
+                maxAge: 60 * 60 *24 * 31,
                 path: '/',
             })
             
@@ -63,7 +63,7 @@ authApi.post('/api/auth/login', async(c)=> {
                 httpOnly: true,
                 secure: true,
                 sameSite: 'None',
-                maxAge: 60 * 60 *24,
+                maxAge: 60 * 60 * 24 * 31,
                 path: '/',
             })
             
