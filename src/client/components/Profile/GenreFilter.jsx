@@ -1,6 +1,6 @@
 import { useState, useEffect} from "react"
-import { getAllGenres } from "../services/genre"
-import { Dropdown } from "./Dropdown"
+import { getAllGenres } from "../../services/genre"
+import { Dropdown } from "../Dropdown"
 
 export const GenreFilter = ({media, setFilteredMedia})=> {
     const [genres, setGenres] = useState(null)
