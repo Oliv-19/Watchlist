@@ -5,8 +5,9 @@ const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
 const POSTER_SIZE = "w342"
 
 function Card({data}) {
-  const fullImageUrl = data.posterPath &&
-  `${IMAGE_BASE_URL}${POSTER_SIZE}${data.posterPath}`
+  const poster = data.posterPath || data.poster_path
+  const fullImageUrl =  poster &&
+  `${IMAGE_BASE_URL}${POSTER_SIZE}${poster}`
   
   return (
     <Link to={`/media/${data.id}`}>
