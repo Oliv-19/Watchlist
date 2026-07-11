@@ -4,6 +4,7 @@ import Card from "./Card"
 import { getPerson } from "../services/people"
 import { useState, useEffect } from "react"
 import { useData } from "./hooks"
+import { PersonLoading } from "./Loading"
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
 const POSTER_SIZE = "w342"
 
@@ -75,7 +76,7 @@ function Person() {
     const {id} = useParams()
     const data = useData({type: 'person', id})
     if(data == null){
-        return <div>Loading...</div>
+        return <PersonLoading/>
     }
     return (
         <>

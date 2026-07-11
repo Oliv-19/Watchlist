@@ -180,3 +180,45 @@ export function LoadingSearchResults(){
         </>
     )
 }
+
+export function PersonLoading() {
+    const baseClass = "bg-(--color-bg-light)/20 animate-pulse rounded"
+    const { pathname } = useLocation()
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname])
+    return (
+        <>
+        <div className="w-full h-full bg-(--color-bg) text-(--color-text) ">
+            <div className={`w-full flex gap-5 py-10`}>
+                <div className={`w-100 flex flex-col items-center justify-center gap-4 py-4`}>
+                    <div className={`h-70 w-[186.66px] rounded-2xl ${baseClass}`} />
+                    <div className="border-b-3 border-indigo-300 w-30 h-8" />
+                    <div className={`${baseClass} p-2 px-4 rounded-xl w-40 h-25 text-start`} />
+
+                </div>
+                <div className=" flex flex-col justify-center gap-8 ">
+                    <div className={`${baseClass} sm:w-200 h-70  mx-5 sm:mt-10  sm:mx-0 p-4 sm:p-8 rounded-xl`} />
+                    <div className="w-full flex flex-col sm:flex-row justify-center px-5 gap-3 ">
+                        <div className={`${baseClass} p-2 rounded-xl w-full sm:w-50 h-26.5`}>
+                            <div className="h-[25.5px] font-medium border-b-2 border-b-indigo-300" />
+                            
+                        </div>
+                        <div className={`${baseClass} p-2 rounded-xl w-full sm:w-50 h-26.5`}>
+                            <div className="h-[25.5px] font-medium border-b-2 border-b-indigo-300" />
+                            
+                        </div>
+                        <div className={`${baseClass} p-2 rounded-xl w-full sm:w-50 h-26.5`}>
+                            <div className="h-[25.5px] font-medium border-b-2 border-b-indigo-300" />
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="bg-indigo-300 w-[93%] m-auto h-0.5" />
+        </div>
+        </>
+        
+    )
+}

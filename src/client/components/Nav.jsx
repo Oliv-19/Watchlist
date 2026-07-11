@@ -58,8 +58,8 @@ function Nav() {
               onClick={userLogout}>
                 <Icon title={'logout'} style={'fill-(--color-bg) w-6 sm:w-8 '} />  
             </button>
-            <div className="block sm:hidden">
-              <button className="cursor-pointer [grid-area:1/4/2/5]"  
+            <div className="block sm:hidden h-full">
+              <button className="cursor-pointer [grid-area:1/4/2/5] h-full"  
                 onClick={openMenuModal}>
                   <Icon title={'menu'} style={'fill-(--color-bg) w-6 sm:w-8 '} />  
               </button>

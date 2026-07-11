@@ -7,7 +7,7 @@ export function Icon({title, style}){
         search: <svg className="w-4 h-4 text-body" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
                 </svg>,
-        tv: <svg xmlns="http://www.w3.org/2000/svg" width={'40'} viewBox="0 0 24 24" >
+        tv: <svg xmlns="http://www.w3.org/2000/svg" className="w-8 md:w-10" viewBox="0 0 24 24" >
                 <path d="M0 0h24v24H0V0z" fill="none"/>
                 <path d="M9 10v8l7-4zm12-4h-7.58l3.29-3.29L16 2l-4 4h-.03l-4-4-.69.71L10.56 6H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 14H3V8h18v12z"/>
             </svg>,
