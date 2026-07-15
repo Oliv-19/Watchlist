@@ -1,9 +1,7 @@
 import { useState } from "react"
 import { Icon } from "./Icons"
-import { useProfileData } from "./Profile/ProfileContext"
 
-const Option = ({type, option, closeDropdown, onClick})=> {
-    const {filters, setFilters} = useProfileData()
+const Option = ({type, option, closeDropdown, filters, setFilters})=> {
     const clickHandler= (e)=> {
         let f = filters
         if(e.target.checked){
@@ -11,16 +9,13 @@ const Option = ({type, option, closeDropdown, onClick})=> {
         }else{
             f=  filters.length > 0 ? filters.filter(f => f !== e.target.value) : []
         }
-        console.log(f);
-        
-        setFilters(f)
-        onClick(f)
-           
+        setFilters(f)  
     }
     return (
         <>
         <div className="h-fit py-1 w-full cursor-pointer px-5 hover:bg-(--color-focus)">
-            <label onChange={clickHandler} htmlFor="checkbox" className="flex w-full h-full justify-start gap-2 cursor-pointer">
+            <label onChange={clickHandler} htmlFor="checkbox" className="flex w-full h-full justify-start gap-2 
+                cursor-pointer">
                 <input  type="checkbox" name="checkbox" id="checkbox" 
                     value={option == 'watchlist'? 'saved': option}/>
                 <p className="first-letter:uppercase lowercase font-medium">
@@ -31,7 +26,7 @@ const Option = ({type, option, closeDropdown, onClick})=> {
         </>
     )
 }
-const Options = ({options, setOpenDropdown, onClick}) =>{
+const Options = ({options, setOpenDropdown, filters, setFilters}) =>{
     return (
         <>
             <div 
@@ -45,12 +40,13 @@ const Options = ({options, setOpenDropdown, onClick}) =>{
                 [&::-webkit-scrollbar-thumb]:rounded-full
                 dark:[&::-webkit-scrollbar-track]:bg-neutral-700
                 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-400">
-                {options.map((opt)=> <Option key={opt} option={opt} onClick={onClick}/>)}
+                {options.map((opt)=> <Option key={opt} option={opt} filters={filters}
+                    setFilters={setFilters}/>)}
             </div>
         </>
     )
 }
-export const Dropdown = ({type= 'status',disabled, title, onClick, options})=> {
+export const Dropdown = ({type= 'status',disabled, title, options, filters, setFilters})=> {
     const [openDropdown, setOpenDropdown] = useState(false)
     
     return (
@@ -66,7 +62,8 @@ export const Dropdown = ({type= 'status',disabled, title, onClick, options})=> {
                     {title}
                     <Icon title={'dropdown'} style={`w-4 fill-(--color-text) `}/> 
                 </button>
-                {openDropdown && <Options options={options} setOpenDropdown={setOpenDropdown} onClick={onClick}/>}
+                {openDropdown && <Options filters={filters} setFilters={setFilters} options={options} 
+                    setOpenDropdown={setOpenDropdown}/>}
             </div>
         </>
     )

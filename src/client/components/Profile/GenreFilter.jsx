@@ -5,7 +5,7 @@ import { useProfileData } from "./ProfileContext"
 
 export const GenreFilter = ()=> {
     const [genres, setGenres] = useState(null)
-    const {filterMedia, userMedia, setFilteredMedia} = useProfileData()
+    const { setFiltersGenre, filtersGenre} = useProfileData()
     useEffect(()=>{
         const getGenres = async() => {
             const genresObj = await getAllGenres()
@@ -16,15 +16,13 @@ export const GenreFilter = ()=> {
         }
         getGenres()
     }, [])
-    const onClick = (filters) => {
-        filterMedia(filters, 'genre')
-    }
     
-    if(!genres || !userMedia) return null
+    if(!genres ) return null
     return (
         <>
         <div className="flex justify-center md:justify-end md:px-15">
-            <Dropdown options={genres} onClick={onClick} type="genre" title={'Genres'}/>
+            <Dropdown options={genres} type="genre" title={'Genres'} filters={filtersGenre}
+                setFilters={setFiltersGenre}/>
         </div>
 
         </>
