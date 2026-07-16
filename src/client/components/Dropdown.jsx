@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Icon } from "./Icons"
 
 const Option = ({type, option, closeDropdown, filters, setFilters})=> {
+    const [checked, setChecked]= useState(filters.includes(option == 'watchlist'? 'saved': option)? true: false)
     const clickHandler= (e)=> {
         let f = filters
         if(e.target.checked){
@@ -9,16 +10,21 @@ const Option = ({type, option, closeDropdown, filters, setFilters})=> {
         }else{
             f=  filters.length > 0 ? filters.filter(f => f !== e.target.value) : []
         }
-        setFilters(f)  
+        setFilters(f) 
+        setChecked(prev => !prev) 
     }
     return (
         <>
         <div className="h-fit py-1 w-full cursor-pointer px-5 hover:bg-(--color-focus)">
-            <label onChange={clickHandler} htmlFor="checkbox" className="flex w-full h-full justify-start gap-2 
-                cursor-pointer">
-                <input  type="checkbox" name="checkbox" id="checkbox" 
-                    value={option == 'watchlist'? 'saved': option}/>
-                <p className="first-letter:uppercase lowercase font-medium">
+            <label className="flex w-full h-full justify-start gap-2 items-center
+                cursor-pointer relative">
+                <input  type="checkbox" name={option} id={option} checked={checked} onChange={clickHandler}
+                    value={option == 'watchlist'? 'saved': option}
+                    className={`appearance-none w-4 h-4 border-2 border-(--color-bg-light) rounded cursor-pointer peer
+                        ${checked ? 'bg-(--color-bg-light)': 'bg-transparent'} shrink-0 hover:bg-(--color-bg-light)/50`}
+                    />
+                <Icon title={'check'} style={`fill-(--color-bg) w-4 ${checked ? 'block': 'hidden'} peer-hover:block peer-hover:fill-white  absolute z-2`}/>
+                <p className="first-letter:uppercase lowercase font-medium ">
                     {option}
                 </p>
             </label>

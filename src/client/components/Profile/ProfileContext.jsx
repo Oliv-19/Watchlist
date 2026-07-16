@@ -9,6 +9,7 @@ const ProfileContext = createContext(null)
 
 export const ProfileProvider = ({children}) => {
     const [userMedia, setUserMedia] = useState(null)
+    const [genres, setGenres] = useState(null)
     const [filtersGenre, setFiltersGenre] = useState([])
     const [filtersStatus, setFiltersStatus] = useState([])
     useEffect(()=> {
@@ -17,6 +18,14 @@ export const ProfileProvider = ({children}) => {
             setUserMedia(media)
         }
         fetchUserMedia()
+        const getGenres = async() => {
+            const genresObj = await getAllGenres()
+            const genresName = genresObj.map((g) => g.name)
+            
+            setGenres(genresName)
+            
+        }
+        getGenres()
     }, [])
     let filteredMedia = userMedia
     if(filtersStatus.length > 0){
@@ -28,6 +37,7 @@ export const ProfileProvider = ({children}) => {
     return (
         <ProfileContext value={{
             userMedia,
+            genres,
             media: filteredMedia, 
             filtersGenre,
             filtersStatus,

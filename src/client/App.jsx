@@ -9,6 +9,7 @@ import { AuthProvider } from './components/AuthContext'
 import { Profile } from './components/Profile/Profile'
 import { useEffect } from 'react'
 import ErrorPage from './components/ErrorPage'
+import { LoadingWatchList } from './components/Loading'
 
 function App() {
   const { pathname } = useLocation()
@@ -23,6 +24,7 @@ function App() {
     <Nav />
     <Routes>
       <Route path="/" element={<Home/>} errorElement={<ErrorPage />}/>
+      <Route path="/loading" element={<LoadingWatchList />} errorElement={<LoadingWatchList />}/>
       <Route path="/media/:id" element={<Media />}  errorElement={<ErrorPage />}/>
       <Route path="/search/:query" element={<SearchResults />} errorElement={<ErrorPage />}/>
       <Route path="/actor/:id" element={<Person />} errorElement={<ErrorPage />}/>

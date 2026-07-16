@@ -4,20 +4,17 @@ import { useProfileData } from "./ProfileContext"
 import { GenreFilter } from "./GenreFilter"
 
 export const Filter = ()=> {
-    const {filtersStatus, setFiltersStatus} = useProfileData()
+    const {filtersStatus, setFiltersStatus, filtersGenre, setFiltersGenre, genres} = useProfileData()
     const options = ['watchlist', 'finished', 'dropped']
     return (
         <>
-        <div className="flex w-full justify-evenly lg:justify-end md:px-15">
-            <div className="flex flex-col justify-center h-18 gap-1 items-center">
-                <GenreFilter/>
-            </div>
-            <div className="flex flex-col justify-center h-18 gap-1 items-center">
-                <Dropdown options={options} title={'Ordenar'}
+            <div className="w-full md:w-[85%] flex items-center justify-center lg:justify-end gap-8 lg:py-2">
+                <Dropdown options={genres} type="genre" title={'Genres'} filters={filtersGenre}
+                    setFilters={setFiltersGenre}/>
+                <Dropdown options={options} title={'Order'}
                     filters={filtersStatus} setFilters={setFiltersStatus}
                     />
             </div>
-        </div>
 
         </>
     )

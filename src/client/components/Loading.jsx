@@ -86,45 +86,24 @@ function LoadingUserMediaCard(){
 function LoadingDropdown(){
     return (
         <>
-        <div className="flex justify-center md:justify-end md:px-15">
-            <div className="flex justify-center md:justify-end md:px-15">
-                <div className="flex flex-col justify-center h-18 gap-1 items-center">
-                    <p className="text-[0.9rem] 
-                        text-(--color-text)/70 font-medium">
-                        Filter by: Genre
-                    </p>
-                    <button id="dropdownDefaultButton" disabled
-                        className={`flex items-center gap-2  z-3 w-full border-2 
-                            font-medium border-(--color-bg-light) pl-3 p-2 rounded-4xl text-(--color-text)`}
-                            type="button" title={`Filter by: Genre`}>
-                            
-                            <Icon title={'filter'} 
-                                style={'w-5 fill-white'}/>
-                            <p className="first-letter:uppercase lowercase w-13 truncate">
-                            All
-                            </p>
-                            <Icon title={'dropdown'} style={`w-4 fill-white `}/> 
-                    </button>
-                </div>
-            </div>
-            <div className="flex flex-col justify-center h-18 gap-1 items-center">
-                <p className="text-[0.9rem] 
-                    text-(--color-text)/70 font-medium">
-                    Filter by: Status
-                </p>
-               <button id="dropdownDefaultButton" disabled
-                    className={`flex items-center gap-2  z-3 w-full border-2 
-                    font-medium border-(--color-bg-light) pl-3 p-2 rounded-4xl text-(--color-text)`}
-                    type="button" title={`Filter by: Status`}>
-                        
-                        <Icon title={'filter'} 
-                            style={'w-5 fill-white'}/>
-                        <p className="first-letter:uppercase lowercase w-13 truncate">
-                           All
-                        </p>
-                        <Icon title={'dropdown'} style={`w-4 fill-white `}/> 
+        <div className="w-full px-22 flex items-center justify-center lg:justify-end gap-8">
+                 <button 
+                    className="w-30 h-10 text-(--color-text) hover:text-purple-500 flex flex-row items-center 
+                    justify-evenly cursor-pointer font-medium">
+                    <Icon title={'genre'} style={'w-4 fill-(--color-text)'}/>
+                    Genres
+                    <Icon title={'dropdown'} style={`w-4 fill-(--color-text) `}/> 
                 </button>
-            </div>
+            
+                <button 
+                    className="w-30 h-10 text-(--color-text) hover:text-purple-500 flex flex-row items-center 
+                    justify-evenly cursor-pointer font-medium">
+                    <Icon title={'filter'} style={'w-4 fill-(--color-text)'}/>
+                    Order
+                    <Icon title={'dropdown'} style={`w-4 fill-(--color-text) `}/> 
+                </button>
+                  
+            
         </div>
 
         </>
