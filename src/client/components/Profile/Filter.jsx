@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { Dropdown } from "../Dropdown"
 import { useProfileData } from "./ProfileContext"
-import { GenreFilter } from "./GenreFilter"
 
 export const Filter = ()=> {
     const {filtersStatus, setFiltersStatus, filtersGenre, setFiltersGenre, genres} = useProfileData()
