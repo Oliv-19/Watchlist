@@ -74,10 +74,13 @@ export function LoadingHome(){
 }
 
 function LoadingUserMediaCard(){
-    const baseClass = "bg-(--color-bg-light)/20 animate-pulse rounded-xl"
+    const baseClass = "bg-(--color-input-bg)/30 animate-pulse rounded-xl"
     return (
         <>
-            <div className={`${baseClass} w-43 h-71`}>
+            <div className={` w-40 h-65 sm:w-55 sm:h-71`}>
+                 <div className={`${baseClass} h-55 sm:h-full w-45`}>
+
+                 </div>
             </div>
         </>
     )
@@ -86,7 +89,7 @@ function LoadingUserMediaCard(){
 function LoadingDropdown(){
     return (
         <>
-        <div className="w-full px-22 flex items-center justify-center lg:justify-end gap-8">
+        <div className="w-full md:w-[85%] flex items-center justify-center lg:justify-end gap-8 lg:py-2">
                  <button 
                     className="w-30 h-10 text-(--color-text) hover:text-purple-500 flex flex-row items-center 
                     justify-evenly cursor-pointer font-medium">
@@ -119,9 +122,15 @@ export function LoadingWatchList(){
     }, [pathname])
     return (
         <>
-            <div className={`bg-(--color-bg) w-full h-full p-2 sm:p-14 flex flex-col gap-5`}>
+            <div className={`bg-(--color-bg) w-full min-h-fit h-full p-2 sm:p-10 flex flex-col items-center`}>
                 <LoadingDropdown />
-                <div className="flex justify-evenly flex-wrap">
+                <div className="w-full md:w-[90%] flex flex-row flex-wrap items-center justify-center
+                    lg:justify-start lg:gap-8 lg:py-4">
+                    <LoadingUserMediaCard/>
+                    <LoadingUserMediaCard/>
+                    <LoadingUserMediaCard/>
+                    <LoadingUserMediaCard/>
+                    <LoadingUserMediaCard/>
                     <LoadingUserMediaCard/>
                     <LoadingUserMediaCard/>
                     <LoadingUserMediaCard/>

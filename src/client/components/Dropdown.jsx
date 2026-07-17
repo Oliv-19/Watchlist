@@ -19,7 +19,7 @@ const Option = ({type, option, closeDropdown, filters, setFilters})=> {
             <label className="flex w-full h-full justify-start gap-2 items-center
                 cursor-pointer relative">
                 <input  type="checkbox" name={option} id={option} checked={checked} onChange={clickHandler}
-                    value={option == 'watchlist'? 'saved': option}
+                    value={option == 'watchlist'? 'saved': option} onClick={clickHandler}
                     className={`appearance-none w-4 h-4 border-2 border-(--color-bg-light) rounded cursor-pointer peer
                         ${checked ? 'bg-(--color-bg-light)': 'bg-transparent'} shrink-0 hover:bg-(--color-bg-light)/50`}
                     />
@@ -58,9 +58,12 @@ export const Dropdown = ({type= 'status',disabled, title, options, filters, setF
     return (
         <>
             <div className="">
+                <div onClick={()=>{setOpenDropdown(false)}} 
+                    className={`${openDropdown? 'block md:hidden': 'hidden'} z-2  fixed inset-0 bg-black/50 transition-opacity` }/>
                 <button 
                     disabled={disabled}
-                    onMouseEnter={()=>{setOpenDropdown(true)}}
+                    onMouseOver={()=>{setOpenDropdown(true)}}
+                    onClick={()=>{setOpenDropdown(prev =>!prev)}}
                     onMouseLeave={()=>{setOpenDropdown(false)}}
                     className="w-30 h-10 text-(--color-text) hover:text-purple-500 flex flex-row items-center 
                     justify-evenly cursor-pointer font-medium">

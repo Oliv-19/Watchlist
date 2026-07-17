@@ -10,6 +10,7 @@ import { Profile } from './components/Profile/Profile'
 import { useEffect } from 'react'
 import ErrorPage from './components/ErrorPage'
 import { LoadingWatchList } from './components/Loading'
+import { DataProvider } from './components/DataContext'
 
 function App() {
   const { pathname } = useLocation()
@@ -20,17 +21,18 @@ function App() {
   return (
   <div className="w-full h-screen text-base m-0 p-0">
     <AuthProvider>
-
-    <Nav />
-    <Routes>
-      <Route path="/" element={<Home/>} errorElement={<ErrorPage />}/>
-      <Route path="/loading" element={<LoadingWatchList />} errorElement={<LoadingWatchList />}/>
-      <Route path="/media/:id" element={<Media />}  errorElement={<ErrorPage />}/>
-      <Route path="/search/:query" element={<SearchResults />} errorElement={<ErrorPage />}/>
-      <Route path="/actor/:id" element={<Person />} errorElement={<ErrorPage />}/>
-      <Route path="/author/:id" element={<Person />} errorElement={<ErrorPage />}/>
-      <Route path="/profile" element={<Profile />} errorElement={<ErrorPage />}/>
-    </Routes>
+      <DataProvider>
+        <Nav />
+        <Routes>
+          <Route path="/" element={<Home/>} errorElement={<ErrorPage />}/>
+          <Route path="/loading" element={<LoadingWatchList />} errorElement={<LoadingWatchList />}/>
+          <Route path="/media/:id" element={<Media />}  errorElement={<ErrorPage />}/>
+          <Route path="/search/:query" element={<SearchResults />} errorElement={<ErrorPage />}/>
+          <Route path="/actor/:id" element={<Person />} errorElement={<ErrorPage />}/>
+          <Route path="/author/:id" element={<Person />} errorElement={<ErrorPage />}/>
+          <Route path="/profile" element={<Profile />} errorElement={<ErrorPage />}/>
+        </Routes>
+      </DataProvider>
     </AuthProvider>
   </div>
 );

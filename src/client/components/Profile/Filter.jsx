@@ -1,9 +1,11 @@
 import { useState } from "react"
 import { Dropdown } from "../Dropdown"
 import { useProfileData } from "./ProfileContext"
+import { useDataInfo } from "../DataContext"
 
 export const Filter = ()=> {
-    const {filtersStatus, setFiltersStatus, filtersGenre, setFiltersGenre, genres} = useProfileData()
+    const {filtersStatus, setFiltersStatus, filtersGenre, setFiltersGenre} = useProfileData()
+    const {genres }= useDataInfo()
     const options = ['watchlist', 'finished', 'dropped']
     return (
         <>

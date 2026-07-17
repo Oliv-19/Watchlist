@@ -71,10 +71,13 @@ function Home() {
   }
   return (
     <>
-    <Slider airingToday={airingToday}/>
-      <div className="w-full flex flex-row flex-wrap justify-evenly gap-5 p-2.5 pt-10
-        bg-(--color-bg-2)">
-        {Object.entries(onAir).map(([key, value]) => <Card key={key} data={value}/>)}
+      <div className="flex flex-col items-center w-full h-fit justify-center bg-(--color-bg-2)">
+        <Slider airingToday={airingToday}/>
+
+        <div className="w-[90%] mx-auto flex flex-row flex-wrap justify-start items-center gap-5 p-2.5 pt-10
+          ">
+          {Object.entries(onAir).map(([key, value]) => <Card key={key} data={value}/>)}
+        </div>
       </div>
     </>
   )
