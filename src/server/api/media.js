@@ -51,7 +51,20 @@ mediaApi.get('/api/media/:id', async(c)=> {
                 .where(eq(schema.media.id, result.id))
                 return c.json(response, 201)
 
-            }else{
+            } else if(!result.releaseDate){
+                const media = await fetchMedia(id, options)
+                if(!media) return c.json({success: false}, 400)
+                    const {mediaObj, response} = media
+                if(!mediaObj.releaseDate) return c.json(response, 200)
+                await db.update(schema.media)
+                .set({releaseDate: mediaObj.releaseDate})
+                .where(eq(schema.media.id, result.id))
+                
+                return c.json(response, 201)
+
+            } else{
+                console.log('idk');
+                
                 const response = await dbFormatedResponse(id, options, result)
                 return c.json(response, 200)  
             }
