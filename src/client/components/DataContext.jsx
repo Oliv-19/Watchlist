@@ -10,7 +10,9 @@ const DataContext = createContext(null)
 
 export const DataProvider = ({children}) => {
     const [userMedia, setUserMedia] = useState(null)
+    
     const [genres, setGenres] = useState(null)
+    const [countries, setCountries] = useState(null)
     const {user} = useAuth()
     useEffect(()=> {
         if(user){
@@ -22,11 +24,20 @@ export const DataProvider = ({children}) => {
             const getGenres = async() => {
                 const genresObj = await getAllGenres()
                 const genresName = genresObj.map((g) => g.name)
-                
-                setGenres(genresName)
-                
+                setGenres(genresName)  
             }
             getGenres()
+            setCountries([
+                {code: 'US', name: 'United States'},
+                {code: 'JP', name: 'Japan'},
+                {code: 'CN', name: 'China'},
+                {code: 'KR', name: 'South Korea'},
+                {code: 'GB', name: 'United Kingdom'},
+                {code: 'FR', name: 'France'},
+                {code: 'CA', name: 'Canada'},
+                {code: 'TR', name: 'Turkey'},
+                {code: 'IN', name: 'India'},
+            ])
         }
     }, [user])
     const searchUserMedia= (id)=>{
@@ -41,6 +52,7 @@ export const DataProvider = ({children}) => {
         <DataContext value={{
             userMedia,
             genres,
+            countries,
             searchUserMedia
             }}>
             {children}

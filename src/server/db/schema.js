@@ -57,6 +57,7 @@ export const media = sqliteTable('media', {
         episodeRunTime: integer('episode_run_time'),
         releaseDate: text('release_date'),
         finishedDate: text('finished_date'),
+        originCountry: text('origin_country'),
         creators: text('creators', {mode: 'json'}),
         backdropPath: text('backdrop_path'),
         characters: text('characters', {mode: 'json'}),

@@ -17,7 +17,7 @@ userApi.get('/api/user/media', auth, async(c)=> {
             where: eq(schema.userMedia.userId, user.sub),
             with: {
                 media: {
-                    columns:{id:true, title:true, posterPath:true},
+                    columns:{id:true, title:true, posterPath:true, originCountry: true},
                     with: {
                         mediaGenres: {
                             with:{genre:{

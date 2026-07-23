@@ -90,8 +90,15 @@ function LoadingDropdown(){
     return (
         <>
         <div className="w-full md:w-[85%] flex items-center justify-center lg:justify-end gap-8 lg:py-2">
-                 <button 
-                    className="w-30 h-10 text-(--color-text) hover:text-purple-500 flex flex-row items-center 
+                <button 
+                    className="w-30 h-10 text-(--color-text) flex flex-row items-center 
+                    justify-evenly cursor-pointer font-medium">
+                    <Icon title={'countries'} style={'w-4 fill-(--color-text)'}/>
+                    Countries
+                    <Icon title={'dropdown'} style={`w-4 fill-(--color-text) `}/> 
+                </button>
+                <button 
+                    className="w-30 h-10 text-(--color-text) flex flex-row items-center 
                     justify-evenly cursor-pointer font-medium">
                     <Icon title={'genre'} style={'w-4 fill-(--color-text)'}/>
                     Genres
@@ -99,7 +106,7 @@ function LoadingDropdown(){
                 </button>
             
                 <button 
-                    className="w-30 h-10 text-(--color-text) hover:text-purple-500 flex flex-row items-center 
+                    className="w-30 h-10 text-(--color-text) flex flex-row items-center 
                     justify-evenly cursor-pointer font-medium">
                     <Icon title={'filter'} style={'w-4 fill-(--color-text)'}/>
                     Order

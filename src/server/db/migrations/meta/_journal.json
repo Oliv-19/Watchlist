@@ -498,6 +498,13 @@
       "when": 1783517111050,
       "tag": "0070_moaning_banshee",
       "breakpoints": true
+    },
+    {
+      "idx": 71,
+      "version": "6",
+      "when": 1784731960120,
+      "tag": "0071_organic_king_bedlam",
+      "breakpoints": true
     }
   ]
 }

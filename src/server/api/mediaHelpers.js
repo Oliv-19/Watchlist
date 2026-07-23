@@ -22,6 +22,7 @@ export const fetchMedia = async (id, options) => {
         episodeRunTime: body.episode_run_time,
         releaseDate: body.first_air_date,
         finishedDate: body.last_air_date,
+        originCountry: body.origin_country[0],
         characters: body.credits.cast.slice(0, 20).map(char=> {
             cast.push ({
                 id: char.id,

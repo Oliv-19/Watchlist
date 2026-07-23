@@ -41,9 +41,20 @@ mediaApi.get('/api/media/:id', async(c)=> {
                 }
             }
         })
-        if(result){
-            const response = await dbFormatedResponse(id, options, result)
-            return c.json(response, 200)  
+        if(result) { 
+            if(Object.hasOwn(result, 'originCountry') && result.originCountry === 'origin_country'){
+                const media = await fetchMedia(id, options)
+                if(!media) return c.json({success: false}, 400)
+                const {mediaObj, response} = media
+                await db.update(schema.media)
+                .set({originCountry: mediaObj.originCountry})
+                .where(eq(schema.media.id, result.id))
+                return c.json(response, 201)
+
+            }else{
+                const response = await dbFormatedResponse(id, options, result)
+                return c.json(response, 200)  
+            }
         }else {
             const media = await fetchMedia(id, options)
             if(!media) return c.json({success: false}, 400)

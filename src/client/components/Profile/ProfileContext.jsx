@@ -12,6 +12,7 @@ export const ProfileProvider = ({children}) => {
     const {userMedia} = useDataInfo()
     const [filtersGenre, setFiltersGenre] = useState([])
     const [filtersStatus, setFiltersStatus] = useState([])
+    const [filtersCountry, setFiltersCountry] = useState([])
     let filteredMedia = userMedia
     if(filtersStatus.length > 0){
         filteredMedia = filteredMedia.filter(media => filtersStatus.includes(media.status))
@@ -19,13 +20,19 @@ export const ProfileProvider = ({children}) => {
     if(filtersGenre.length > 0){
         filteredMedia = filteredMedia.filter(media => filtersGenre.every((g => media.media.genres.includes(g)) )) 
     }
+    if(filtersCountry.length > 0){
+        filteredMedia = filteredMedia.filter(media => filtersCountry.includes(media.media.originCountry)) 
+        
+    }
     return (
         <ProfileContext value={{
             media: filteredMedia, 
             filtersGenre,
             filtersStatus,
+            filtersCountry,
             setFiltersGenre,
             setFiltersStatus,
+            setFiltersCountry,
             }}>
             {children}
         </ProfileContext>
