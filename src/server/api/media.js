@@ -34,7 +34,6 @@ mediaApi.get('/api/media/:id', async(c)=> {
         const result = await db.query.media.findFirst({
             where: eq(schema.media.id, id),
             with: { mediaGenres: { with: { genre: { columns: { name:true}}}},
-                peopleMedia: {with: {people: { columns: { name:true, profilePath: true, order: true}}}},
                 userMedia: {
                     where: (userMedia, { eq }) => user && eq(userMedia.userId, user.sub),
                     columns: { userRating: true, userReview:true, status:true}
@@ -71,20 +70,20 @@ mediaApi.get('/api/media/:id', async(c)=> {
         }else {
             const media = await fetchMedia(id, options)
             if(!media) return c.json({success: false}, 400)
-            const {mediaObj, genreMedia, response, cast, castMedia} = media
+            const {mediaObj, genreMedia, response} = media
             
             const result = await db.batch([
                 db.insert(schema.media).values(mediaObj).onConflictDoNothing(),
                 genreMedia?.length > 0 && db.insert(schema.mediaGenres).values(genreMedia).onConflictDoNothing(),
             ])
             
-            if( cast.length > 0 && castMedia.length > 0){
-                const idk = await db.batch([
-                    db.insert(schema.people).values(cast.slice(0, (cast.length-1)/2)).returning().onConflictDoNothing(),
-                    db.insert(schema.people).values(cast.slice((cast.length-1)/2)).returning().onConflictDoNothing(),
-                    db.insert(schema.peopleMedia).values(castMedia).returning().onConflictDoNothing()   
-                ])
-            }
+            // if( cast.length > 0 && castMedia.length > 0){
+            //     const idk = await db.batch([
+            //         db.insert(schema.people).values(cast.slice(0, (cast.length-1)/2)).returning().onConflictDoNothing(),
+            //         db.insert(schema.people).values(cast.slice((cast.length-1)/2)).returning().onConflictDoNothing(),
+            //         db.insert(schema.peopleMedia).values(castMedia).returning().onConflictDoNothing()   
+            //     ])
+            // }
             
             return c.json(response, 201)
         }

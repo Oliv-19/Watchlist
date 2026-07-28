@@ -4,8 +4,6 @@ export const fetchMedia = async (id, options) => {
         const similarMedia = await fetch(`https://api.themoviedb.org/3/tv/${id}/recommendations?language=en-US&page=1`, options)       
         const body = await fetchedData.json()
         const media = await similarMedia.json()
-        const cast = []
-        const castMedia = []
         
         if(Object.hasOwn(body, 'success') && !body.success ) return null
         const mediaObj = {
@@ -23,23 +21,14 @@ export const fetchMedia = async (id, options) => {
         releaseDate: body.first_air_date,
         finishedDate: body.last_air_date,
         originCountry: body.origin_country[0],
-        characters: body.credits.cast.slice(0, 20).map(char=> {
-            cast.push ({
-                id: char.id,
-                name: char.name,
-                originalName: char.original_name,
-                order: char.order,
-                profilePath: char.profile_path,
-                knownFor: char.known_for_department,
-            })
-            castMedia.push({
-                mediaId: body.id,
-                peopleId: char.id,
-            })
-            return {
-                id: char.id,
-                character: char.character}
-            }),
+        cast: body.credits.cast.slice(0, 20).map((p) => ({
+            id: p.id,
+            name: p.original_name,
+            profilePath: p.profile_path,
+            order: p.order,
+            character: p.character
+
+            })),
         }
         
         const genreMedia = body.genres.map((genre) => ({
@@ -47,8 +36,8 @@ export const fetchMedia = async (id, options) => {
             genreId: Number(genre.id)
         }))
         
-        const response = await apiFormatedResponse(mediaObj, cast, body.genres, media)
-        return {mediaObj, genreMedia, response, cast, castMedia}
+        const response = await apiFormatedResponse(mediaObj, body.genres, media)
+        return {mediaObj, genreMedia, response}
     } catch (error) {
         console.error(error);
         
@@ -59,15 +48,18 @@ export const fetchMedia = async (id, options) => {
 export const dbFormatedResponse = async (id, options, data) => {
     const similar = await fetch(`https://api.themoviedb.org/3/tv/${id}/recommendations?language=en-US&page=1`, options)       
     const similarMedia = await similar.json()
+    const credits = await fetch(`https://api.themoviedb.org/3/tv/${id}/credits?language=en-US`, options)       
+    const {cast} = await credits.json()
+
     const response = {
         ...data,
         genres: data.mediaGenres.map((g) => g.genre.name),
-        cast: data.peopleMedia.map((p) => ({
-            id: p.peopleId,
-            name: p.people.name,
-            profilePath: p.people.profilePath,
-            order: p.people.order,
-            character: data.characters? data.characters.find(char => char.id == p.peopleId)?.character : null
+        cast: cast.map((p) => ({
+            id: p.id,
+            name: p.original_name,
+            profilePath: p.profile_path,
+            order: p.order,
+            character: p.character
 
         })),
         similar: similarMedia.results.map((s) => ({
@@ -89,14 +81,10 @@ export const dbFormatedResponse = async (id, options, data) => {
     return response
 }
 
-export const apiFormatedResponse = async (data, cast, genres, similarMedia) => {
+export const apiFormatedResponse = async (data, genres, similarMedia) => {
     const response = {
         ...data,
         genres: genres.map((g) => g.name),
-        cast: cast.map(person => ({
-            ...person,
-            character: data.characters? data.characters.find(char => char.id == person.id)?.character : null
-        })),
         similar: similarMedia.results.map((s) => ({
             id: s.id,
             title: s.name,

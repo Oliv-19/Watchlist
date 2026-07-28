@@ -79,7 +79,6 @@ export const mediaGenres = sqliteTable('media_genres', {
 
 export const mediaRelations = relations(media, ({ many }) => ({
   mediaGenres: many(mediaGenres),
-  peopleMedia: many(peopleMedia),
   userMedia: many(userMedia)
 }))
 
@@ -96,7 +95,6 @@ export const people = sqliteTable('people', {
         id: integer('id').primaryKey(),
         name: text('name').notNull(),
         originalName: text('original_name'),
-        order: integer('order').notNull(),
         biography: text('biography'),
         profilePath: text('profile_path'),
         alsoKnownAs: text('also_known_as', {mode: 'json'}),
@@ -112,18 +110,3 @@ export const people = sqliteTable('people', {
     }
 )
 
-export const peopleMedia = sqliteTable('people_media', {
-    mediaId: integer('media_id').notNull().references(() => media.id, {onDelete: 'cascade'}),
-    peopleId: integer('people_id').notNull().references(() => people.id, {onDelete: 'cascade'}),
-}, (t) => ({
-    pk:primaryKey({columns: [t.mediaId, t.peopleId]})
-}))
-
-export const peopleRelations = relations(people, ({ many }) => ({
-  peopleMedia: many(peopleMedia),
-}))
-
-export const mediaPeopleRelations = relations(peopleMedia, ({ one }) => ({
-  media: one(media, { fields: [peopleMedia.mediaId], references: [media.id] }),
-  people: one(people, { fields: [peopleMedia.peopleId], references: [people.id] }),
-}))

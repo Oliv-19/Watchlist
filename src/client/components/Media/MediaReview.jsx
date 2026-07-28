@@ -191,7 +191,6 @@ export const MediaReview = () => {
     const reviewData = useMediaReviewData()
     
     if(!reviewData || !user || !saved) return null
-    console.log(reviewData);
     
     return (
         <div className="w-full h-fit flex items-center 

@@ -3,7 +3,7 @@ import { accessAuth } from '../middlewares/auth'
 import { drizzle } from 'drizzle-orm/d1'
 import { eq } from 'drizzle-orm'
 import * as schema from '../db/schema'
-import { responseFormat, updatesResponse } from './peopleHelpers'
+import { getPerson, responseFormat } from './peopleHelpers'
 const peopleApi = new Hono()
 
 peopleApi.use(accessAuth) 
@@ -21,18 +21,18 @@ peopleApi.get('/api/people/:id', async(c)=> {
         const result = await db.query.people.findFirst({
             where: eq(schema.people.id, id),
         })
-        if(result.biography){
+        if(result){
             const res = await responseFormat(result, id, options)
             return c.json(res, 200)  
         }else{
-            const updates = await updatesResponse(id, options)
-            const [response] = await db.update(schema.people)
-                .set(updates)
-                .where(eq(schema.people.id, Number(id)))
-                .returning()
-            const res = await responseFormat(response, id, options)
-            return c.json(res, 201)
+
+            const person = await getPerson(id, options)
+            const [response] = await db.insert(schema.people)
+            .values(person)
+            .returning()
+            return c.json(person, 201)
         }
+    
         
     } catch (error){
         console.error(error)
