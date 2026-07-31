@@ -1,5 +1,5 @@
 {
-	"name": "watchlist",
+	"name": "watchlist-production",
 	"main": "src/server/index.js",
 	"compatibility_flags": [
 		"nodejs_compat"
