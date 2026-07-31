@@ -9,14 +9,11 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "worker": "pnpm run build && wrangler dev",
-    "dryrun:staging": "pnpm run build && wrangler deploy --dry-run --env staging",
-    "dryrun:prod": "pnpm run build && wrangler deploy --dry-run --env production",
-    "deploy:staging": "pnpm run build && wrangler deploy --env staging",
-    "deploy:prod": "pnpm run build && wrangler deploy --env production",
+    "dryrun": "pnpm run build && wrangler deploy --dry-run --env production",
+    "deploy": "pnpm run build && wrangler deploy --env production",
     "db:generate": "npx drizzle-kit generate",
     "db:migrate:local": "wrangler d1 migrations apply watchlist_local_db --local",
-    "db:migrate:staging": "wrangler d1 migrations apply watchlist_staging_db --remote --env staging",
-    "db:migrate": "pnpm run db:migrate:local && wrangler d1 migrations apply watchlist_staging_db --remote --env staging",
+    "db:migrate": "pnpm run db:migrate:local && wrangler d1 migrations apply watchlist_prod_db --remote --env production",
     "db:migrate:prod": "wrangler d1 migrations apply watchlist_prod_db --remote --env production"
   },
   "dependencies": {
