@@ -1,12 +1,10 @@
 import { Hono } from 'hono'
-import { accessAuth } from '../middlewares/auth'
 import { drizzle } from 'drizzle-orm/d1'
 import * as schema from '../db/schema'
 import { eq, sql } from 'drizzle-orm'
 import { dbFormatedResponse, fetchMedia } from './mediaHelpers'
 const mediaApi = new Hono()
 
-mediaApi.use(accessAuth) 
 mediaApi.get('/api/media', async(c)=> {
     const id = await c.req.param('id')
     const db = drizzle(c.env.DB, {schema})
@@ -76,14 +74,6 @@ mediaApi.get('/api/media/:id', async(c)=> {
                 db.insert(schema.media).values(mediaObj).onConflictDoNothing(),
                 genreMedia?.length > 0 && db.insert(schema.mediaGenres).values(genreMedia).onConflictDoNothing(),
             ])
-            
-            // if( cast.length > 0 && castMedia.length > 0){
-            //     const idk = await db.batch([
-            //         db.insert(schema.people).values(cast.slice(0, (cast.length-1)/2)).returning().onConflictDoNothing(),
-            //         db.insert(schema.people).values(cast.slice((cast.length-1)/2)).returning().onConflictDoNothing(),
-            //         db.insert(schema.peopleMedia).values(castMedia).returning().onConflictDoNothing()   
-            //     ])
-            // }
             
             return c.json(response, 201)
         }

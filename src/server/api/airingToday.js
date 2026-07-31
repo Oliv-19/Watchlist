@@ -2,10 +2,8 @@ import { drizzle } from "drizzle-orm/d1"
 import { Hono } from "hono"
 import * as schema from '../db/schema'
 import { fetchAiringToday, fetchOnAir } from "./onAirHelper"
-import { accessAuth } from "../middlewares/auth"
 
 const todayApi = new Hono()
-todayApi.use(accessAuth)
 todayApi.get('/api/today', async(c)=> {
     const KV = c.env.AIRING_TODAY
     const cached = await KV.get('airing_today', {type: 'json'})

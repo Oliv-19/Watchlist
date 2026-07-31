@@ -1,5 +1,4 @@
 import { Hono } from 'hono'
-import { accessAuth } from './middlewares/auth'
 import { drizzle } from 'drizzle-orm/d1'
 import { eq } from 'drizzle-orm'
 import { format } from 'date-fns'
@@ -14,7 +13,6 @@ import { fetchAiringToday, fetchOnAir } from './api/onAirHelper'
 import userApi from './api/user'
 const app = new Hono()
 
-app.use(accessAuth) 
 app.route('/', authApi)
 app.route('/', mediaApi)
 app.route('/', genresApi)

@@ -2,14 +2,13 @@ import { Hono } from 'hono'
 import { sign } from 'hono/jwt'
 import bcrypt from 'bcryptjs';
 import { deleteCookie, getCookie, setCookie } from 'hono/cookie'
-import { accessAuth, auth } from '../middlewares/auth'
+import { auth } from '../middlewares/auth'
 import { drizzle } from 'drizzle-orm/d1'
 import { eq, ne } from 'drizzle-orm'
 import * as schema from '../db/schema'
 import { add, getUnixTime } from 'date-fns';
 const authApi = new Hono()
 
-authApi.use(accessAuth) 
 
 authApi.post('/api/auth/register', async(c)=> {
     const body = await c.req.json()

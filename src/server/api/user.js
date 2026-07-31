@@ -1,11 +1,10 @@
 import { drizzle } from "drizzle-orm/d1"
 import { Hono } from "hono"
 import * as schema from '../db/schema'
-import { accessAuth, auth } from "../middlewares/auth"
+import { auth } from "../middlewares/auth"
 import { and, eq } from "drizzle-orm"
 
 const userApi = new Hono()
-userApi.use(accessAuth)
 
 userApi.get('/api/user/media', auth, async(c)=> {
     const db = drizzle(c.env.DB, {schema})

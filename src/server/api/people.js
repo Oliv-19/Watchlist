@@ -1,12 +1,10 @@
 import { Hono } from 'hono'
-import { accessAuth } from '../middlewares/auth'
 import { drizzle } from 'drizzle-orm/d1'
 import { eq } from 'drizzle-orm'
 import * as schema from '../db/schema'
 import { getPerson, responseFormat } from './peopleHelpers'
 const peopleApi = new Hono()
 
-peopleApi.use(accessAuth) 
 peopleApi.get('/api/people/:id', async(c)=> {
     const id = await c.req.param('id')
     const db = drizzle(c.env.DB, {schema})

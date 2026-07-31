@@ -1,11 +1,9 @@
 import { Hono } from 'hono'
-import { accessAuth } from '../middlewares/auth'
 import { drizzle } from 'drizzle-orm/d1'
 import { eq } from 'drizzle-orm'
 import * as schema from '../db/schema'
 const genresApi = new Hono()
 
-genresApi.use(accessAuth) 
 
 genresApi.get('/api/genre', async(c) => {
     const db = drizzle(c.env.DB, {schema})
