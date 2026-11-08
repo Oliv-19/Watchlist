@@ -1,10 +1,9 @@
-DROP TABLE `people_media`;--> statement-breakpoint
 PRAGMA foreign_keys=OFF;--> statement-breakpoint
 CREATE TABLE `__new_genres` (
 	`id` integer PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
-	`created_at` integer DEFAULT '"2026-07-28T15:55:23.810Z"' NOT NULL,
-	`updated_at` integer DEFAULT '"2026-07-28T15:55:23.810Z"' NOT NULL
+	`created_at` integer DEFAULT '"2026-11-08T14:16:37.162Z"' NOT NULL,
+	`updated_at` integer DEFAULT '"2026-11-08T14:16:37.162Z"' NOT NULL
 );
 --> statement-breakpoint
 INSERT INTO `__new_genres`("id", "name", "created_at", "updated_at") SELECT "id", "name", "created_at", "updated_at" FROM `genres`;--> statement-breakpoint
@@ -27,8 +26,8 @@ CREATE TABLE `__new_media` (
 	`creators` text,
 	`backdrop_path` text,
 	`characters` text,
-	`created_at` integer DEFAULT '"2026-07-28T15:55:23.811Z"' NOT NULL,
-	`updated_at` integer DEFAULT '"2026-07-28T15:55:23.811Z"' NOT NULL
+	`created_at` integer DEFAULT '"2026-11-08T14:16:37.163Z"' NOT NULL,
+	`updated_at` integer DEFAULT '"2026-11-08T14:16:37.163Z"' NOT NULL
 );
 --> statement-breakpoint
 INSERT INTO `__new_media`("id", "title", "original_title", "overview", "poster_path", "rating", "seasons", "episodes", "episode_run_time", "release_date", "finished_date", "origin_country", "creators", "backdrop_path", "characters", "created_at", "updated_at") SELECT "id", "title", "original_title", "overview", "poster_path", "rating", "seasons", "episodes", "episode_run_time", "release_date", "finished_date", "origin_country", "creators", "backdrop_path", "characters", "created_at", "updated_at" FROM `media`;--> statement-breakpoint
@@ -44,8 +43,8 @@ CREATE TABLE `__new_people` (
 	`known_for` text,
 	`birthplace` text,
 	`birthday` text,
-	`created_at` integer DEFAULT '"2026-07-28T15:55:23.812Z"' NOT NULL,
-	`updated_at` integer DEFAULT '"2026-07-28T15:55:23.812Z"' NOT NULL
+	`created_at` integer DEFAULT '"2026-11-08T14:16:37.163Z"' NOT NULL,
+	`updated_at` integer DEFAULT '"2026-11-08T14:16:37.163Z"' NOT NULL
 );
 --> statement-breakpoint
 INSERT INTO `__new_people`("id", "name", "original_name", "biography", "profile_path", "also_known_as", "known_for", "birthplace", "birthday", "created_at", "updated_at") SELECT "id", "name", "original_name", "biography", "profile_path", "also_known_as", "known_for", "birthplace", "birthday", "created_at", "updated_at" FROM `people`;--> statement-breakpoint
@@ -55,8 +54,8 @@ CREATE TABLE `__new_user` (
 	`id` integer PRIMARY KEY NOT NULL,
 	`email` text NOT NULL,
 	`password_hash` text NOT NULL,
-	`created_at` integer DEFAULT '"2026-07-28T15:55:23.804Z"' NOT NULL,
-	`updated_at` integer DEFAULT '"2026-07-28T15:55:23.804Z"' NOT NULL
+	`created_at` integer DEFAULT '"2026-11-08T14:16:37.160Z"' NOT NULL,
+	`updated_at` integer DEFAULT '"2026-11-08T14:16:37.160Z"' NOT NULL
 );
 --> statement-breakpoint
 INSERT INTO `__new_user`("id", "email", "password_hash", "created_at", "updated_at") SELECT "id", "email", "password_hash", "created_at", "updated_at" FROM `user`;--> statement-breakpoint

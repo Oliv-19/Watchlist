@@ -1,8 +1,6 @@
 import { useParams } from "react-router-dom"
 import { format, parseISO } from "date-fns"
 import Card from "./Card"
-import { getPerson } from "../services/people"
-import { useState, useEffect } from "react"
 import { useData } from "./hooks"
 import { PersonLoading } from "./Loading"
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
@@ -27,23 +25,23 @@ function Biography({data}){
                 [&::-webkit-scrollbar-thumb]:rounded-full
                 dark:[&::-webkit-scrollbar-track]:bg-neutral-700
                 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-400">
-                    <p>{data.biography}</p>
+                    <p>{data.biography && data.biography}</p>
                 </div>
             </div>
             <div className="w-full flex flex-col sm:flex-row justify-center px-5 gap-3 ">
-                <Detail title='Known for' info={data.knownFor} />
-                <Detail title='Birthplace' info={data.birthplace} />
-                <Detail title='Birthday' info={format(parseISO(data.birthday), 'PP')} />
+                <Detail title='Known for' info={data.knownFor && data.knownFor} />
+                <Detail title='Birthplace' info={data.birthplace && data.birthplace} />
+                <Detail title='Birthday' info={data.birthday && format(parseISO(data.birthday), 'PP')} />
             </div>
         </div>
     )
 }
 function BasicInfo({data}){
-    const fullImageUrl = `${IMAGE_BASE_URL}${POSTER_SIZE}${data.profilePath}`
+    const fullImageUrl = `${IMAGE_BASE_URL}${POSTER_SIZE}${data.profilePath && data.profilePath}`
     return (
         <div className="w-full sm:w-100 h-full flex flex-col items-center  justify-center gap-4 py-4 text-center"> 
-            <img className="h-70 rounded-2xl" src={fullImageUrl} alt={data.name} />
-            <h1 className="text-2xl underline underline-offset-5 decoration-indigo-300">{data.name}</h1>
+            <img className="h-70 rounded-2xl" src={fullImageUrl} alt={data.name && data.name} />
+            <h1 className="text-2xl underline underline-offset-5 decoration-indigo-300">{data.name && data.name}</h1>
             {data.alsoKnownAs && data.alsoKnownAs.length >= 1 && (
                 <ul className="bg-(--color-text-bg) p-2 px-4 rounded-xl w-40 text-start">
                     <h1 className="text-[1rem] font-medium border-b-2 border-b-indigo-300">Also known as</h1>
@@ -61,7 +59,7 @@ function Filmography({data}){
     return (
         <div className="w-full flex justify-center">
             <div className="w-290 flex flex-row flex-wrap justify-start gap-5 sm:gap-8 px-2.5 py-10">
-                {data.map((serie)=> {
+                {data?.map((serie)=> {
                     const string = serie.character
                     if(!string.includes('Self'))
                      return <Card key={serie.credit_id} data={serie}/> 
@@ -80,17 +78,15 @@ function Person() {
     }
     return (
         <>
-            {data && (
-                <div className="w-full h-fit bg-(--color-bg) text-(--color-text) ">
-                    <div className=" h-fit sm:flex  gap-5  py-10">
-                        <BasicInfo data={data}/>
-                        <Biography data={data}/>
-                    </div>
-                    <div className="bg-indigo-300 w-[93%] m-auto h-0.5"></div>
-                    <Filmography data={data.media}/>
+            <div className="w-full h-fit bg-(--color-bg) text-(--color-text) ">
+                <div className=" h-fit sm:flex  gap-5  py-10">
+                    <BasicInfo data={data}/>
+                    <Biography data={data}/>
                 </div>
-            )
-            }
+                <div className="bg-indigo-300 w-[93%] m-auto h-0.5"></div>
+                <Filmography data={data.media}/>
+            </div>
+            
         </>
         
     )

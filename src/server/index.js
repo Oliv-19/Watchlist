@@ -21,8 +21,8 @@ app.route('/', todayApi)
 app.route('/', userApi)
 
 app.get('/api/search/:query/:page', async(c)=> {
-    const query = await c.req.param('query')
-    const page = await c.req.param('page')
+    const query = c.req.param('query')
+    const page = c.req.param('page')
     console.log(query);
     
     const options = {

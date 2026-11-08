@@ -512,6 +512,20 @@
       "when": 1785254123874,
       "tag": "0072_married_vindicator",
       "breakpoints": true
+    },
+    {
+      "idx": 73,
+      "version": "6",
+      "when": 1794145387975,
+      "tag": "0073_wealthy_scarlet_spider",
+      "breakpoints": true
+    },
+    {
+      "idx": 74,
+      "version": "6",
+      "when": 1794147397200,
+      "tag": "0074_stormy_nightcrawler",
+      "breakpoints": true
     }
   ]
 }
