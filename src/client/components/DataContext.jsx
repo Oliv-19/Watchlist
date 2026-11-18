@@ -14,12 +14,12 @@ export const DataProvider = ({children}) => {
     const [genres, setGenres] = useState(null)
     const [countries, setCountries] = useState(null)
     const {user} = useAuth()
+    const fetchUserMedia = async() => {    
+        const media= await getUserMedia()
+        setUserMedia(media)
+    }
     useEffect(()=> {
         if(user){
-            const fetchUserMedia = async() => {    
-                const media= await getUserMedia()
-                setUserMedia(media)
-            }
             fetchUserMedia()
             const getGenres = async() => {
                 const genresObj = await getAllGenres()
@@ -53,7 +53,8 @@ export const DataProvider = ({children}) => {
             userMedia,
             genres,
             countries,
-            searchUserMedia
+            searchUserMedia, 
+            fetchUserMedia
             }}>
             {children}
         </DataContext>

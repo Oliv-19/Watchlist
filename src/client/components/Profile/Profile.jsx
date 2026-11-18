@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react"
-import { getUserMedia } from "../../services/user"
-import image from '../../assets/image.png'
-import { useAuth } from "../AuthContext"
 import { MediaCard } from "./MediaCard"
 import { Filter } from "./Filter"
 import { ProfileProvider, useProfileData } from "./ProfileContext"
 import { LoadingWatchList } from "../Loading"
+import { useDataInfo } from "../DataContext"
 
 const UserMedia = () => {
     const {media}= useProfileData()
@@ -37,6 +35,12 @@ const Content = () => {
 
 
 export const Profile = () => {
+    const {fetchUserMedia} = useDataInfo()
+    useEffect(() => {
+        fetchUserMedia()
+        console.log('media fetched');
+        
+    }, [])
     return (
         <>
         <ProfileProvider>

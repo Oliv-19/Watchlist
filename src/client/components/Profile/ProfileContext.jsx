@@ -1,9 +1,5 @@
 import { useState } from 'react';
-import { useEffect } from 'react';
 import { createContext, useContext } from 'react';
-import { useAuth } from '../AuthContext';
-import { getUserMedia } from '../../services/user';
-import { getAllGenres } from '../../services/genre';
 import { useDataInfo } from '../DataContext';
 
 const ProfileContext = createContext(null)
