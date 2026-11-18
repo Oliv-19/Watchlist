@@ -10,7 +10,8 @@ export const Filter = ()=> {
     const orderOptions = ['a-z', 'release date', 'most audience rating', 'least audience rating']
     return (
         <>
-            <div className="w-full md:w-[85%] flex items-center justify-center lg:justify-end gap-8 lg:py-2">
+            <div className="w-full md:w-[85%] flex items-center justify-center lg:justify-end 
+                md:gap-8 lg:py-2 flex-wrap">
                 <Dropdown options={countries} type="countries" title={'Countries'} filters={filtersCountry}
                     setFilters={setFiltersCountry}/>
                 <Dropdown options={genres} type="genre" title={'Genres'} filters={filtersGenre}
