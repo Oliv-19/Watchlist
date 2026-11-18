@@ -64,8 +64,7 @@ export const Dropdown = ({type= 'status',disabled, title, options, filters, setF
                 <button 
                     disabled={disabled}
                     onMouseOver={()=>{setOpenDropdown(true)}}
-                    onTouchStart={()=>{setOpenDropdown(prev =>!prev)}}
-                    onClick={()=>{setOpenDropdown(prev =>!prev)}}
+                    onPointerUp={()=>{setOpenDropdown(prev =>!prev)}}
                     onMouseLeave={()=>{setOpenDropdown(false)}}
                     className="w-30 h-10 text-(--color-text) hover:text-purple-500 flex flex-row items-center 
                     justify-evenly cursor-pointer font-medium">
